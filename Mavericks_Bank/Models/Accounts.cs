@@ -10,20 +10,20 @@ namespace Mavericks_Bank.Models
         public double Balance { get; set; }
         public string AccountType { get; set; }
         public string Status { get; set; }
-        public int BankID { get; set; }
-        [ForeignKey("BankID")]
-        public Banks? Banks { get; set; }
+        public string IFSC { get; set; }
+        [ForeignKey("IFSC")]
+        public Branches? Branches { get; set; }
         public int CustomerID { get; set; }
         [ForeignKey("CustomerID")]
         public Customers? Customers { get; set; }
 
-        public Accounts(long accountNumber, double balance, string accountType, string status, int bankID, int customerID)
+        public Accounts(long accountNumber, double balance, string accountType, string status, string iFSC, int customerID)
         {
             AccountNumber = accountNumber;
             Balance = balance;
             AccountType = accountType;
             Status = status;
-            BankID = bankID;
+            IFSC = iFSC;
             CustomerID = customerID;
         }
 

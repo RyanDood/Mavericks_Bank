@@ -6,10 +6,6 @@ namespace Mavericks_Bank.Context
 {
     public class MavericksBankContext : DbContext
     {
-        public MavericksBankContext(DbContextOptions options) : base(options)
-        {
-        }
-
         public DbSet<Validation> Validation { get; set; }
         public DbSet<Customers> Customers { get; set; }
         public DbSet<BankEmployees> BankEmployees { get; set; }
@@ -20,5 +16,10 @@ namespace Mavericks_Bank.Context
         public DbSet<Beneficiaries> Beneficiaries { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<Loans> Loans { get; set; }
+
+        public MavericksBankContext(DbContextOptions options) : base(options)
+        {
+
+        }
     }
 }

@@ -18,7 +18,14 @@ namespace Mavericks_Bank.Models
 
         public bool Equals(Validation? other)
         {
-            return Email == other.Email;
+            if(Email == other.Email && Password == other.Password)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

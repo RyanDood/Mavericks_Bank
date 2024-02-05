@@ -11,6 +11,7 @@ namespace Mavericks_Bank.Models
         public DateTime TransactionDate { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public string TransactionType { get; set; }
+        public string Status { get; set; }
         public long SourceAccountNumber { get; set; }
         [ForeignKey("SourceAccountNumber")]
         public Accounts? Accounts { get; set; }
@@ -18,13 +19,14 @@ namespace Mavericks_Bank.Models
         [ForeignKey("DestinationAccountNumber")]
         public Beneficiaries? Beneficiaries { get; set; }
 
-        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, long sourceAccountNumber, long destinationAccountNumber)
+        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, long sourceAccountNumber, long destinationAccountNumber)
         {
             TransactionID = transactionID;
             Amount = amount;
             TransactionDate = transactionDate;
             Description = description;
             TransactionType = transactionType;
+            Status = status;
             SourceAccountNumber = sourceAccountNumber;
             DestinationAccountNumber = destinationAccountNumber;
         }

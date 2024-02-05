@@ -8,18 +8,18 @@ namespace Mavericks_Bank.Models
         [Key]
         public long AccountNumber { get; set; }
         public string Name { get; set; }
-        public int BankID { get; set; }
-        [ForeignKey("BankID")]
-        public Banks? Banks { get; set; }
+        public string IFSC { get; set; }
+        [ForeignKey("IFSC")]
+        public Branches? Branches { get; set; }
         public int CustomerID { get; set; }
         [ForeignKey("CustomerID")]
         public Customers? Customers { get; set; }
 
-        public Beneficiaries(long accountNumber, string name, int bankID, int customerID)
+        public Beneficiaries(long accountNumber, string name, string iFSC, int customerID)
         {
             AccountNumber = accountNumber;
             Name = name;
-            BankID = bankID;
+            IFSC = iFSC;
             CustomerID = customerID;
         }
 
