@@ -12,14 +12,19 @@ namespace Mavericks_Bank.Models
         public int Age { get; set; }
         public long PhoneNumber { get; set; }
         public string Address { get; set; }
-        public long? AadharNumber { get; set; }
+        public long AadharNumber { get; set; }
         public string PANNumber { get; set; }
         public string Gender { get; set;}
         public string Email { get; set; }
         [ForeignKey("Email")]
         public Validation? Validation { get; set; }
 
-        public Customers(int customerID, string name, DateTime dOB, int age, long phoneNumber, string address, long? aadharNumber, string pANNumber, string gender, string email)
+        public Customers()
+        {
+
+        }
+
+        public Customers(int customerID, string name, DateTime dOB, int age, long phoneNumber, string address, long aadharNumber, string pANNumber, string gender, string email)
         {
             CustomerID = customerID;
             Name = name;
@@ -35,7 +40,14 @@ namespace Mavericks_Bank.Models
 
         public bool Equals(Customers? other)
         {
-            return CustomerID == other.CustomerID;
+            if(AadharNumber == other.AadharNumber && PANNumber == other.PANNumber)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

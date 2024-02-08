@@ -12,6 +12,11 @@ namespace Mavericks_Bank.Models
         [ForeignKey("BankID")]
         public Banks? Banks { get; set; }
 
+        public Branches()
+        {
+
+        }
+
         public Branches(string iFSCNumber, string branchName, int bankID)
         {
             IFSCNumber = iFSCNumber;
@@ -21,7 +26,7 @@ namespace Mavericks_Bank.Models
 
         public bool Equals(Branches? other)
         {
-            return IFSCNumber == other.IFSCNumber;
+            return BranchName == other.BranchName;
         }
     }
 }

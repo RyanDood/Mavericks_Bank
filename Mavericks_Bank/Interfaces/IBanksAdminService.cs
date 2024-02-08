@@ -5,8 +5,8 @@ namespace Mavericks_Bank.Interfaces
 {
     public interface IBanksAdminService:IBanksUserService
     {
-        public Task<Banks> AddBank(Banks item);
+        public Task<Banks> AddBank(Banks bank);
         public Task<Banks> UpdateBankName(UpdateBankNameDTO updateBankNameDTO);
-        public Task<Banks> DeleteBank(int key);
+        public Task<Banks> DeleteBank(int bankID);
     }
 }

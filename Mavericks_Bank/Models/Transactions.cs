@@ -19,6 +19,11 @@ namespace Mavericks_Bank.Models
         [ForeignKey("DestinationAccountNumber")]
         public Beneficiaries? Beneficiaries { get; set; }
 
+        public Transactions()
+        {
+
+        }
+
         public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, long sourceAccountNumber, long destinationAccountNumber)
         {
             TransactionID = transactionID;

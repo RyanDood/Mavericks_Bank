@@ -17,6 +17,10 @@ namespace Mavericks_Bank.Models
         [ForeignKey("CustomerID")]
         public Customers? Customers { get; set; }
 
+        public Accounts()
+        {
+
+        }
         public Accounts(long accountNumber, double balance, string accountType, string status, string iFSC, int customerID)
         {
             AccountNumber = accountNumber;

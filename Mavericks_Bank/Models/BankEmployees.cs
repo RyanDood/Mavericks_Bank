@@ -12,6 +12,11 @@ namespace Mavericks_Bank.Models
         [ForeignKey("Email")]
         public Validation? Validation { get; set; }
 
+        public BankEmployees()
+        {
+
+        }
+
         public BankEmployees(int employeeID, string name, string email)
         {
             EmployeeID = employeeID;

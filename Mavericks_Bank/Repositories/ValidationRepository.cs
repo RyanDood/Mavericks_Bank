@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Validation.Remove(foundedValidation);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerValidationRepository.LogInformation($"Deleted Validation : {foundedValidation.Email}");
                 return foundedValidation;
             }
         }

@@ -8,6 +8,10 @@ namespace Mavericks_Bank.Models
         public int BankID { get; set; }
         public string BankName { get; set; }
 
+        public Banks()
+        {
+        }
+
         public Banks(int bankID, string bankName)
         {
             BankID = bankID;
@@ -16,7 +20,7 @@ namespace Mavericks_Bank.Models
 
         public bool Equals(Banks? other)
         {
-            return BankID == other.BankID;
+            return BankName == other.BankName;
         }
     }
 }

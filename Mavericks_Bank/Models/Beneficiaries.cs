@@ -15,6 +15,11 @@ namespace Mavericks_Bank.Models
         [ForeignKey("CustomerID")]
         public Customers? Customers { get; set; }
 
+        public Beneficiaries()
+        {
+
+        }
+
         public Beneficiaries(long accountNumber, string name, string iFSC, int customerID)
         {
             AccountNumber = accountNumber;

@@ -17,17 +17,25 @@ namespace Mavericks_Bank.Services
             _loggerBanksService = loggerBanksService;
         }
 
-        public async Task<Banks> AddBank(Banks item)
+        public async Task<Banks> AddBank(Banks bank)
         {
-            return await _banksRepository.Add(item);
+            var allBanks = await _banksRepository.GetAll();
+            if(allBanks != null)
+            {
+                if(allBanks.Contains(bank))
+                {
+                    throw new BankNameAlreadyExistsException("Bank Name Already Exists");
+                }
+            }
+            return await _banksRepository.Add(bank);
         }
 
-        public async Task<Banks> DeleteBank(int key)
+        public async Task<Banks> DeleteBank(int bankID)
         {
-            var deletedBank = await _banksRepository.Delete(key);
+            var deletedBank = await _banksRepository.Delete(bankID);
             if(deletedBank == null)
             {
-                throw new NoBanksFoundException($"Bank ID {key} not found");
+                throw new NoBanksFoundException($"Bank ID {bankID} not found");
             }
             return deletedBank;
         }
@@ -42,12 +50,12 @@ namespace Mavericks_Bank.Services
             return allBanks;
         }
 
-        public async Task<Banks> GetBank(int key)
+        public async Task<Banks> GetBank(int bankID)
         {
-            var foundedBank = await _banksRepository.Get(key);
+            var foundedBank = await _banksRepository.Get(bankID);
             if(foundedBank == null)
             {
-                throw new NoBanksFoundException($"Bank ID {key} not found");
+                throw new NoBanksFoundException($"Bank ID {bankID} not found");
             }
             return foundedBank;
         }

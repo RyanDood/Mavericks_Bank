@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerBanksController = loggerBanksController;
         }
 
+        //[Authorize]
         [Route("GetAllBanks")]
         [HttpGet]
         public async Task<ActionResult<List<Banks>>> GetAllBanks()
@@ -37,11 +39,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetBank")]
         [HttpGet]
-        public async Task<ActionResult<Banks>> GetBank(int key)
+        public async Task<ActionResult<Banks>> GetBank(int bankID)
         {
             try
             {
-                return await _banksService.GetBank(key);
+                return await _banksService.GetBank(bankID);
             }
             catch (NoBanksFoundException e)
             {
@@ -52,11 +54,20 @@ namespace Mavericks_Bank.Controllers
 
         [Route("AddBank")]
         [HttpPost]
-        public async Task<ActionResult<Banks>> AddBank(Banks item)
+        public async Task<ActionResult<Banks>> AddBank(Banks bank)
         {
-            return await _banksService.AddBank(item);
+            try
+            {
+                return await _banksService.AddBank(bank);
+            }
+            catch (BankNameAlreadyExistsException e)
+            {
+                _loggerBanksController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
         }
 
+        //[Authorize(Roles = "Admin")]
         [Route("UpdateBankName")]
         [HttpPut]
         public async Task<ActionResult<Banks>> UpdateBankName(UpdateBankNameDTO updateBankNameDTO)
@@ -73,12 +84,12 @@ namespace Mavericks_Bank.Controllers
         }
 
         [Route("DeleteBank")]
-        [HttpPut]
-        public async Task<ActionResult<Banks>> DeleteBank(int key)
+        [HttpDelete]
+        public async Task<ActionResult<Banks>> DeleteBank(int bankID)
         {
             try
             {
-                return await _banksService.DeleteBank(key);
+                return await _banksService.DeleteBank(bankID);
             }
             catch (NoBanksFoundException e)
             {

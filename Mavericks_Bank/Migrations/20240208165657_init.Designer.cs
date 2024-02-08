@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mavericks_Bank.Migrations
 {
     [DbContext(typeof(MavericksBankContext))]
-    [Migration("20240205112200_init")]
+    [Migration("20240208165657_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -177,7 +177,7 @@ namespace Mavericks_Bank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"), 1L, 1);
 
-                    b.Property<long?>("AadharNumber")
+                    b.Property<long>("AadharNumber")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Address")
@@ -224,7 +224,7 @@ namespace Mavericks_Bank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanID"), 1L, 1);
 
-                    b.Property<int>("CustomerID")
+                    b.Property<int?>("CustomerID")
                         .HasColumnType("int");
 
                     b.Property<double>("Interest")
@@ -301,9 +301,13 @@ namespace Mavericks_Bank.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("Key")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Password")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("UserType")
                         .IsRequired()
@@ -400,9 +404,7 @@ namespace Mavericks_Bank.Migrations
                 {
                     b.HasOne("Mavericks_Bank.Models.Customers", "Customers")
                         .WithMany()
-                        .HasForeignKey("CustomerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerID");
 
                     b.Navigation("Customers");
                 });

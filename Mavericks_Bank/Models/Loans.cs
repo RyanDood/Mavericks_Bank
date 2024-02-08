@@ -13,11 +13,16 @@ namespace Mavericks_Bank.Models
         public int Tenure { get; set; }
         public string Purpose { get; set; }
         public string Status { get; set; }
-        public int CustomerID { get; set; }
+        public int? CustomerID { get; set; }
         [ForeignKey("CustomerID")]
         public Customers? Customers { get; set; }
 
-        public Loans(int loanID, double loanAmount, string loanType, double interest, int tenure, string purpose, string status, int customerID)
+        public Loans()
+        {
+
+        }
+
+        public Loans(int loanID, double loanAmount, string loanType, double interest, int tenure, string purpose, string status, int? customerID)
         {
             LoanID = loanID;
             LoanAmount = loanAmount;

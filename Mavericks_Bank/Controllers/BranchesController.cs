@@ -38,11 +38,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetBranch")]
         [HttpGet]
-        public async Task<ActionResult<Branches>> GetBranch(string key)
+        public async Task<ActionResult<Branches>> GetBranch(string iFSC)
         {
             try
             {
-                return await _branchesService.GetBranch(key);
+                return await _branchesService.GetBranch(iFSC);
             }
             catch (NoBranchesFoundException e)
             {
@@ -53,9 +53,17 @@ namespace Mavericks_Bank.Controllers
 
         [Route("AddBranch")]
         [HttpPost]
-        public async Task<ActionResult<Branches>> AddBranch(Branches item)
+        public async Task<ActionResult<Branches>> AddBranch(Branches branch)
         {
-            return await _branchesService.AddBranch(item);
+            try
+            {
+                return await _branchesService.AddBranch(branch);
+            }
+            catch (BranchAlreadyExistsException e)
+            {
+                _loggerBranchesController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
         }
 
         [Route("UpdateBranchName")]
@@ -74,12 +82,12 @@ namespace Mavericks_Bank.Controllers
         }
 
         [Route("DeleteBranch")]
-        [HttpPut]
-        public async Task<ActionResult<Branches>> DeleteBranch(string key)
+        [HttpDelete]
+        public async Task<ActionResult<Branches>> DeleteBranch(string iFSC)
         {
             try
             {
-                return await _branchesService.DeleteBranch(key);
+                return await _branchesService.DeleteBranch(iFSC);
             }
             catch (NoBranchesFoundException e)
             {

@@ -16,17 +16,30 @@ namespace Mavericks_Bank.Services
             _loggerBranchesService = loggerBranchesService;
         }
 
-        public async Task<Branches> AddBranch(Branches item)
+        public async Task<Branches> AddBranch(Branches branch)
         {
-            return await _branchesRepository.Add(item);
+            var foundedBranch = await _branchesRepository.Get(branch.IFSCNumber);
+            if (foundedBranch != null)
+            {
+                throw new BranchAlreadyExistsException($"Branch IFSC {branch.IFSCNumber} already exists");
+            }
+            var allBranches = await _branchesRepository.GetAll();
+            if (allBranches != null)
+            {
+                if (allBranches.Contains(branch))
+                {
+                    throw new BranchAlreadyExistsException($"Branch Name {branch.BranchName} already exists");
+                }
+            }
+            return await _branchesRepository.Add(branch);
         }
 
-        public async Task<Branches> DeleteBranch(string key)
+        public async Task<Branches> DeleteBranch(string iFSC)
         {
-            var deletedBranch = await _branchesRepository.Delete(key);
+            var deletedBranch = await _branchesRepository.Delete(iFSC);
             if(deletedBranch == null) 
             {
-                throw new NoBranchesFoundException($"Branch IFSC {key} not found");
+                throw new NoBranchesFoundException($"Branch IFSC {iFSC} not found");
             }
             return deletedBranch;
         }
@@ -41,12 +54,12 @@ namespace Mavericks_Bank.Services
             return allBranches;
         }
 
-        public async Task<Branches> GetBranch(string key)
+        public async Task<Branches> GetBranch(string iFSC)
         {
-            var foundBranch = await _branchesRepository.Get(key);
+            var foundBranch = await _branchesRepository.Get(iFSC);
             if(foundBranch == null)
             {
-                throw new NoBranchesFoundException($"Branch IFSC {key} not found");
+                throw new NoBranchesFoundException($"Branch IFSC {iFSC} not found");
             }
             return foundBranch;
         }

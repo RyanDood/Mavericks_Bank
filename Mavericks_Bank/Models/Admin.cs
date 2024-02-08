@@ -12,6 +12,11 @@ namespace Mavericks_Bank.Models
         [ForeignKey("Email")]
         public Validation? Validation { get; set; }
 
+        public Admin()
+        {
+
+        }
+
         public Admin(int adminID, string name, string email)
         {
             AdminID = adminID;
