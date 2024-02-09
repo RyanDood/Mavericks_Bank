@@ -34,6 +34,26 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAllCustomerBeneficiaries")]
+        [HttpGet]
+        public async Task<ActionResult<List<Beneficiaries>>> GetAllCustomerBeneficiaries(int customerID)
+        {
+            try
+            {
+                return await _beneficiariesService.GetAllCustomerBeneficiaries(customerID);
+            }
+            catch (NoCustomersFoundException e)
+            {
+                _loggerBeneficiariesController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoBeneficiariesFoundException e)
+            {
+                _loggerBeneficiariesController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Route("GetBeneficiary")]
         [HttpGet]
         public async Task<ActionResult<Beneficiaries>> GetBeneficiary(long accountNumber)

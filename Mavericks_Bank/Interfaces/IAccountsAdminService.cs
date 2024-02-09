@@ -6,5 +6,7 @@ namespace Mavericks_Bank.Interfaces
     {
         public Task<Accounts> GetAccount(long accountNumber);
         public Task<List<Accounts>> GetAllAccounts();
+        public Task<Accounts> UpdateAccountBalance(long accountNumber, double balance);
+        public Task<Accounts> UpdateAccountStatus(long accountNumber, string status);
     }
 }

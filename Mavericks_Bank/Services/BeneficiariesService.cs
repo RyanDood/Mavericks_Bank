@@ -7,11 +7,13 @@ namespace Mavericks_Bank.Services
     public class BeneficiariesService : IBeneficiariesAdminService
     {
         private readonly IRepository<long,Beneficiaries> _beneficiariesRepository;
+        private readonly ICustomersAdminService _customersService;
         private readonly ILogger<BeneficiariesService> _loggerBeneficiariesService;
 
-        public BeneficiariesService(IRepository<long, Beneficiaries> beneficiariesRepository, ILogger<BeneficiariesService> loggerBeneficiariesService)
+        public BeneficiariesService(IRepository<long, Beneficiaries> beneficiariesRepository, ICustomersAdminService customersService, ILogger<BeneficiariesService> loggerBeneficiariesService)
         {
             _beneficiariesRepository = beneficiariesRepository;
+            _customersService = customersService;
             _loggerBeneficiariesService = loggerBeneficiariesService;
         }
 
@@ -46,6 +48,18 @@ namespace Mavericks_Bank.Services
                 throw new NoBeneficiariesFoundException("No Available Beneficiaries Data");
             }
             return allBeneficiaries;
+        }
+
+        public async Task<List<Beneficiaries>> GetAllCustomerBeneficiaries(int customerID)
+        {
+            await _customersService.GetCustomer(customerID);
+            var allBeneficiaries = await GetAllBeneficiaries();
+            var allCustomerBeneficiaries = allBeneficiaries.Where(beneficiary => beneficiary.CustomerID ==  customerID).ToList();
+            if( allCustomerBeneficiaries.Count == 0)
+            {
+                throw new NoBeneficiariesFoundException($"No Beneficiaries found for Customer ID {customerID}");
+            }
+            return allCustomerBeneficiaries;
         }
 
         public async Task<Beneficiaries> GetBeneficiary(long accountNumber)

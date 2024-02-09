@@ -35,6 +35,26 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAllCustomerAccounts")]
+        [HttpGet]
+        public async Task<ActionResult<List<Accounts>>> GetAllCustomerAccounts(int customerID)
+        {
+            try
+            {
+                return await _accountsService.GetAllCustomerAccounts(customerID);
+            }
+            catch (NoCustomersFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Route("GetAccount")]
         [HttpGet]
         public async Task<ActionResult<Accounts>> GetAccount(long accountNumber)
@@ -59,11 +79,26 @@ namespace Mavericks_Bank.Controllers
 
         [Route("UpdateAccountBalance")]
         [HttpPut]
-        public async Task<ActionResult<Accounts>> UpdateAccountBalance(UpdateAccountBalanceDTO updateAccountBalanceDTO)
+        public async Task<ActionResult<Accounts>> UpdateAccountBalance(long accountNumber, double balance)
         {
             try
             {
-                return await _accountsService.UpdateAccountBalance(updateAccountBalanceDTO);
+                return await _accountsService.UpdateAccountBalance(accountNumber,balance);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Route("UpdateAccountStatus")]
+        [HttpPut]
+        public async Task<ActionResult<Accounts>> UpdateAccountStatus(long accountNumber, string status)
+        {
+            try
+            {
+                return await _accountsService.UpdateAccountStatus(accountNumber,status);
             }
             catch (NoAccountsFoundException e)
             {

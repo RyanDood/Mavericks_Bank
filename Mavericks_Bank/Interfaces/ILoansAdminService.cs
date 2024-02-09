@@ -5,8 +5,8 @@ namespace Mavericks_Bank.Interfaces
 {
     public interface ILoansAdminService:ILoansUserService
     {
-        public Task<Loans> AddLoan(UpdateLoanDetailsDTO updateLoanDTO);
-        public Task<Loans> UpdateLoanDetails(UpdateLoanDetailsDTO updateLoanDTO);
+        public Task<Loans> AddLoan(Loans loan);
+        public Task<Loans> UpdateLoanDetails(Loans loans);
         public Task<Loans> DeleteLoan(int loanID);
     }
 }

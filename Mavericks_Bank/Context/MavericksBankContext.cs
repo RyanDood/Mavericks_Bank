@@ -16,6 +16,7 @@ namespace Mavericks_Bank.Context
         public DbSet<Beneficiaries> Beneficiaries { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<Loans> Loans { get; set; }
+        public DbSet<AppliedLoans> AppliedLoans { get; set; }
 
         public MavericksBankContext(DbContextOptions options) : base(options)
         {

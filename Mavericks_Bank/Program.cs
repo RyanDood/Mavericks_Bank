@@ -78,6 +78,7 @@ namespace Mavericks_Bank
             builder.Services.AddScoped<IRepository<long, Beneficiaries>, BeneficiariesRepository>();
             builder.Services.AddScoped<IRepository<int, Loans>, LoansRepository>();
             builder.Services.AddScoped<IRepository<int, Transactions>, TransactionsRepository>();
+            builder.Services.AddScoped<IRepository<int, AppliedLoans>, AppliedLoansRepository>();
 
             builder.Services.AddScoped<IBanksAdminService, BanksService>();
             builder.Services.AddScoped<IBranchesAdminService, BranchesService>();
@@ -90,6 +91,7 @@ namespace Mavericks_Bank
             builder.Services.AddScoped<IAccountsAdminService, AccountsService>();
             builder.Services.AddScoped<IBeneficiariesAdminService, BeneficiariesService>();
             builder.Services.AddScoped<ITransactionsAdminService, TransactionsService>();
+            builder.Services.AddScoped<IAppliedLoansAdminService, AppliedLoansService>();
 
             var app = builder.Build();
 

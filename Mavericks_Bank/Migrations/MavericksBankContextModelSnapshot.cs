@@ -80,6 +80,43 @@ namespace Mavericks_Bank.Migrations
                     b.ToTable("Admin");
                 });
 
+            modelBuilder.Entity("Mavericks_Bank.Models.AppliedLoans", b =>
+                {
+                    b.Property<int>("LoanApplicationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanApplicationID"), 1L, 1);
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("AppliedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LoanID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoanApplicationID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.HasIndex("LoanID");
+
+                    b.ToTable("AppliedLoans");
+                });
+
             modelBuilder.Entity("Mavericks_Bank.Models.BankEmployees", b =>
                 {
                     b.Property<int>("EmployeeID")
@@ -222,9 +259,6 @@ namespace Mavericks_Bank.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanID"), 1L, 1);
 
-                    b.Property<int?>("CustomerID")
-                        .HasColumnType("int");
-
                     b.Property<double>("Interest")
                         .HasColumnType("float");
 
@@ -235,20 +269,10 @@ namespace Mavericks_Bank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Purpose")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Tenure")
                         .HasColumnType("int");
 
                     b.HasKey("LoanID");
-
-                    b.HasIndex("CustomerID");
 
                     b.ToTable("Loans");
                 });
@@ -268,7 +292,7 @@ namespace Mavericks_Bank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("DestinationAccountNumber")
+                    b.Property<long?>("DestinationAccountNumber")
                         .HasColumnType("bigint");
 
                     b.Property<long>("SourceAccountNumber")
@@ -346,6 +370,25 @@ namespace Mavericks_Bank.Migrations
                     b.Navigation("Validation");
                 });
 
+            modelBuilder.Entity("Mavericks_Bank.Models.AppliedLoans", b =>
+                {
+                    b.HasOne("Mavericks_Bank.Models.Customers", "Customers")
+                        .WithMany()
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mavericks_Bank.Models.Loans", "Loans")
+                        .WithMany()
+                        .HasForeignKey("LoanID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customers");
+
+                    b.Navigation("Loans");
+                });
+
             modelBuilder.Entity("Mavericks_Bank.Models.BankEmployees", b =>
                 {
                     b.HasOne("Mavericks_Bank.Models.Validation", "Validation")
@@ -398,22 +441,11 @@ namespace Mavericks_Bank.Migrations
                     b.Navigation("Validation");
                 });
 
-            modelBuilder.Entity("Mavericks_Bank.Models.Loans", b =>
-                {
-                    b.HasOne("Mavericks_Bank.Models.Customers", "Customers")
-                        .WithMany()
-                        .HasForeignKey("CustomerID");
-
-                    b.Navigation("Customers");
-                });
-
             modelBuilder.Entity("Mavericks_Bank.Models.Transactions", b =>
                 {
                     b.HasOne("Mavericks_Bank.Models.Beneficiaries", "Beneficiaries")
                         .WithMany()
-                        .HasForeignKey("DestinationAccountNumber")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DestinationAccountNumber");
 
                     b.HasOne("Mavericks_Bank.Models.Accounts", "Accounts")
                         .WithMany()

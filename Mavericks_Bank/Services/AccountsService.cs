@@ -9,11 +9,13 @@ namespace Mavericks_Bank.Services
     public class AccountsService : IAccountsAdminService
     {
         private readonly IRepository<long,Accounts> _accountsRepository;
+        private readonly ICustomersAdminService _customersService;
         private readonly ILogger<AccountsService> _loggerAccountsService;
 
-        public AccountsService(IRepository<long, Accounts> accountsRepository, ILogger<AccountsService> loggerAccountsService)
+        public AccountsService(IRepository<long, Accounts> accountsRepository, ICustomersAdminService customersService, ILogger<AccountsService> loggerAccountsService)
         {
             _accountsRepository = accountsRepository;
+            _customersService = customersService;
             _loggerAccountsService = loggerAccountsService;
         }
 
@@ -53,10 +55,30 @@ namespace Mavericks_Bank.Services
             return allAccounts;
         }
 
-        public async Task<Accounts> UpdateAccountBalance(UpdateAccountBalanceDTO updateAccountBalanceDTO)
+        public async Task<List<Accounts>> GetAllCustomerAccounts(int customerID)
         {
-            var foundedAccount = await GetAccount(updateAccountBalanceDTO.AccountNumber);
-            foundedAccount.Balance = updateAccountBalanceDTO.Balance;
+            await _customersService.GetCustomer(customerID);
+            var allAccounts = await GetAllAccounts();
+            var allCustomerAccounts = allAccounts.Where(account => account.CustomerID == customerID).ToList();
+            if(allCustomerAccounts.Count == 0)
+            {
+                throw new NoAccountsFoundException($"No Accounts Available for Customer ID {customerID}");
+            }
+            return allCustomerAccounts;
+        }
+
+        public async Task<Accounts> UpdateAccountBalance(long accountNumber, double balance)
+        {
+            var foundedAccount = await GetAccount(accountNumber);
+            foundedAccount.Balance = balance;
+            var updatedAccount = await _accountsRepository.Update(foundedAccount);
+            return updatedAccount;
+        }
+
+        public async Task<Accounts> UpdateAccountStatus(long accountNumber, string status)
+        {
+            var foundedAccount = await GetAccount(accountNumber);
+            foundedAccount.Status = status;
             var updatedAccount = await _accountsRepository.Update(foundedAccount);
             return updatedAccount;
         }

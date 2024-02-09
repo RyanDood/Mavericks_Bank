@@ -52,18 +52,18 @@ namespace Mavericks_Bank.Controllers
 
         [Route("AddLoan")]
         [HttpPost]
-        public async Task<Loans> AddLoan(UpdateLoanDetailsDTO updateLoanDTO)
+        public async Task<Loans> AddLoan(Loans loan)
         {
-            return await _loanService.AddLoan(updateLoanDTO);
+            return await _loanService.AddLoan(loan);
         }
 
         [Route("UpdateLoanDetails")]
         [HttpPut]
-        public async Task<ActionResult<Loans>> UpdateLoanDetails(UpdateLoanDetailsDTO updateLoanDTO)
+        public async Task<ActionResult<Loans>> UpdateLoanDetails(Loans loan)
         {
             try
             {
-                return await _loanService.UpdateLoanDetails(updateLoanDTO);
+                return await _loanService.UpdateLoanDetails(loan);
             }
             catch (NoLoansFoundException e)
             {

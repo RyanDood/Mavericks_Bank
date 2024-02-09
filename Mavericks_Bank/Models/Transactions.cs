@@ -15,7 +15,7 @@ namespace Mavericks_Bank.Models
         public long SourceAccountNumber { get; set; }
         [ForeignKey("SourceAccountNumber")]
         public Accounts? Accounts { get; set; }
-        public long DestinationAccountNumber { get; set; }
+        public long? DestinationAccountNumber { get; set; }
         [ForeignKey("DestinationAccountNumber")]
         public Beneficiaries? Beneficiaries { get; set; }
 
@@ -24,7 +24,7 @@ namespace Mavericks_Bank.Models
 
         }
 
-        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, long sourceAccountNumber, long destinationAccountNumber)
+        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, long sourceAccountNumber, long? destinationAccountNumber)
         {
             TransactionID = transactionID;
             Amount = amount;
