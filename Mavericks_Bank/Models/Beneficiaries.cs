@@ -6,10 +6,11 @@ namespace Mavericks_Bank.Models
     public class Beneficiaries: IEquatable<Beneficiaries>
     {
         [Key]
+        public int BeneficiaryID { get; set; }
         public long AccountNumber { get; set; }
         public string Name { get; set; }
-        public string IFSC { get; set; }
-        [ForeignKey("IFSC")]
+        public int BranchID { get; set; }
+        [ForeignKey("BranchID")]
         public Branches? Branches { get; set; }
         public int CustomerID { get; set; }
         [ForeignKey("CustomerID")]
@@ -20,11 +21,12 @@ namespace Mavericks_Bank.Models
 
         }
 
-        public Beneficiaries(long accountNumber, string name, string iFSC, int customerID)
+        public Beneficiaries(int beneficiaryID, long accountNumber, string name, int branchID, int customerID)
         {
+            BeneficiaryID = beneficiaryID;
             AccountNumber = accountNumber;
             Name = name;
-            IFSC = iFSC;
+            BranchID = branchID;
             CustomerID = customerID;
         }
 

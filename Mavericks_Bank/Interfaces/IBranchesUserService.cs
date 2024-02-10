@@ -5,6 +5,6 @@ namespace Mavericks_Bank.Interfaces
     public interface IBranchesUserService
     {
         public Task<List<Branches>> GetAllBranches();
-        public Task<Branches> GetBranch(string iFSC);
+        public Task<Branches> GetBranch(int branchID);
     }
 }

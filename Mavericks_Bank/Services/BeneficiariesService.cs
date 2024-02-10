@@ -6,11 +6,11 @@ namespace Mavericks_Bank.Services
 {
     public class BeneficiariesService : IBeneficiariesAdminService
     {
-        private readonly IRepository<long,Beneficiaries> _beneficiariesRepository;
+        private readonly IRepository<int, Beneficiaries> _beneficiariesRepository;
         private readonly ICustomersAdminService _customersService;
         private readonly ILogger<BeneficiariesService> _loggerBeneficiariesService;
 
-        public BeneficiariesService(IRepository<long, Beneficiaries> beneficiariesRepository, ICustomersAdminService customersService, ILogger<BeneficiariesService> loggerBeneficiariesService)
+        public BeneficiariesService(IRepository<int, Beneficiaries> beneficiariesRepository, ICustomersAdminService customersService, ILogger<BeneficiariesService> loggerBeneficiariesService)
         {
             _beneficiariesRepository = beneficiariesRepository;
             _customersService = customersService;
@@ -20,22 +20,20 @@ namespace Mavericks_Bank.Services
         public async Task<Beneficiaries> AddBeneficiary(Beneficiaries beneficiary)
         {
             var allBeneficiaries = await _beneficiariesRepository.GetAll();
-            if(allBeneficiaries != null)
+            var foundedBeneficiary = allBeneficiaries?.FirstOrDefault(beneficiaries => beneficiaries.AccountNumber == beneficiary.AccountNumber && beneficiaries.CustomerID == beneficiary.CustomerID);
+            if(foundedBeneficiary != null)
             {
-                if (allBeneficiaries.Contains(beneficiary))
-                {
-                    throw new BeneficiaryAlreadyExistsException($"Beneficiary Account Number {beneficiary.AccountNumber} already exists");
-                }
+                throw new BeneficiaryAlreadyExistsException($"Beneficiary Account Number {beneficiary.AccountNumber} already exists");
             }
             return await _beneficiariesRepository.Add(beneficiary);
         }
 
-        public async Task<Beneficiaries> DeleteBeneficiary(long accountNumber)
+        public async Task<Beneficiaries> DeleteBeneficiary(int beneficiaryID)
         {
-            var deletedBeneficiary = await _beneficiariesRepository.Delete(accountNumber);
+            var deletedBeneficiary = await _beneficiariesRepository.Delete(beneficiaryID);
             if(deletedBeneficiary == null)
             {
-                throw new NoBeneficiariesFoundException($"Beneficiary Account Number {accountNumber} not found");
+                throw new NoBeneficiariesFoundException($"Beneficiary ID {beneficiaryID} not found");
             }
             return deletedBeneficiary;
         }
@@ -62,12 +60,12 @@ namespace Mavericks_Bank.Services
             return allCustomerBeneficiaries;
         }
 
-        public async Task<Beneficiaries> GetBeneficiary(long accountNumber)
+        public async Task<Beneficiaries> GetBeneficiary(int beneficiaryID)
         {
-            var foundBeneficiary = await _beneficiariesRepository.Get(accountNumber);
+            var foundBeneficiary = await _beneficiariesRepository.Get(beneficiaryID);
             if(foundBeneficiary == null)
             {
-                throw new NoBeneficiariesFoundException($"Beneficiary Account Number {accountNumber} not found");
+                throw new NoBeneficiariesFoundException($"Beneficiary ID {beneficiaryID} not found");
             }
             return foundBeneficiary;
         }

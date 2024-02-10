@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mavericks_Bank.Repositories
 {
-    public class BranchesRepository : IRepository<string, Branches>
+    public class BranchesRepository : IRepository<int, Branches>
     {
         private readonly MavericksBankContext _mavericksBankContext;
         private readonly ILogger<BranchesRepository> _loggerBranchesRepository;
@@ -20,11 +20,11 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Branches.Add(item);
             await _mavericksBankContext.SaveChangesAsync();
-            _loggerBranchesRepository.LogInformation($"Added New Branch : {item.IFSCNumber}");
+            _loggerBranchesRepository.LogInformation($"Added New Branch : {item.BranchID}");
             return item;
         }
 
-        public async Task<Branches?> Delete(string key)
+        public async Task<Branches?> Delete(int key)
         {
             var foundedBranch = await Get(key);
             if (foundedBranch == null)
@@ -39,9 +39,9 @@ namespace Mavericks_Bank.Repositories
             }
         }
 
-        public async Task<Branches?> Get(string key)
+        public async Task<Branches?> Get(int key)
         {
-            var foundedBranch = await _mavericksBankContext.Branches.Include(branch => branch.Banks).FirstOrDefaultAsync(branch => branch.IFSCNumber == key);
+            var foundedBranch = await _mavericksBankContext.Branches.Include(branch => branch.Banks).FirstOrDefaultAsync(branch => branch.BranchID == key);
             if (foundedBranch == null)
             {
                 return null;

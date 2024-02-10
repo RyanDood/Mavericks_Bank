@@ -4,9 +4,12 @@ namespace Mavericks_Bank.Interfaces
 {
     public interface IAccountsAdminService:IAccountsUserService
     {
-        public Task<Accounts> GetAccount(long accountNumber);
+        public Task<Accounts> GetAccount(int accountID);
         public Task<List<Accounts>> GetAllAccounts();
-        public Task<Accounts> UpdateAccountBalance(long accountNumber, double balance);
-        public Task<Accounts> UpdateAccountStatus(long accountNumber, string status);
+        public Task<List<Accounts>> GetAllAccountsStatus(string status);
+        public Task<List<Accounts>> GetAllCustomerAccounts(int customerID);
+        public Task<Accounts> UpdateAccountBalance(int accountID, double balance);
+        public Task<Accounts> UpdateAccountStatus(int accountID, string status);
+        public Task<Accounts> DeleteAccount(int accountID);
     }
 }

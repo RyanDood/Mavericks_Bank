@@ -62,11 +62,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetAllAccountTransactions")]
         [HttpGet]
-        public async Task<ActionResult<List<Transactions>>> GetAllAccountTransactions(long accountNumber)
+        public async Task<ActionResult<List<Transactions>>> GetAllAccountTransactions(int accountID)
         {
             try
             {
-                return await _transactionsService.GetAllAccountTransactions(accountNumber);
+                return await _transactionsService.GetAllAccountTransactions(accountID);
             }
             catch (NoTransactionsFoundException e)
             {
@@ -74,6 +74,46 @@ namespace Mavericks_Bank.Controllers
                 return NotFound(e.Message);
             }
             catch (NoAccountsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Route("AccountFinancialPerformanceReport")]
+        [HttpGet]
+        public async Task<ActionResult<InboundAndOutboundTransactions>> GetAccountInboundAndOutbooundTransactions(int accountID)
+        {
+            try
+            {
+                return await _transactionsService.GetAccountInboundAndOutbooundTransactions(accountID);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoTransactionsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Route("CustomerFinancialPerformanceReport")]
+        [HttpGet]
+        public async Task<ActionResult<InboundAndOutboundTransactions>> GetCustomerInboundAndOutbooundTransactions(int customerID)
+        {
+            try
+            {
+                return await _transactionsService.GetCustomerInboundAndOutbooundTransactions(customerID);
+            }
+            catch (NoCustomersFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoTransactionsFoundException e)
             {
                 _loggerTransactionsController.LogInformation(e.Message);
                 return NotFound(e.Message);
@@ -97,11 +137,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetRecentTenAccountTransactions")]
         [HttpGet]
-        public async Task<ActionResult<List<Transactions>>> GetLastTenAccountTransactions(long accountNumber)
+        public async Task<ActionResult<List<Transactions>>> GetLastTenAccountTransactions(int accountID)
         {
             try
             {
-                return await _transactionsService.GetLastTenAccountTransactions(accountNumber);
+                return await _transactionsService.GetLastTenAccountTransactions(accountID);
             }
             catch (NoTransactionsFoundException e)
             {
@@ -117,11 +157,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetLastMonthAccountTransactions")]
         [HttpGet]
-        public async Task<ActionResult<List<Transactions>>> GetLastMonthAccountTransactions(long accountNumber)
+        public async Task<ActionResult<List<Transactions>>> GetLastMonthAccountTransactions(int accountID)
         {
             try
             {
-                return await _transactionsService.GetLastMonthAccountTransactions(accountNumber);
+                return await _transactionsService.GetLastMonthAccountTransactions(accountID);
             }
             catch (NoTransactionsFoundException e)
             {
@@ -137,11 +177,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetTransactionsBetweenTwoDates")]
         [HttpGet]
-        public async Task<ActionResult<List<Transactions>>> GetTransactionsBetweenTwoDates(long accountNumber, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<List<Transactions>>> GetTransactionsBetweenTwoDates(int accountID, DateTime fromDate, DateTime toDate)
         {
             try
             {
-                return await _transactionsService.GetTransactionsBetweenTwoDates(accountNumber,fromDate,toDate);
+                return await _transactionsService.GetTransactionsBetweenTwoDates(accountID, fromDate,toDate);
             }
             catch (NoTransactionsFoundException e)
             {
@@ -212,6 +252,31 @@ namespace Mavericks_Bank.Controllers
             {
                 _loggerTransactionsController.LogInformation(e.Message);
                 return NotFound(e.Message);
+            }
+            catch (TransactionAmountExceedsException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("TransferWithBeneficiary")]
+        [HttpPost]
+        public async Task<ActionResult<Transactions>> AddTransactionTransferBeneficiary(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO)
+        {
+            try
+            {
+                return await _transactionsService.AddTransactionTransferBeneficiary(addTransactionTransferBeneficiaryDTO);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (BeneficiaryAlreadyExistsException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return BadRequest(e.Message);
             }
             catch (TransactionAmountExceedsException e)
             {

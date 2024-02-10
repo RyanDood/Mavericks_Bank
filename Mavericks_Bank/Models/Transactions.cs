@@ -12,11 +12,11 @@ namespace Mavericks_Bank.Models
         public string Description { get; set; }
         public string TransactionType { get; set; }
         public string Status { get; set; }
-        public long SourceAccountNumber { get; set; }
-        [ForeignKey("SourceAccountNumber")]
+        public int AccountID { get; set; }
+        [ForeignKey("AccountID")]
         public Accounts? Accounts { get; set; }
-        public long? DestinationAccountNumber { get; set; }
-        [ForeignKey("DestinationAccountNumber")]
+        public int? BeneficiaryID { get; set; }
+        [ForeignKey("BeneficiaryID")]
         public Beneficiaries? Beneficiaries { get; set; }
 
         public Transactions()
@@ -24,7 +24,7 @@ namespace Mavericks_Bank.Models
 
         }
 
-        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, long sourceAccountNumber, long? destinationAccountNumber)
+        public Transactions(int transactionID, double amount, DateTime transactionDate, string description, string transactionType, string status, int accountID, int? beneficiaryID)
         {
             TransactionID = transactionID;
             Amount = amount;
@@ -32,8 +32,8 @@ namespace Mavericks_Bank.Models
             Description = description;
             TransactionType = transactionType;
             Status = status;
-            SourceAccountNumber = sourceAccountNumber;
-            DestinationAccountNumber = destinationAccountNumber;
+            AccountID = accountID;
+            BeneficiaryID = beneficiaryID;
         }
 
         public bool Equals(Transactions? other)

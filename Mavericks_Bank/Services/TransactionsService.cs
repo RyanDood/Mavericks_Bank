@@ -27,22 +27,22 @@ namespace Mavericks_Bank.Services
 
         public async Task<Transactions> AddTransactionDeposit(AddTransactionDepositDTO addTransactionDepositDTO)
         {
-            var foundedAccount = await _accountservice.GetAccount(addTransactionDepositDTO.SourceAccountNumber);
+            var foundedAccount = await _accountservice.GetAccount(addTransactionDepositDTO.AccountID);
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionDepositDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);
 
             await UpdateTransactionStatus(addedTransaction.TransactionID, "Success");
             var updatedBalance = foundedAccount.Balance + addTransactionDepositDTO.Amount;
-            await _accountservice.UpdateAccountBalance(addTransactionDepositDTO.SourceAccountNumber, updatedBalance);
+            await _accountservice.UpdateAccountBalance(addTransactionDepositDTO.AccountID, updatedBalance);
 
             return addedTransaction;
         }
 
         public async Task<Transactions> AddTransactionTransfer(AddTransactionTransferDTO addTransactionTransferDTO)
         {
-            var foundedAccount = await _accountservice.GetAccount(addTransactionTransferDTO.SourceAccountNumber);
-            await _beneficiaryService.GetBeneficiary(addTransactionTransferDTO.DestinationAccountNumber);
+            var foundedAccount = await _accountservice.GetAccount(addTransactionTransferDTO.AccountID);
+            await _beneficiaryService.GetBeneficiary(addTransactionTransferDTO.BeneficiaryID);
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionTransferDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);
@@ -55,14 +55,37 @@ namespace Mavericks_Bank.Services
 
             await UpdateTransactionStatus(addedTransaction.TransactionID,"Success");
             var updatedBalance = foundedAccount.Balance - addTransactionTransferDTO.Amount;
-            await _accountservice.UpdateAccountBalance(addTransactionTransferDTO.SourceAccountNumber, updatedBalance);
+            await _accountservice.UpdateAccountBalance(addTransactionTransferDTO.AccountID, updatedBalance);
+
+            return addedTransaction;
+        }
+
+        public async Task<Transactions> AddTransactionTransferBeneficiary(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO)
+        {
+            var foundedAccount = await _accountservice.GetAccount(addTransactionTransferBeneficiaryDTO.AccountID);
+
+            Beneficiaries newBeneficiary = new ConvertToBeneficiaries(addTransactionTransferBeneficiaryDTO).GetBeneficiary();
+            var addedBeneficiary = await _beneficiaryService.AddBeneficiary(newBeneficiary);
+
+            Transactions newTransaction = new ConvertToTransactions(addTransactionTransferBeneficiaryDTO,addedBeneficiary.BeneficiaryID).GetTransaction();
+            var addedTransaction = await _transactionsRepository.Add(newTransaction);
+
+            if (addTransactionTransferBeneficiaryDTO.Amount > foundedAccount.Balance)
+            {
+                await UpdateTransactionStatus(addedTransaction.TransactionID, "Failed");
+                throw new TransactionAmountExceedsException("Amount entered exceeds the balance of your Account");
+            }
+
+            await UpdateTransactionStatus(addedTransaction.TransactionID, "Success");
+            var updatedBalance = foundedAccount.Balance - addTransactionTransferBeneficiaryDTO.Amount;
+            await _accountservice.UpdateAccountBalance(addTransactionTransferBeneficiaryDTO.AccountID, updatedBalance);
 
             return addedTransaction;
         }
 
         public async Task<Transactions> AddTransactionWithdrawal(AddTransactionWithdrawalDTO addTransactionWithdrawalDTO)
         {
-            var foundedAccount = await _accountservice.GetAccount(addTransactionWithdrawalDTO.SourceAccountNumber);
+            var foundedAccount = await _accountservice.GetAccount(addTransactionWithdrawalDTO.AccountID);
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionWithdrawalDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);
@@ -75,7 +98,7 @@ namespace Mavericks_Bank.Services
 
             await UpdateTransactionStatus(addedTransaction.TransactionID, "Success");
             var updatedBalance = foundedAccount.Balance - addTransactionWithdrawalDTO.Amount;
-            await _accountservice.UpdateAccountBalance(addTransactionWithdrawalDTO.SourceAccountNumber, updatedBalance);
+            await _accountservice.UpdateAccountBalance(addTransactionWithdrawalDTO.AccountID, updatedBalance);
 
             return addedTransaction;
         }
@@ -90,16 +113,34 @@ namespace Mavericks_Bank.Services
             return deletedTransaction;
         }
 
-        public async Task<List<Transactions>> GetAllAccountTransactions(long accountNumber)
+        public async Task<InboundAndOutboundTransactions> GetAccountInboundAndOutbooundTransactions(int accountID)
         {
-            await _accountservice.GetAccount(accountNumber);
+            await _accountservice.GetAccount(accountID);
             var allTransactions = await GetAllTransactions();
-            var allCustomerTransactions = allTransactions.Where(transaction => transaction.SourceAccountNumber == accountNumber).ToList();
-            if (allCustomerTransactions.Count == 0)
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID && transaction.Status == "Success").ToList();
+            if(allAccountTransactions.Count == 0)
             {
-                throw new NoTransactionsFoundException($"No Transaction History Found for Account Number {accountNumber}");
+                throw new NoTransactionsFoundException($"No transactions found for {accountID}");
             }
-            return allCustomerTransactions;
+            double allAccountDepositTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Deposit").ToList().Count();
+            double allAccountTransferTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Transfer").ToList().Count();
+            double allAccountWithdrawalTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Withdrawal").ToList().Count();
+            double ratio = allAccountDepositTransactions/(allAccountTransferTransactions + allAccountWithdrawalTransactions);
+            var creditWorthy = ratio >= 1 ? "Yes" : "No";
+            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions{ TotalTransactions = allAccountTransactions.Count,InboundTransactions = allAccountDepositTransactions,OutboundTransactions = allAccountTransferTransactions + allAccountWithdrawalTransactions,Ratio = ratio,CreditWorthiness = creditWorthy };
+            return inboundAndOutboundTransactions;
+        }
+
+        public async Task<List<Transactions>> GetAllAccountTransactions(int accountID)
+        {
+            await _accountservice.GetAccount(accountID);
+            var allTransactions = await GetAllTransactions();
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID).ToList();
+            if (allAccountTransactions.Count == 0)
+            {
+                throw new NoTransactionsFoundException($"No Transaction History Found for Account ID {accountID}");
+            }
+            return allAccountTransactions;
         }
 
         public async Task<List<Transactions>> GetAllCustomerTransactions(int customerID)
@@ -110,8 +151,8 @@ namespace Mavericks_Bank.Services
             var allTransactions = await GetAllTransactions();   
             var allCustomerTransactions = (from customer in allCustomers
                                           join account in allAccounts on customer.CustomerID equals account.CustomerID
-                                          join transaction in allTransactions on account.AccountNumber equals transaction.SourceAccountNumber
-                                          where customer.CustomerID == customerID select transaction).ToList();
+                                          join transaction in allTransactions on account.AccountID equals transaction.AccountID
+                                          where customer.CustomerID == customerID select transaction).OrderByDescending(transaction => transaction.TransactionID).ToList();
             if(allCustomerTransactions.Count == 0)
             {
                 throw new NoTransactionsFoundException($"No Transaction History Found for Customer ID {customerID}");
@@ -129,30 +170,47 @@ namespace Mavericks_Bank.Services
             return allTransactions;
         }
 
-        public async Task<List<Transactions>> GetLastMonthAccountTransactions(long accountNumber)
+        public async Task<InboundAndOutboundTransactions> GetCustomerInboundAndOutbooundTransactions(int customerID)
         {
-            await _accountservice.GetAccount(accountNumber);
+            var allCustomerTransactions = await GetAllCustomerTransactions(customerID);
+            var allSuccessfullCustomerTransactions = allCustomerTransactions.Where(transaction => transaction.Status == "Success").ToList();
+            if (allSuccessfullCustomerTransactions.Count == 0)
+            {
+                throw new NoTransactionsFoundException($"No transactions found for {customerID}");
+            }
+            double allCustomerDepositTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Deposit").ToList().Count();
+            double allCustomerTransferTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Transfer").ToList().Count();
+            double allCustomerWithdrawalTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Withdrawal").ToList().Count();
+            double ratio = allCustomerDepositTransactions / (allCustomerTransferTransactions + allCustomerWithdrawalTransactions);
+            var creditWorthy = ratio >= 1 ? "Yes" : "No";
+            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions { TotalTransactions = allSuccessfullCustomerTransactions.Count, InboundTransactions = allCustomerDepositTransactions, OutboundTransactions = allCustomerTransferTransactions + allCustomerWithdrawalTransactions, Ratio = ratio, CreditWorthiness = creditWorthy };
+            return inboundAndOutboundTransactions;
+        }
+
+        public async Task<List<Transactions>> GetLastMonthAccountTransactions(int accountID)
+        {
+            await _accountservice.GetAccount(accountID);
             var allTransactions = await GetAllTransactions();
             
             var lastMonthStartDate = DateTime.Today.AddMonths(-1).Date.AddDays(1 - DateTime.Today.Day);
             var lastMonthEndDate = DateTime.Today.AddDays(-DateTime.Today.Day);
 
-            var allAccountTransactions = allTransactions.Where(transaction => transaction.SourceAccountNumber == accountNumber && transaction.TransactionDate >= lastMonthStartDate && transaction.TransactionDate <= lastMonthEndDate).OrderByDescending(transaction => transaction.TransactionID).ToList();
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionDate >= lastMonthStartDate && transaction.TransactionDate <= lastMonthEndDate).OrderByDescending(transaction => transaction.TransactionID).ToList();
             if (allAccountTransactions.Count == 0)
             {
-                throw new NoTransactionsFoundException($"No Last Month Transaction History Found for Account Number {accountNumber}");
+                throw new NoTransactionsFoundException($"No Last Month Transaction History Found for Account ID {accountID}");
             }
             return allAccountTransactions;
         }
 
-        public async Task<List<Transactions>> GetLastTenAccountTransactions(long accountNumber)
+        public async Task<List<Transactions>> GetLastTenAccountTransactions(int accountID)
         {
             var allTransactions = await GetAllTransactions();
-            await _accountservice.GetAccount(accountNumber);
-            var allAccountTransactions = allTransactions.Where(transaction => transaction.SourceAccountNumber == accountNumber).OrderByDescending(transaction => transaction.TransactionID).Take(3).ToList();
+            await _accountservice.GetAccount(accountID);
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID).OrderByDescending(transaction => transaction.TransactionID).Take(3).ToList();
             if (allAccountTransactions.Count == 0)
             {
-                throw new NoTransactionsFoundException($"No Transaction History Found for Account Number {accountNumber}");
+                throw new NoTransactionsFoundException($"No Transaction History Found for Account Number {accountID}");
             }
             return allAccountTransactions;
         }
@@ -167,15 +225,15 @@ namespace Mavericks_Bank.Services
             return foundedTransaction;
         }
 
-        public async Task<List<Transactions>> GetTransactionsBetweenTwoDates(long accountNumber, DateTime fromDate, DateTime toDate)
+        public async Task<List<Transactions>> GetTransactionsBetweenTwoDates(int accountID, DateTime fromDate, DateTime toDate)
         {
             var allTransactions = await GetAllTransactions();
-            await _accountservice.GetAccount(accountNumber);
+            await _accountservice.GetAccount(accountID);
 
-            var allAccountTransactions = allTransactions.Where(transaction => transaction.SourceAccountNumber == accountNumber && transaction.TransactionDate >= fromDate && transaction.TransactionDate <= toDate).OrderByDescending(transaction => transaction.TransactionID).ToList();
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionDate >= fromDate && transaction.TransactionDate <= toDate).OrderByDescending(transaction => transaction.TransactionID).ToList();
             if (allAccountTransactions.Count == 0)
             {
-                throw new NoTransactionsFoundException($"No Transaction History Found for Account Number {accountNumber} within {fromDate} to {toDate}");
+                throw new NoTransactionsFoundException($"No Transaction History Found for Account ID {accountID} within {fromDate} to {toDate}");
             }
             return allAccountTransactions;
         }

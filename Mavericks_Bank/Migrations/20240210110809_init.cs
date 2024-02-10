@@ -56,13 +56,15 @@ namespace Mavericks_Bank.Migrations
                 name: "Branches",
                 columns: table => new
                 {
-                    IFSCNumber = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IFSCNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BranchName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BankID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Branches", x => x.IFSCNumber);
+                    table.PrimaryKey("PK_Branches", x => x.BranchID);
                     table.ForeignKey(
                         name: "FK_Branches_Banks_BankID",
                         column: x => x.BankID,
@@ -142,22 +144,23 @@ namespace Mavericks_Bank.Migrations
                 name: "Accounts",
                 columns: table => new
                 {
-                    AccountNumber = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1335545410001, 1"),
+                    AccountID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountNumber = table.Column<long>(type: "bigint", nullable: false),
                     Balance = table.Column<double>(type: "float", nullable: false),
                     AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IFSC = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchID = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountNumber);
+                    table.PrimaryKey("PK_Accounts", x => x.AccountID);
                     table.ForeignKey(
-                        name: "FK_Accounts_Branches_IFSC",
-                        column: x => x.IFSC,
+                        name: "FK_Accounts_Branches_BranchID",
+                        column: x => x.BranchID,
                         principalTable: "Branches",
-                        principalColumn: "IFSCNumber",
+                        principalColumn: "BranchID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Accounts_Customers_CustomerID",
@@ -175,6 +178,7 @@ namespace Mavericks_Bank.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     Purpose = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountNumber = table.Column<long>(type: "bigint", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AppliedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LoanID = table.Column<int>(type: "int", nullable: false),
@@ -201,19 +205,21 @@ namespace Mavericks_Bank.Migrations
                 name: "Beneficiaries",
                 columns: table => new
                 {
+                    BeneficiaryID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AccountNumber = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IFSC = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BranchID = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Beneficiaries", x => x.AccountNumber);
+                    table.PrimaryKey("PK_Beneficiaries", x => x.BeneficiaryID);
                     table.ForeignKey(
-                        name: "FK_Beneficiaries_Branches_IFSC",
-                        column: x => x.IFSC,
+                        name: "FK_Beneficiaries_Branches_BranchID",
+                        column: x => x.BranchID,
                         principalTable: "Branches",
-                        principalColumn: "IFSCNumber",
+                        principalColumn: "BranchID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Beneficiaries_Customers_CustomerID",
@@ -234,34 +240,34 @@ namespace Mavericks_Bank.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransactionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SourceAccountNumber = table.Column<long>(type: "bigint", nullable: false),
-                    DestinationAccountNumber = table.Column<long>(type: "bigint", nullable: true)
+                    AccountID = table.Column<int>(type: "int", nullable: false),
+                    BeneficiaryID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_Transactions_Accounts_SourceAccountNumber",
-                        column: x => x.SourceAccountNumber,
+                        name: "FK_Transactions_Accounts_AccountID",
+                        column: x => x.AccountID,
                         principalTable: "Accounts",
-                        principalColumn: "AccountNumber",
+                        principalColumn: "AccountID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_Beneficiaries_DestinationAccountNumber",
-                        column: x => x.DestinationAccountNumber,
+                        name: "FK_Transactions_Beneficiaries_BeneficiaryID",
+                        column: x => x.BeneficiaryID,
                         principalTable: "Beneficiaries",
-                        principalColumn: "AccountNumber");
+                        principalColumn: "BeneficiaryID");
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_BranchID",
+                table: "Accounts",
+                column: "BranchID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_CustomerID",
                 table: "Accounts",
                 column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_IFSC",
-                table: "Accounts",
-                column: "IFSC");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Admin_Email",
@@ -284,14 +290,14 @@ namespace Mavericks_Bank.Migrations
                 column: "Email");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Beneficiaries_BranchID",
+                table: "Beneficiaries",
+                column: "BranchID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Beneficiaries_CustomerID",
                 table: "Beneficiaries",
                 column: "CustomerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Beneficiaries_IFSC",
-                table: "Beneficiaries",
-                column: "IFSC");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Branches_BankID",
@@ -304,14 +310,14 @@ namespace Mavericks_Bank.Migrations
                 column: "Email");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_DestinationAccountNumber",
+                name: "IX_Transactions_AccountID",
                 table: "Transactions",
-                column: "DestinationAccountNumber");
+                column: "AccountID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_SourceAccountNumber",
+                name: "IX_Transactions_BeneficiaryID",
                 table: "Transactions",
-                column: "SourceAccountNumber");
+                column: "BeneficiaryID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mavericks_Bank.Repositories
 {
-    public class BeneficiariesRepository : IRepository<long, Beneficiaries>
+    public class BeneficiariesRepository : IRepository<int, Beneficiaries>
     {
         private readonly MavericksBankContext _mavericksBankContext;
         private readonly ILogger<BranchesRepository> _loggerBranchesRepository;
@@ -20,11 +20,11 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Beneficiaries.Add(item);
             await _mavericksBankContext.SaveChangesAsync();
-            _loggerBranchesRepository.LogInformation($"Added New Beneficiary : {item.AccountNumber}");
+            _loggerBranchesRepository.LogInformation($"Added New Beneficiary : {item.BeneficiaryID}");
             return item;
         }
 
-        public async Task<Beneficiaries?> Delete(long key)
+        public async Task<Beneficiaries?> Delete(int key)
         {
             var foundedBeneficiary = await Get(key);
             if (foundedBeneficiary == null)
@@ -39,9 +39,9 @@ namespace Mavericks_Bank.Repositories
             }
         }
 
-        public async Task<Beneficiaries?> Get(long key)
+        public async Task<Beneficiaries?> Get(int key)
         {
-            var foundedBeneficiary = await _mavericksBankContext.Beneficiaries.FirstOrDefaultAsync(beneficiary => beneficiary.AccountNumber == key);
+            var foundedBeneficiary = await _mavericksBankContext.Beneficiaries.FirstOrDefaultAsync(beneficiary => beneficiary.BeneficiaryID == key);
             if (foundedBeneficiary == null)
             {
                 return null;

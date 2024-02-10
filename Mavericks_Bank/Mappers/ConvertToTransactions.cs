@@ -14,8 +14,19 @@ namespace Mavericks_Bank.Mappers
             transaction.Description = addTransactionTransferDTO.Description;
             transaction.TransactionType = "Transfer";
             transaction.Status = "Pending";
-            transaction.SourceAccountNumber = addTransactionTransferDTO.SourceAccountNumber;
-            transaction.DestinationAccountNumber = addTransactionTransferDTO.DestinationAccountNumber;
+            transaction.AccountID = addTransactionTransferDTO.AccountID;
+            transaction.BeneficiaryID = addTransactionTransferDTO.BeneficiaryID;
+        }
+
+        public ConvertToTransactions(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO,int beneficiaryID)
+        {
+            transaction = new Transactions();
+            transaction.Amount = addTransactionTransferBeneficiaryDTO.Amount;
+            transaction.Description = addTransactionTransferBeneficiaryDTO.Description;
+            transaction.TransactionType = "Transfer";
+            transaction.Status = "Pending";
+            transaction.AccountID = addTransactionTransferBeneficiaryDTO.AccountID;
+            transaction.BeneficiaryID = beneficiaryID;
         }
 
         public ConvertToTransactions(AddTransactionDepositDTO addTransactionDepositDTO)
@@ -25,8 +36,8 @@ namespace Mavericks_Bank.Mappers
             transaction.Description = addTransactionDepositDTO.Description;
             transaction.TransactionType = "Deposit";
             transaction.Status = "Pending";
-            transaction.SourceAccountNumber = addTransactionDepositDTO.SourceAccountNumber;
-            transaction.DestinationAccountNumber = null;
+            transaction.AccountID = addTransactionDepositDTO.AccountID;
+            transaction.BeneficiaryID = null;
         }
 
         public ConvertToTransactions(AddTransactionWithdrawalDTO addTransactionWithdrawalDTO)
@@ -36,8 +47,8 @@ namespace Mavericks_Bank.Mappers
             transaction.Description = addTransactionWithdrawalDTO.Description;
             transaction.TransactionType = "Withdrawal";
             transaction.Status = "Pending";
-            transaction.SourceAccountNumber = addTransactionWithdrawalDTO.SourceAccountNumber;
-            transaction.DestinationAccountNumber = null;
+            transaction.AccountID = addTransactionWithdrawalDTO.AccountID;
+            transaction.BeneficiaryID = null;
         }
 
         public Transactions GetTransaction()

@@ -24,7 +24,7 @@ namespace Mavericks_Bank.Services
             {
                 if(allBanks.Contains(bank))
                 {
-                    throw new BankNameAlreadyExistsException("Bank Name Already Exists");
+                    throw new BankNameAlreadyExistsException($"Bank Name {bank.BankName} already exists");
                 }
             }
             return await _banksRepository.Add(bank);
@@ -63,6 +63,15 @@ namespace Mavericks_Bank.Services
         public async Task<Banks> UpdateBankName(UpdateBankNameDTO updateBankNameDTO)
         {
             var foundedBank = await GetBank(updateBankNameDTO.BankID);
+            var allBanks = await _banksRepository.GetAll();
+            if (allBanks != null)
+            {
+                var foundedBankName = allBanks.FirstOrDefault(banks => banks.BankName == updateBankNameDTO.BankName);
+                if (foundedBankName != null)
+                {
+                    throw new BankNameAlreadyExistsException($"Bank Name {updateBankNameDTO.BankName} already exists");
+                }
+            }
             foundedBank.BankName = updateBankNameDTO.BankName;
             var updatedBank = await _banksRepository.Update(foundedBank);
             return updatedBank;

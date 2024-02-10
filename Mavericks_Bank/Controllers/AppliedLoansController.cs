@@ -35,6 +35,21 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAllAppliedLoansStatus")]
+        [HttpGet]
+        public async Task<ActionResult<List<AppliedLoans>>> GetAllAppliedLoansStatus(string status)
+        {
+            try
+            {
+                return await _appliedLoansService.GetAllAppliedLoansStatus(status);
+            }
+            catch (NoAppliedLoansFoundException e)
+            {
+                _loggerAppliedLoansController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Route("GetAllCustomerAppliedLoans")]
         [HttpGet]
         public async Task<ActionResult<List<AppliedLoans>>> GetAllCustomerAppliedLoans(int customerID)
@@ -101,12 +116,17 @@ namespace Mavericks_Bank.Controllers
             catch (NoLoansFoundException e)
             {
                 _loggerAppliedLoansController.LogInformation(e.Message);
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
             catch (LoanAmountExceedsException e)
             {
                 _loggerAppliedLoansController.LogInformation(e.Message);
                 return BadRequest(e.Message);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAppliedLoansController.LogInformation(e.Message);
+                return NotFound(e.Message);
             }
             catch (AppliedLoanAlreadyExistsException e)
             {
@@ -124,6 +144,11 @@ namespace Mavericks_Bank.Controllers
                 return await _appliedLoansService.UpdateAppliedLoanStatus(loanApplicationID, status);
             }
             catch (NoAppliedLoansFoundException e)
+            {
+                _loggerAppliedLoansController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoAccountsFoundException e)
             {
                 _loggerAppliedLoansController.LogInformation(e.Message);
                 return NotFound(e.Message);

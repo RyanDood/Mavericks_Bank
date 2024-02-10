@@ -4,6 +4,6 @@
     {
         public double Amount { get; set; }
         public string Description { get; set; }
-        public long SourceAccountNumber { get; set; }
+        public int AccountID { get; set; }
     }
 }

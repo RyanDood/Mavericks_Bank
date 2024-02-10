@@ -2,7 +2,7 @@
 {
     public class UpdateBranchNameDTO
     {
-        public string IFSCNumber { get; set; }
+        public int branchID { get; set; }
         public string BranchName { get; set; }
     }
 }

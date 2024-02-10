@@ -81,6 +81,11 @@ namespace Mavericks_Bank.Controllers
                 _loggerBanksController.LogInformation(e.Message);
                 return NotFound(e.Message);
             }
+            catch (BankNameAlreadyExistsException e)
+            {
+                _loggerBanksController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
         }
 
         [Route("DeleteBank")]

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mavericks_Bank.Repositories
 {
-    public class AccountsRepository : IRepository<long, Accounts>
+    public class AccountsRepository : IRepository<int, Accounts>
     {
         private readonly MavericksBankContext _mavericksBankContext;
         private readonly ILogger<AccountsRepository> _loggerAccountsRepository;
@@ -20,11 +20,11 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Accounts.Add(item);
             await _mavericksBankContext.SaveChangesAsync();
-            _loggerAccountsRepository.LogInformation($"Added New Account : {item.AccountNumber}");
+            _loggerAccountsRepository.LogInformation($"Added New Account : {item.AccountID}");
             return item;
         }
 
-        public async Task<Accounts?> Delete(long key)
+        public async Task<Accounts?> Delete(int key)
         {
             var foundedAccount = await Get(key);
             if (foundedAccount == null)
@@ -39,9 +39,9 @@ namespace Mavericks_Bank.Repositories
             }
         }
 
-        public async Task<Accounts?> Get(long key)
+        public async Task<Accounts?> Get(int key)
         {
-            var foundedAdmin = await _mavericksBankContext.Accounts.FirstOrDefaultAsync(account => account.AccountNumber == key);
+            var foundedAdmin = await _mavericksBankContext.Accounts.FirstOrDefaultAsync(account => account.AccountID == key);
             if (foundedAdmin == null)
             {
                 return null;

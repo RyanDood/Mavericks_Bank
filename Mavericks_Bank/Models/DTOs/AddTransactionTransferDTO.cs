@@ -4,7 +4,7 @@
     {
         public double Amount { get; set; }
         public string Description { get; set; }
-        public long SourceAccountNumber { get; set; }
-        public long DestinationAccountNumber { get; set; }
+        public int AccountID { get; set; }
+        public int BeneficiaryID { get; set; }
     }
 }

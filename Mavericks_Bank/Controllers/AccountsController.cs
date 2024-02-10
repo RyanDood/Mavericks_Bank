@@ -35,6 +35,21 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAllAccountsStatus")]
+        [HttpGet]
+        public async Task<ActionResult<List<Accounts>>> GetAllAccountsStatus(string status)
+        {
+            try
+            {
+                return await _accountsService.GetAllAccountsStatus(status);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Route("GetAllCustomerAccounts")]
         [HttpGet]
         public async Task<ActionResult<List<Accounts>>> GetAllCustomerAccounts(int customerID)
@@ -55,13 +70,33 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Route("GetAccount")]
+        [Route("GetAllCustomerApprovedAccounts")]
         [HttpGet]
-        public async Task<ActionResult<Accounts>> GetAccount(long accountNumber)
+        public async Task<ActionResult<List<Accounts>>> GetAllCustomerApprovedAccounts(int customerID)
         {
             try
             {
-                return await _accountsService.GetAccount(accountNumber);
+                return await _accountsService.GetAllCustomerApprovedAccounts(customerID);
+            }
+            catch (NoCustomersFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Route("GetAccount")]
+        [HttpGet]
+        public async Task<ActionResult<Accounts>> GetAccount(int accountID)
+        {
+            try
+            {
+                return await _accountsService.GetAccount(accountID);
             }
             catch (NoAccountsFoundException e)
             {
@@ -72,18 +107,26 @@ namespace Mavericks_Bank.Controllers
 
         [Route("AddAccount")]
         [HttpPost]
-        public async Task<Accounts> AddAccount(AddNewAccountDTO addNewAccountDTO)
+        public async Task<ActionResult<Accounts>> AddAccount(AddNewAccountDTO addNewAccountDTO)
         {
-            return await _accountsService.AddAccount(addNewAccountDTO);
+            try
+            {
+                return await _accountsService.AddAccount(addNewAccountDTO);
+            }
+            catch (AccountNumberAlreadyExistsException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
         }
 
         [Route("UpdateAccountBalance")]
         [HttpPut]
-        public async Task<ActionResult<Accounts>> UpdateAccountBalance(long accountNumber, double balance)
+        public async Task<ActionResult<Accounts>> UpdateAccountBalance(int accountID, double balance)
         {
             try
             {
-                return await _accountsService.UpdateAccountBalance(accountNumber,balance);
+                return await _accountsService.UpdateAccountBalance(accountID, balance);
             }
             catch (NoAccountsFoundException e)
             {
@@ -94,11 +137,26 @@ namespace Mavericks_Bank.Controllers
 
         [Route("UpdateAccountStatus")]
         [HttpPut]
-        public async Task<ActionResult<Accounts>> UpdateAccountStatus(long accountNumber, string status)
+        public async Task<ActionResult<Accounts>> UpdateAccountStatus(int accountID, string status)
         {
             try
             {
-                return await _accountsService.UpdateAccountStatus(accountNumber,status);
+                return await _accountsService.UpdateAccountStatus(accountID, status);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Route("CloseAccount")]
+        [HttpPut]
+        public async Task<ActionResult<Accounts>> CloseAccount(int accountID)
+        {
+            try
+            {
+                return await _accountsService.CloseAccount(accountID);
             }
             catch (NoAccountsFoundException e)
             {
@@ -109,11 +167,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("DeleteAccount")]
         [HttpDelete]
-        public async Task<ActionResult<Accounts>> DeleteAccount(long accountNumber)
+        public async Task<ActionResult<Accounts>> DeleteAccount(int accountID)
         {
             try
             {
-                return await _accountsService.DeleteAccount(accountNumber);
+                return await _accountsService.DeleteAccount(accountID);
             }
             catch (NoAccountsFoundException e)
             {

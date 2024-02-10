@@ -11,13 +11,15 @@ namespace Mavericks_Bank.Services
         private readonly IRepository<int,AppliedLoans> _appliedLoansRepository;
         private readonly ICustomersAdminService _customersService;
         private readonly ILoansAdminService _loansService;
+        private readonly IAccountsAdminService _accountsService;
         private readonly ILogger<AppliedLoansService> _loggerAppliedLoansService;
 
-        public AppliedLoansService(IRepository<int, AppliedLoans> appliedLoansRepository, ICustomersAdminService customersService, ILoansAdminService loansService, ILogger<AppliedLoansService> loggerAppliedLoansService)
+        public AppliedLoansService(IRepository<int, AppliedLoans> appliedLoansRepository, ICustomersAdminService customersService, ILoansAdminService loansService, IAccountsAdminService accountsService, ILogger<AppliedLoansService> loggerAppliedLoansService)
         {
             _appliedLoansRepository = appliedLoansRepository;
             _customersService = customersService;
             _loansService = loansService;
+            _accountsService = accountsService;
             _loggerAppliedLoansService = loggerAppliedLoansService;
         }
 
@@ -28,6 +30,14 @@ namespace Mavericks_Bank.Services
             {
                 throw new LoanAmountExceedsException("Entered Amount Exceeds the Available Loan Amount");
             }
+
+            var allAccounts = await _accountsService.GetAllAccounts();
+            var foundedSavingsAccount = allAccounts.FirstOrDefault(account => account.CustomerID == applyLoanDTO.CustomerID && account.AccountType == "Savings" && account.Status == "Open Account Request Approved");
+            if(foundedSavingsAccount == null)
+            {
+                throw new NoAccountsFoundException("You do not have a Savings Account or Your Savings Account not yet approved, If you don't have a Savings account then create a Savings account as your amount will be dispersed in that Account");
+            }
+
             var newAppliedLoan = new ConvertToAppliedLoans(applyLoanDTO).GetAppliedLoan();
             var allAppliedLoans = await _appliedLoansRepository.GetAll();
             if(allAppliedLoans != null)
@@ -37,6 +47,7 @@ namespace Mavericks_Bank.Services
                     throw new AppliedLoanAlreadyExistsException("You have already applied for this Loan");
                 }
             }
+
             return await _appliedLoansRepository.Add(newAppliedLoan);
         }
 
@@ -84,6 +95,17 @@ namespace Mavericks_Bank.Services
             return allCustomerAppliedLoans;
         }
 
+        public async Task<List<AppliedLoans>> GetAllAppliedLoansStatus(string status)
+        {
+            var allAppliedLoans = await GetAllAppliedLoans();
+            var allPendingAppliedLoans = allAppliedLoans.Where(appliedLoan => appliedLoan.Status == status).ToList();
+            if (allPendingAppliedLoans.Count == 0)
+            {
+                throw new NoAppliedLoansFoundException($"No {status} Applied Loans Data Found");
+            }
+            return allPendingAppliedLoans;
+        }
+
         public async Task<AppliedLoans> GetAppliedLoan(int loanApplicationID)
         {
             var foundAppliedLoan = await _appliedLoansRepository.Get(loanApplicationID);
@@ -99,6 +121,16 @@ namespace Mavericks_Bank.Services
             var foundAppliedLoan = await GetAppliedLoan(loanApplicationID);
             foundAppliedLoan.Status = status;
             var updatedAppliedLoan = await _appliedLoansRepository.Update(foundAppliedLoan);
+
+            if(status == "Approved")
+            {
+                var allAccounts = await _accountsService.GetAllAccounts();
+                var foundedSavingsAccount = allAccounts.FirstOrDefault(account => account.CustomerID == foundAppliedLoan.CustomerID && account.AccountType == "Savings" && account.Status == "Open Account Request Approved");
+
+                var updatedBalance = foundedSavingsAccount.Balance + foundAppliedLoan.Amount;
+                await _accountsService.UpdateAccountBalance(foundedSavingsAccount.AccountID, updatedBalance);
+            }
+
             return updatedAppliedLoan;
         }
     }

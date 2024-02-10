@@ -56,11 +56,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("GetBeneficiary")]
         [HttpGet]
-        public async Task<ActionResult<Beneficiaries>> GetBeneficiary(long accountNumber)
+        public async Task<ActionResult<Beneficiaries>> GetBeneficiary(int beneficiaryID)
         {
             try
             {
-                return await _beneficiariesService.GetBeneficiary(accountNumber);
+                return await _beneficiariesService.GetBeneficiary(beneficiaryID);
             }
             catch (NoBeneficiariesFoundException e)
             {
@@ -86,11 +86,11 @@ namespace Mavericks_Bank.Controllers
 
         [Route("DeleteBeneficiary")]
         [HttpDelete]
-        public async Task<ActionResult<Beneficiaries>> DeleteBeneficiary(long accountNumber)
+        public async Task<ActionResult<Beneficiaries>> DeleteBeneficiary(int beneficiaryID)
         {
             try
             {
-                return await _beneficiariesService.DeleteBeneficiary(accountNumber);
+                return await _beneficiariesService.DeleteBeneficiary(beneficiaryID);
             }
             catch (NoBeneficiariesFoundException e)
             {

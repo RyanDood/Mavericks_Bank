@@ -6,12 +6,13 @@ namespace Mavericks_Bank.Models
     public class Accounts:IEquatable<Accounts>
     {
         [Key]
+        public int AccountID { get; set; }
         public long AccountNumber { get; set; }
         public double Balance { get; set; }
         public string AccountType { get; set; }
         public string Status { get; set; }
-        public string IFSC { get; set; }
-        [ForeignKey("IFSC")]
+        public int BranchID { get; set; }
+        [ForeignKey("BranchID")]
         public Branches? Branches { get; set; }
         public int CustomerID { get; set; }
         [ForeignKey("CustomerID")]
@@ -21,19 +22,21 @@ namespace Mavericks_Bank.Models
         {
 
         }
-        public Accounts(long accountNumber, double balance, string accountType, string status, string iFSC, int customerID)
+
+        public Accounts(int accountID, long accountNumber, double balance, string accountType, string status, int branchID, int customerID)
         {
+            AccountID = accountID;
             AccountNumber = accountNumber;
             Balance = balance;
             AccountType = accountType;
             Status = status;
-            IFSC = iFSC;
+            BranchID = branchID;
             CustomerID = customerID;
         }
 
         public bool Equals(Accounts? other)
         {
-            return AccountNumber == this.AccountNumber;
+            return AccountNumber == other.AccountNumber;
         }
     }
 }
