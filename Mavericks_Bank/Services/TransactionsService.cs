@@ -122,13 +122,53 @@ namespace Mavericks_Bank.Services
             {
                 throw new NoTransactionsFoundException($"No transactions found for {accountID}");
             }
+
             double allAccountDepositTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Deposit").ToList().Count();
-            double allAccountTransferTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Transfer").ToList().Count();
-            double allAccountWithdrawalTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Withdrawal").ToList().Count();
-            double ratio = allAccountDepositTransactions/(allAccountTransferTransactions + allAccountWithdrawalTransactions);
+            double allAccountWithdrawalTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Transfer" || transaction.TransactionType == "Withdrawal").ToList().Count();
+            double ratio = allAccountDepositTransactions / allAccountWithdrawalTransactions;
             var creditWorthy = ratio >= 1 ? "Yes" : "No";
-            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions{ TotalTransactions = allAccountTransactions.Count,InboundTransactions = allAccountDepositTransactions,OutboundTransactions = allAccountTransferTransactions + allAccountWithdrawalTransactions,Ratio = ratio,CreditWorthiness = creditWorthy };
+
+            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions{ TotalTransactions = allAccountTransactions.Count,InboundTransactions = allAccountDepositTransactions,OutboundTransactions = allAccountWithdrawalTransactions,Ratio = ratio,CreditWorthiness = creditWorthy };
             return inboundAndOutboundTransactions;
+        }
+
+        public async Task<AccountStatementDTO> GetAccountStatement(int accountID, DateTime fromDate, DateTime toDate)
+        {
+            var foundedAccount = await _accountservice.GetAccount(accountID);
+            var allTransactions = await GetAllTransactions();
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID && transaction.Status == "Success" && transaction.TransactionDate >= fromDate && transaction.TransactionDate <= toDate).ToList();
+            if (allAccountTransactions.Count == 0)
+            {
+                throw new NoTransactionsFoundException($"No transactions found for {accountID}");
+            }
+
+            var allAccountDepositTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Deposit").ToList();
+            var allAccountWithdrawalTransactions = allAccountTransactions.Where(transaction => transaction.AccountID == accountID && transaction.TransactionType == "Transfer" || transaction.TransactionType == "Withdrawal").ToList();
+            double totalDeposit = TotalDeposit(allAccountDepositTransactions);
+            double totalWithdrawal = TotalWithdrawal(allAccountWithdrawalTransactions);
+
+            AccountStatementDTO accountStatementDTO = new AccountStatementDTO { TotalDeposit = totalDeposit, TotalWithdrawal = totalWithdrawal, Balance = foundedAccount.Balance };
+            return accountStatementDTO;
+        }
+
+        private double TotalDeposit(List<Transactions>? allDeposits)
+        {
+            double totalDeposit = 0;
+            foreach(var deposit in allDeposits)
+            {
+                totalDeposit = totalDeposit + deposit.Amount;
+            }
+            return totalDeposit;
+        }
+
+        private double TotalWithdrawal(List<Transactions>? allWithdrawals)
+        {
+            double totalWithdrawal = 0;
+            foreach (var withdrawal in allWithdrawals)
+            {
+                totalWithdrawal = totalWithdrawal + withdrawal.Amount;
+            }
+            return totalWithdrawal;
         }
 
         public async Task<List<Transactions>> GetAllAccountTransactions(int accountID)
@@ -178,12 +218,13 @@ namespace Mavericks_Bank.Services
             {
                 throw new NoTransactionsFoundException($"No transactions found for {customerID}");
             }
+
             double allCustomerDepositTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Deposit").ToList().Count();
-            double allCustomerTransferTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Transfer").ToList().Count();
-            double allCustomerWithdrawalTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Withdrawal").ToList().Count();
-            double ratio = allCustomerDepositTransactions / (allCustomerTransferTransactions + allCustomerWithdrawalTransactions);
+            double allCustomerWithdrawalTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Transfer" || transaction.TransactionType == "Withdrawal").ToList().Count();
+            double ratio = allCustomerDepositTransactions / allCustomerWithdrawalTransactions;
             var creditWorthy = ratio >= 1 ? "Yes" : "No";
-            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions { TotalTransactions = allSuccessfullCustomerTransactions.Count, InboundTransactions = allCustomerDepositTransactions, OutboundTransactions = allCustomerTransferTransactions + allCustomerWithdrawalTransactions, Ratio = ratio, CreditWorthiness = creditWorthy };
+
+            InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions { TotalTransactions = allSuccessfullCustomerTransactions.Count, InboundTransactions = allCustomerDepositTransactions, OutboundTransactions = allCustomerWithdrawalTransactions, Ratio = ratio, CreditWorthiness = creditWorthy };
             return inboundAndOutboundTransactions;
         }
 

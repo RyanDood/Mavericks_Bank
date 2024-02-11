@@ -51,6 +51,26 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("ForgotPassword")]
+        [HttpPost]
+        public async Task<ActionResult<LoginValidationDTO>> ForgotPassword(LoginValidationDTO loginValidationDTO)
+        {
+            try
+            {
+                return await _validationService.ForgotPassword(loginValidationDTO);
+            }
+            catch (NoValidationFoundException e)
+            {
+                _loggerValidationController.LogInformation(e.Message);
+                return Unauthorized(e.Message);
+            }
+            catch (ValidationAlreadyExistsException e)
+            {
+                _loggerValidationController.LogInformation(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
         [Route("RegisterAdmin")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> RegisterAdmin(RegisterValidationAdminDTO registerValidationAdminDTO)

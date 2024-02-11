@@ -6,6 +6,8 @@ using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using System.Security.Cryptography;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
+using Validation = Mavericks_Bank.Models.Validation;
 
 namespace Mavericks_Bank.Services
 {
@@ -146,6 +148,41 @@ namespace Mavericks_Bank.Services
 
             LoginValidationDTO loginValidationDTO = new LoginValidationDTO { Email = addedValidation.Email, Password = "", UserType = addedValidation.UserType, Token = ""};
             return loginValidationDTO;
+        }
+
+        public async Task<LoginValidationDTO> ForgotPassword(LoginValidationDTO loginValidationDTO)
+        {
+            var foundedValidation = await _validationRepository.Get(loginValidationDTO.Email);
+            if (foundedValidation == null)
+            {
+                throw new NoValidationFoundException($"Email ID {loginValidationDTO.Email} not Found");
+            }
+
+            var convertedPassword = ConvertToEncryptedPassword(loginValidationDTO.Password, foundedValidation.Key);
+            var passwordMatch = IsPasswordMatches(convertedPassword, foundedValidation.Password);
+            if (passwordMatch)
+            {
+                throw new ValidationAlreadyExistsException($"Entered existing password, Enter a new Password");
+            }
+            
+            await GenerateEncryptedPassword(loginValidationDTO.Password, foundedValidation);
+
+            LoginValidationDTO loginValidation = new LoginValidationDTO { Email = foundedValidation.Email, Password = "", UserType = foundedValidation.UserType, Token = "" };
+            return loginValidation;
+        }
+
+        private async Task GenerateEncryptedPassword(string password,Validation foundedValidation)
+        {
+            HMACSHA512 hMACSHA512 = new HMACSHA512();
+            foundedValidation.Key = hMACSHA512.Key;
+            foundedValidation.Password = hMACSHA512.ComputeHash(Encoding.UTF8.GetBytes(password));
+            await UpdateValidation(foundedValidation);
+        }
+
+        private async Task UpdateValidation(Validation foundedValidation)
+        {
+            var updatedValidation = await _validationRepository.Update(foundedValidation);
+            _loggerValidationService.LogInformation($"Successfully Updated Customer Password {updatedValidation.Email}");
         }
     }
 }

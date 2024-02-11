@@ -8,6 +8,7 @@ namespace Mavericks_Bank.Interfaces
         public Task<List<Transactions>> GetAllTransactions();
         public Task<List<Transactions>> GetAllAccountTransactions(int accountID);
         public Task<InboundAndOutboundTransactions> GetAccountInboundAndOutbooundTransactions(int accountID);
+        public Task<AccountStatementDTO> GetAccountStatement(int accountID, DateTime fromDate, DateTime toDate);
         public Task<InboundAndOutboundTransactions> GetCustomerInboundAndOutbooundTransactions(int customerID);
         public Task<Transactions> GetTransaction(int transactionID);
         public Task<Transactions> DeleteTransaction(int transactionID);

@@ -120,6 +120,26 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAccountStatement")]
+        [HttpGet]
+        public async Task<ActionResult<AccountStatementDTO>> GetAccountStatement(int accountID, DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                return await _transactionsService.GetAccountStatement(accountID,fromDate,toDate);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+            catch (NoTransactionsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Route("GetTransaction")]
         [HttpGet]
         public async Task<ActionResult<Transactions>> GetTransaction(int transactionID)
