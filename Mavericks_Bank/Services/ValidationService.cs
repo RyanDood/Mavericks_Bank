@@ -20,14 +20,13 @@ namespace Mavericks_Bank.Services
         private readonly ILogger<ValidationService> _loggerValidationService;
         private readonly ITokenService _tokenService;
 
-        public ValidationService(IRepository<string, Validation> validationRepository, IRepository<int, Customers> customersRepository, IRepository<int, BankEmployees> bankEmployeesRepository, IRepository<int, Admin> adminRepository, ILogger<ValidationService> loggerValidationService, ITokenService tokenService)
+        public ValidationService(IRepository<string, Validation> validationRepository, IRepository<int, Customers> customersRepository, IRepository<int, BankEmployees> bankEmployeesRepository, IRepository<int, Admin> adminRepository, ILogger<ValidationService> loggerValidationService)
         {
             _validationRepository = validationRepository;
             _customersRepository = customersRepository;
             _bankEmployeesRepository = bankEmployeesRepository;
             _adminRepository = adminRepository;
             _loggerValidationService = loggerValidationService;
-            _tokenService = tokenService;
         }
 
         public async Task<List<Validation>> GetAllValidations()
@@ -54,7 +53,7 @@ namespace Mavericks_Bank.Services
             {
                 loginValidationDTO.Password = "";
                 loginValidationDTO.UserType = foundedValidation.UserType;
-                loginValidationDTO.Token = await _tokenService.GenerateToken(loginValidationDTO);
+                loginValidationDTO.Token = ""; //await _tokenService.GenerateToken(loginValidationDTO);
                 return loginValidationDTO;
             }
             else
@@ -62,6 +61,7 @@ namespace Mavericks_Bank.Services
                 throw new NoValidationFoundException($"Incorrect Password");
             }
         }
+
         private byte[] ConvertToEncryptedPassword(string password, byte[] key)
         {
             HMACSHA512 hmac = new HMACSHA512(key);

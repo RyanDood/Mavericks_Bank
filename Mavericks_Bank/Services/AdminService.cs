@@ -25,11 +25,7 @@ namespace Mavericks_Bank.Services
             {
                 throw new NoAdminFoundException($"Admin ID {adminID} not found");
             }
-            var deletedValidation = await _validationRepository.Delete(deletedAdmin.Email);
-            if(deletedValidation == null)
-            {
-                throw new NoValidationFoundException($"Employee Validation {deletedAdmin.Email} not found");
-            }
+            await _validationRepository.Delete(deletedAdmin.Email);
             return deletedAdmin;
         }
 

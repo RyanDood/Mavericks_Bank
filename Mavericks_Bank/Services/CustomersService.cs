@@ -25,11 +25,7 @@ namespace Mavericks_Bank.Services
             {
                 throw new NoCustomersFoundException($"Customer ID {customerID} not found");
             }
-            var deletedValidation = await _validationRepository.Delete(deletedCustomer.Email);
-            if(deletedValidation == null)
-            {
-                throw new NoValidationFoundException($"Customer Validation {deletedCustomer.Email} not found");
-            }
+            await _validationRepository.Delete(deletedCustomer.Email);
             _loggerCustomersService.LogInformation($"Successfully Deleted the Customer : {deletedCustomer.CustomerID}");
             return deletedCustomer;
         }

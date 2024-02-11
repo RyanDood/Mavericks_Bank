@@ -25,11 +25,7 @@ namespace Mavericks_Bank.Services
             {
                 throw new NoBankEmployeesFoundException($"Employee ID {employeeID} not found");
             }
-            var deletedValidation = await _validationRepository.Delete(deletedBankEmployee.Email);
-            if (deletedValidation == null)
-            {
-                throw new NoValidationFoundException($"Employee Validation {deletedBankEmployee.Email} not found");
-            }
+            await _validationRepository.Delete(deletedBankEmployee.Email);
             _loggerBankEmployeesService.LogInformation($"Successfully Deleted the Customer : {deletedBankEmployee.EmployeeID}");
             return deletedBankEmployee;
         }
