@@ -27,15 +27,16 @@ namespace Mavericks_Bank.Services
             var foundedAccount = allAccounts?.FirstOrDefault(account => account.AccountType == addNewAccountDTO.AccountType && account.CustomerID == addNewAccountDTO.CustomerID);
             if (foundedAccount != null)
             {
-                throw new AccountNumberAlreadyExistsException($"Account Type {addNewAccountDTO.AccountType} already exists");
+                throw new AccountAlreadyExistsException($"Account Type {addNewAccountDTO.AccountType} already exists");
             }
+            restart:
             Accounts newAccount = new ConvertToAccounts(addNewAccountDTO).GetAccount();
             if (allAccounts != null)
             {
                 
                 if (allAccounts.Contains(newAccount))
                 {
-                    throw new AccountNumberAlreadyExistsException($"Account Number {newAccount.AccountNumber} already exists");
+                    goto restart;
                 }
             }
             return await _accountsRepository.Add(newAccount);

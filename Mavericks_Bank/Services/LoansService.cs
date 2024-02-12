@@ -9,13 +9,11 @@ namespace Mavericks_Bank.Services
     public class LoansService : ILoansAdminService
     {
         private readonly IRepository<int,Loans> _loansRepository;
-        private readonly ICustomersAdminService _customersService;
         private readonly ILogger<LoansService> _loggerLoanService;
 
-        public LoansService(IRepository<int, Loans> loansRepository, ICustomersAdminService customersService, ILogger<LoansService> loggerLoanService)
+        public LoansService(IRepository<int, Loans> loansRepository, ILogger<LoansService> loggerLoanService)
         {
             _loansRepository = loansRepository;
-            _customersService = customersService;
             _loggerLoanService = loggerLoanService;
         }
 

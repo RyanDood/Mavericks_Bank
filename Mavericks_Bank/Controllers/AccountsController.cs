@@ -113,7 +113,7 @@ namespace Mavericks_Bank.Controllers
             {
                 return await _accountsService.AddAccount(addNewAccountDTO);
             }
-            catch (AccountNumberAlreadyExistsException e)
+            catch (AccountAlreadyExistsException e)
             {
                 _loggerAccountsController.LogInformation(e.Message);
                 return BadRequest(e.Message);

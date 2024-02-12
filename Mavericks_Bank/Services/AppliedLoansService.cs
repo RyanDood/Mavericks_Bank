@@ -32,10 +32,14 @@ namespace Mavericks_Bank.Services
             }
 
             var allAccounts = await _accountsService.GetAllAccounts();
-            var foundedSavingsAccount = allAccounts.FirstOrDefault(account => account.CustomerID == applyLoanDTO.CustomerID && account.AccountType == "Savings" && account.Status == "Open Account Request Approved");
+            var foundedSavingsAccount = allAccounts.FirstOrDefault(account => account.CustomerID == applyLoanDTO.CustomerID && account.AccountType == "Savings");
             if(foundedSavingsAccount == null)
             {
-                throw new NoAccountsFoundException("You do not have a Savings Account or Your Savings Account not yet approved, If you don't have a Savings account then create a Savings account as your amount will be dispersed in that Account");
+                throw new NoAccountsFoundException("You do not have a Savings Account, Create a Savings account as your amount will be dispersed in that Account");
+            }
+            if (foundedSavingsAccount.Status != "Open Account Request Approved")
+            {
+                throw new NoAccountsFoundException("Your Savings Account not yet approved");
             }
 
             var newAppliedLoan = new ConvertToAppliedLoans(applyLoanDTO).GetAppliedLoan();

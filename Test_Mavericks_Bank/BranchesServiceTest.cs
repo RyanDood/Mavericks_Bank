@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace Test_Mavericks_Bank
 {
+    [Order(6)]
     public class BranchesServiceTest
     {
         MavericksBankContext mavericksBankContext;

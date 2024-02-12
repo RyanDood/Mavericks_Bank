@@ -28,6 +28,10 @@ namespace Mavericks_Bank.Services
         public async Task<Transactions> AddTransactionDeposit(AddTransactionDepositDTO addTransactionDepositDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionDepositDTO.AccountID);
+            if (foundedAccount.Status != "Open Account Request Approved")
+            {
+                throw new NoAccountsFoundException("Your Account is currently Inactive");
+            }
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionDepositDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);
@@ -42,6 +46,11 @@ namespace Mavericks_Bank.Services
         public async Task<Transactions> AddTransactionTransfer(AddTransactionTransferDTO addTransactionTransferDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionTransferDTO.AccountID);
+            if (foundedAccount.Status != "Open Account Request Approved")
+            {
+                throw new NoAccountsFoundException("Your Account is currently Inactive");
+            }
+
             await _beneficiaryService.GetBeneficiary(addTransactionTransferDTO.BeneficiaryID);
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionTransferDTO).GetTransaction();
@@ -63,6 +72,10 @@ namespace Mavericks_Bank.Services
         public async Task<Transactions> AddTransactionTransferBeneficiary(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionTransferBeneficiaryDTO.AccountID);
+            if(foundedAccount.Status != "Open Account Request Approved")
+            {
+                throw new NoAccountsFoundException("Your Account is currently Inactive");
+            }
 
             Beneficiaries newBeneficiary = new ConvertToBeneficiaries(addTransactionTransferBeneficiaryDTO).GetBeneficiary();
             var addedBeneficiary = await _beneficiaryService.AddBeneficiary(newBeneficiary);
@@ -86,6 +99,10 @@ namespace Mavericks_Bank.Services
         public async Task<Transactions> AddTransactionWithdrawal(AddTransactionWithdrawalDTO addTransactionWithdrawalDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionWithdrawalDTO.AccountID);
+            if (foundedAccount.Status != "Open Account Request Approved")
+            {
+                throw new NoAccountsFoundException("Your Account is currently Inactive");
+            }
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionWithdrawalDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);

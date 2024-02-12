@@ -8,19 +8,19 @@ namespace Mavericks_Bank.Repositories
     public class BeneficiariesRepository : IRepository<int, Beneficiaries>
     {
         private readonly MavericksBankContext _mavericksBankContext;
-        private readonly ILogger<BranchesRepository> _loggerBranchesRepository;
+        private readonly ILogger<BeneficiariesRepository> _loggerBeneficiariesRepository;
 
-        public BeneficiariesRepository(MavericksBankContext mavericksBankContext, ILogger<BranchesRepository> loggerBranchesRepository)
+        public BeneficiariesRepository(MavericksBankContext mavericksBankContext, ILogger<BeneficiariesRepository> loggerBeneficiariesRepository)
         {
             _mavericksBankContext = mavericksBankContext;
-            _loggerBranchesRepository = loggerBranchesRepository;
+            _loggerBeneficiariesRepository = loggerBeneficiariesRepository;
         }
 
         public async Task<Beneficiaries> Add(Beneficiaries item)
         {
             _mavericksBankContext.Beneficiaries.Add(item);
             await _mavericksBankContext.SaveChangesAsync();
-            _loggerBranchesRepository.LogInformation($"Added New Beneficiary : {item.BeneficiaryID}");
+            _loggerBeneficiariesRepository.LogInformation($"Added New Beneficiary : {item.BeneficiaryID}");
             return item;
         }
 
