@@ -51,6 +51,7 @@ namespace Mavericks_Bank
                     });
             });
 
+            #region Authentication
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                   .AddJwtBearer(options =>
                   {
@@ -67,7 +68,9 @@ namespace Mavericks_Bank
             {
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnectionString"));
             });
+            #endregion
 
+            #region Dependecy Injection
             builder.Services.AddScoped<IRepository<string,Validation>,ValidationRepository>();
             builder.Services.AddScoped<IRepository<int, Customers>, CustomersRepository>();
             builder.Services.AddScoped<IRepository<int, BankEmployees>, BankEmployeesRepository>();
@@ -92,6 +95,7 @@ namespace Mavericks_Bank
             builder.Services.AddScoped<IBeneficiariesAdminService, BeneficiariesService>();
             builder.Services.AddScoped<ITransactionsAdminService, TransactionsService>();
             builder.Services.AddScoped<IAppliedLoansAdminService, AppliedLoansService>();
+            #endregion
 
             var app = builder.Build();
 

@@ -62,6 +62,7 @@ namespace Mavericks_Bank.Services
             foundedCustomer.PANNumber = updateCustomerDTO.PANNumber;
             foundedCustomer.Gender = updateCustomerDTO.Gender;
             var updatedCustomer = await _customersRepository.Update(foundedCustomer);
+            _loggerCustomersService.LogInformation($"Successfully Updated the Customer Details: {foundedCustomer.CustomerID}");
             return updatedCustomer;
         }
     }

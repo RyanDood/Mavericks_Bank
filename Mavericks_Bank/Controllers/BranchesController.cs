@@ -3,6 +3,7 @@ using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using Mavericks_Bank.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace Mavericks_Bank.Controllers
             _loggerBranchesController = loggerBranchesController;
         }
 
+        [Authorize]
         [Route("GetAllBranches")]
         [HttpGet]
         public async Task<ActionResult<List<Branches>>> GetAllBranches()
@@ -36,6 +38,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetBranch")]
         [HttpGet]
         public async Task<ActionResult<Branches>> GetBranch(int branchID)
@@ -51,6 +54,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("AddBranch")]
         [HttpPost]
         public async Task<ActionResult<Branches>> AddBranch(Branches branch)
@@ -66,6 +70,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("UpdateBranchName")]
         [HttpPut]
         public async Task<ActionResult<Branches>> UpdateBranchName(UpdateBranchNameDTO updateBranchNameDTO)
@@ -86,6 +91,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteBranch")]
         [HttpDelete]
         public async Task<ActionResult<Branches>> DeleteBranch(int branchID)

@@ -35,20 +35,22 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Accounts.Remove(foundedAccount);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerAccountsRepository.LogInformation($"Deleted Account : {foundedAccount.AccountID}");
                 return foundedAccount;
             }
         }
 
         public async Task<Accounts?> Get(int key)
         {
-            var foundedAdmin = await _mavericksBankContext.Accounts.FirstOrDefaultAsync(account => account.AccountID == key);
-            if (foundedAdmin == null)
+            var foundedAccount = await _mavericksBankContext.Accounts.FirstOrDefaultAsync(account => account.AccountID == key);
+            if (foundedAccount == null)
             {
                 return null;
             }
             else
             {
-                return foundedAdmin;
+                _loggerAccountsRepository.LogInformation($"Founded Account : {foundedAccount.AccountID}");
+                return foundedAccount;
             }
         }
 
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerAccountsRepository.LogInformation("All Accounts Returned");
                 return allAccounts;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Accounts>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerAccountsRepository.LogInformation($"Updated Account : {item.AccountID}");
             return item;
         }
     }

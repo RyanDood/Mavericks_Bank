@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerAppliedLoansController = loggerAppliedLoansController;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllAppliedLoans")]
         [HttpGet]
         public async Task<ActionResult<List<AppliedLoans>>> GetAllAppliedLoans()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllAppliedLoansStatus")]
         [HttpGet]
         public async Task<ActionResult<List<AppliedLoans>>> GetAllAppliedLoansStatus(string status)
@@ -50,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllCustomerAppliedLoans")]
         [HttpGet]
         public async Task<ActionResult<List<AppliedLoans>>> GetAllCustomerAppliedLoans(int customerID)
@@ -70,6 +74,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAllCustomerAvailedLoans")]
         [HttpGet]
         public async Task<ActionResult<List<AppliedLoans>>> GetAllCustomerAvailedLoans(int customerID)
@@ -90,6 +95,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAppliedLoan")]
         [HttpGet]
         public async Task<ActionResult<AppliedLoans>> GetAppliedLoan(int loanApplicationID)
@@ -105,6 +111,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("AddAppliedLoan")]
         [HttpPost]
         public async Task<ActionResult<AppliedLoans>> AddAppliedLoan(ApplyLoanDTO applyLoanDTO)
@@ -135,6 +142,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("UpdateAppliedLoanStatus")]
         [HttpPut]
         public async Task<ActionResult<AppliedLoans>> UpdateAppliedLoanStatus(int loanApplicationID, string status)
@@ -155,6 +163,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("DeleteAppliedLoan")]
         [HttpDelete]
         public async Task<ActionResult<AppliedLoans>> DeleteAppliedLoan(int loanApplicationID)

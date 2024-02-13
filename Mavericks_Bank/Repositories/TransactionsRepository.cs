@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Transactions.Remove(foundedTransaction);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerTransactionsRepository.LogInformation($"Deleted Transaction : {foundedTransaction.TransactionID}");
                 return foundedTransaction;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerTransactionsRepository.LogInformation($"Founded Transaction : {foundedTransaction.TransactionID}");
                 return foundedTransaction;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerTransactionsRepository.LogInformation("All Transactions Returned");
                 return allTransactions;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Transactions>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerTransactionsRepository.LogInformation($"Updated Transaction : {item.TransactionID}");
             return item;
         }
     }

@@ -21,7 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerBanksController = loggerBanksController;
         }
 
-        //[Authorize]
+        [Authorize]
         [Route("GetAllBanks")]
         [HttpGet]
         public async Task<ActionResult<List<Banks>>> GetAllBanks()
@@ -37,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetBank")]
         [HttpGet]
         public async Task<ActionResult<Banks>> GetBank(int bankID)
@@ -52,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("AddBank")]
         [HttpPost]
         public async Task<ActionResult<Banks>> AddBank(Banks bank)
@@ -67,7 +69,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Route("UpdateBankName")]
         [HttpPut]
         public async Task<ActionResult<Banks>> UpdateBankName(UpdateBankNameDTO updateBankNameDTO)
@@ -88,6 +90,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteBank")]
         [HttpDelete]
         public async Task<ActionResult<Banks>> DeleteBank(int bankID)

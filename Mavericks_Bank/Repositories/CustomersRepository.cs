@@ -29,12 +29,14 @@ namespace Mavericks_Bank.Repositories
             var foundedCustomer = await Get(key);
             if (foundedCustomer == null)
             {
+                _loggerCustomersRepository.LogInformation("Customer Not Found");
                 return null;
             }
             else
             {
                 _mavericksBankContext.Customers.Remove(foundedCustomer);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerCustomersRepository.LogInformation($"Deleted Customer : {foundedCustomer.CustomerID}");
                 return foundedCustomer;
             }
         }
@@ -44,10 +46,12 @@ namespace Mavericks_Bank.Repositories
             var foundedCustomer = await _mavericksBankContext.Customers.FirstOrDefaultAsync(customer => customer.CustomerID == key);
             if (foundedCustomer == null)
             {
+                _loggerCustomersRepository.LogInformation("Customer Not Found");
                 return null;
             }
             else
             {
+                _loggerCustomersRepository.LogInformation($"Founded Customer : {foundedCustomer.CustomerID}");
                 return foundedCustomer;
             }
         }
@@ -57,10 +61,12 @@ namespace Mavericks_Bank.Repositories
             var allCustomers = await _mavericksBankContext.Customers.ToListAsync();
             if (allCustomers.Count == 0)
             {
+                _loggerCustomersRepository.LogInformation("No Customers Returned");
                 return null;
             }
             else
             {
+                _loggerCustomersRepository.LogInformation("All Customers Returned");
                 return allCustomers;
             }
         }
@@ -69,6 +75,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Customers>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerCustomersRepository.LogInformation($"Updated Customer : {item.CustomerID}");
             return item;
         }
     }

@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Beneficiaries.Remove(foundedBeneficiary);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerBeneficiariesRepository.LogInformation($"Deleted Beneficiary : {foundedBeneficiary.BeneficiaryID}");
                 return foundedBeneficiary;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBeneficiariesRepository.LogInformation($"Founded Beneficiary : {foundedBeneficiary.BeneficiaryID}");
                 return foundedBeneficiary;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBeneficiariesRepository.LogInformation("All Beneficiaries Returned");
                 return allBeneficiaries;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Beneficiaries>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerBeneficiariesRepository.LogInformation($"Updated Beneficiary : {item.BeneficiaryID}");
             return item;
         }
     }

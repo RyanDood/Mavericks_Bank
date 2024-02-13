@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerTransactionsController = loggerTransactionsController;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllTransactions")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetAllTransactions()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAllCustomerTransactions")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetAllCustomerTransactions(int customerID)
@@ -60,6 +63,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllAccountTransactions")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetAllAccountTransactions(int accountID)
@@ -80,6 +84,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("AccountFinancialPerformanceReport")]
         [HttpGet]
         public async Task<ActionResult<InboundAndOutboundTransactions>> GetAccountInboundAndOutbooundTransactions(int accountID)
@@ -100,7 +105,8 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Route("CustomerFinancialPerformanceReport")]
+        [Authorize]
+        [Route("CustomerRegulatoryReport")]
         [HttpGet]
         public async Task<ActionResult<InboundAndOutboundTransactions>> GetCustomerInboundAndOutbooundTransactions(int customerID)
         {
@@ -120,6 +126,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAccountStatement")]
         [HttpGet]
         public async Task<ActionResult<AccountStatementDTO>> GetAccountStatement(int accountID, DateTime fromDate, DateTime toDate)
@@ -140,6 +147,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetTransaction")]
         [HttpGet]
         public async Task<ActionResult<Transactions>> GetTransaction(int transactionID)
@@ -155,6 +163,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetRecentTenAccountTransactions")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetLastTenAccountTransactions(int accountID)
@@ -175,6 +184,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetLastMonthAccountTransactions")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetLastMonthAccountTransactions(int accountID)
@@ -195,6 +205,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetTransactionsBetweenTwoDates")]
         [HttpGet]
         public async Task<ActionResult<List<Transactions>>> GetTransactionsBetweenTwoDates(int accountID, DateTime fromDate, DateTime toDate)
@@ -215,6 +226,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("Deposit")]
         [HttpPost]
         public async Task<ActionResult<Transactions>> AddTransactionDeposit(AddTransactionDepositDTO addTransactionDepositDTO)
@@ -235,6 +247,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("Withdrawal")]
         [HttpPost]
         public async Task<ActionResult<Transactions>> AddTransactionWithdrawal(AddTransactionWithdrawalDTO addTransactionWithdrawalDTO)
@@ -255,6 +268,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("Transfer")]
         [HttpPost]
         public async Task<ActionResult<Transactions>> AddTransactionTransfer(AddTransactionTransferDTO addTransactionTransferDTO)
@@ -280,6 +294,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("TransferWithBeneficiary")]
         [HttpPost]
         public async Task<ActionResult<Transactions>> AddTransactionTransferBeneficiary(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO)
@@ -305,6 +320,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("UpdateTransactionStatus")]
         [HttpPut]
         public async Task<ActionResult<Transactions>> UpdateTransactionStatus(int transactionID, string status)
@@ -320,6 +336,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("DeleteTransaction")]
         [HttpDelete]
         public async Task<ActionResult<Transactions>> DeleteTransaction(int transactionID)

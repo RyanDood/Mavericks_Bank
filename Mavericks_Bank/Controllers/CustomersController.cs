@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerCustomersController = loggerCustomersController;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllCustomers")]
         [HttpGet]
         public async Task<ActionResult<List<Customers>>> GetAllCustomers()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetCustomer")]
         [HttpGet]
         public async Task<ActionResult<Customers>> GetCustomer(int customerID)
@@ -50,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("UpdateCustomerDetails")]
         [HttpPut]
         public async Task<ActionResult<Customers>> UpdateCustomerDetails(UpdateCustomerDTO updateCustomerDTO)
@@ -65,6 +69,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("DeleteCustomer")]
         [HttpDelete]
         public async Task<ActionResult<Customers>> DeleteCustomer(int customerID)

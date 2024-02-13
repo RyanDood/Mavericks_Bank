@@ -126,6 +126,10 @@ namespace Mavericks_Bank.Services
         public async Task<Accounts> CloseAccount(int accountID)
         {
             var foundedAccount = await GetAccount(accountID);
+            if(foundedAccount.Balance != 0)
+            {
+                throw new NoAccountsFoundException($"Withdraw your Balance amount {foundedAccount.Balance}");
+            }
             foundedAccount.Status = "Close Account Request Pending";
             var updatedAccount = await _accountsRepository.Update(foundedAccount);
             return updatedAccount;

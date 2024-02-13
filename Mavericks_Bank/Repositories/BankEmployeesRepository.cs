@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.BankEmployees.Remove(foundedEmployee);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerBankEmployeesRepository.LogInformation($"Deleted Employee : {foundedEmployee.EmployeeID}");
                 return foundedEmployee;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBankEmployeesRepository.LogInformation($"Founded Employee : {foundedEmployee.EmployeeID}");
                 return foundedEmployee;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBankEmployeesRepository.LogInformation("All Employees Returned ");
                 return allEmployees;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<BankEmployees>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerBankEmployeesRepository.LogInformation($"Updated Employee : {item.EmployeeID}");
             return item;
         }
     }

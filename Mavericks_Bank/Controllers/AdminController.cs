@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerAdminController = loggerAdminController;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("GetAllAdmins")]
         [HttpGet]
         public async Task<ActionResult<List<Admin>>> GetAllAdmins()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("GetAdmin")]
         [HttpGet]
         public async Task<ActionResult<Admin>> GetAdmin(int adminID)
@@ -50,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("UpdateAdminName")]
         [HttpPut]
         public async Task<ActionResult<Admin>> UpdateAdminName(UpdateAdminNameDTO updateAdminNameDTO)
@@ -65,19 +69,20 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Route("DeleteAdmin")]
-        [HttpDelete]
-        public async Task<ActionResult<Admin>> DeleteAdmin(int adminID)
-        {
-            try
-            {
-                return await _adminService.DeleteAdmin(adminID);
-            }
-            catch (NoAdminFoundException e)
-            {
-                _loggerAdminController.LogInformation(e.Message);
-                return NotFound(e.Message);
-            }
-        }
+        //[Authorize(Roles = "Admin")]
+        //[Route("DeleteAdmin")]
+        //[HttpDelete]
+        //public async Task<ActionResult<Admin>> DeleteAdmin(int adminID)
+        //{
+        //    try
+        //    {
+        //        return await _adminService.DeleteAdmin(adminID);
+        //    }
+        //    catch (NoAdminFoundException e)
+        //    {
+        //        _loggerAdminController.LogInformation(e.Message);
+        //        return NotFound(e.Message);
+        //    }
+        //}
     }
 }

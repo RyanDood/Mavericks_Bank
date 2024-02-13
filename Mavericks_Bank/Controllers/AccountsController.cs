@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerAccountsController = loggerAccountsController;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllAccounts")]
         [HttpGet]
         public async Task<ActionResult<List<Accounts>>> GetAllAccounts()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllAccountsStatus")]
         [HttpGet]
         public async Task<ActionResult<List<Accounts>>> GetAllAccountsStatus(string status)
@@ -50,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAllCustomerAccounts")]
         [HttpGet]
         public async Task<ActionResult<List<Accounts>>> GetAllCustomerAccounts(int customerID)
@@ -70,6 +74,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAllCustomerApprovedAccounts")]
         [HttpGet]
         public async Task<ActionResult<List<Accounts>>> GetAllCustomerApprovedAccounts(int customerID)
@@ -90,6 +95,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAccount")]
         [HttpGet]
         public async Task<ActionResult<Accounts>> GetAccount(int accountID)
@@ -105,6 +111,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("AddAccount")]
         [HttpPost]
         public async Task<ActionResult<Accounts>> AddAccount(AddNewAccountDTO addNewAccountDTO)
@@ -120,21 +127,23 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Route("UpdateAccountBalance")]
-        [HttpPut]
-        public async Task<ActionResult<Accounts>> UpdateAccountBalance(int accountID, double balance)
-        {
-            try
-            {
-                return await _accountsService.UpdateAccountBalance(accountID, balance);
-            }
-            catch (NoAccountsFoundException e)
-            {
-                _loggerAccountsController.LogInformation(e.Message);
-                return NotFound(e.Message);
-            }
-        }
+        //[Authorize(Roles = "Admin,Employee")]
+        //[Route("UpdateAccountBalance")]
+        //[HttpPut]
+        //public async Task<ActionResult<Accounts>> UpdateAccountBalance(int accountID, double balance)
+        //{
+        //    try
+        //    {
+        //        return await _accountsService.UpdateAccountBalance(accountID, balance);
+        //    }
+        //    catch (NoAccountsFoundException e)
+        //    {
+        //        _loggerAccountsController.LogInformation(e.Message);
+        //        return NotFound(e.Message);
+        //    }
+        //}
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("UpdateAccountStatus")]
         [HttpPut]
         public async Task<ActionResult<Accounts>> UpdateAccountStatus(int accountID, string status)
@@ -150,6 +159,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("CloseAccount")]
         [HttpPut]
         public async Task<ActionResult<Accounts>> CloseAccount(int accountID)
@@ -165,6 +175,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("DeleteAccount")]
         [HttpDelete]
         public async Task<ActionResult<Accounts>> DeleteAccount(int accountID)

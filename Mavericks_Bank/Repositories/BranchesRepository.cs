@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Branches.Remove(foundedBranch);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerBranchesRepository.LogInformation($"Deteled Branch : {foundedBranch.BranchID}");
                 return foundedBranch;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBranchesRepository.LogInformation($"Founded Branch : {foundedBranch.BranchID}");
                 return foundedBranch;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerBranchesRepository.LogInformation($"All Branches Returned");
                 return allBranches;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Branches>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerBranchesRepository.LogInformation($"Updated Branch : {item.BranchID}");
             return item;
         }
     }

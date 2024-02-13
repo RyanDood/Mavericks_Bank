@@ -25,6 +25,12 @@ namespace Mavericks_Bank.Services
             _loggerTransactionsService = loggerTransactionsService;
         }
 
+        /// <summary>
+        /// Initiating Deposit Transaction for Customers
+        /// </summary>
+        /// <param name="addTransactionDepositDTO">Object of addTransactionDepositDTO</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoAccountsFoundException"></exception>
         public async Task<Transactions> AddTransactionDeposit(AddTransactionDepositDTO addTransactionDepositDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionDepositDTO.AccountID);
@@ -43,6 +49,14 @@ namespace Mavericks_Bank.Services
             return addedTransaction;
         }
 
+        /// <summary>
+        /// Initiating Transfer Transaction for Customers
+        /// </summary>
+        /// <param name="addTransactionTransferDTO">Object of addTransactionTransferDTO</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoAccountsFoundException"></exception>
+        /// <exception cref="NoBeneficiariesFoundException"></exception>
+        /// <exception cref="TransactionAmountExceedsException"></exception>
         public async Task<Transactions> AddTransactionTransfer(AddTransactionTransferDTO addTransactionTransferDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionTransferDTO.AccountID);
@@ -51,7 +65,12 @@ namespace Mavericks_Bank.Services
                 throw new NoAccountsFoundException("Your Account is currently Inactive");
             }
 
-            await _beneficiaryService.GetBeneficiary(addTransactionTransferDTO.BeneficiaryID);
+            var allCustomerBeneficiaries = await _beneficiaryService.GetAllCustomerBeneficiaries(foundedAccount.CustomerID);
+            var foundedBeneficiary = allCustomerBeneficiaries.FirstOrDefault(beneficiary => beneficiary.BeneficiaryID == addTransactionTransferDTO.BeneficiaryID);
+            if(foundedBeneficiary == null)
+            {
+                throw new NoBeneficiariesFoundException("Entered Invalid Beneficiary ID");
+            }
 
             Transactions newTransaction = new ConvertToTransactions(addTransactionTransferDTO).GetTransaction();
             var addedTransaction = await _transactionsRepository.Add(newTransaction);
@@ -69,6 +88,14 @@ namespace Mavericks_Bank.Services
             return addedTransaction;
         }
 
+        /// <summary>
+        /// Initiating Transfer Transaction with Beneficiary Details for Customers
+        /// </summary>
+        /// <param name="addTransactionTransferBeneficiaryDTO">Object of addTransactionTransferBeneficiaryDTO</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoAccountsFoundException"></exception>
+        /// <exception cref="BeneficiaryAlreadyExistsException"></exception>
+        /// <exception cref="TransactionAmountExceedsException"></exception>
         public async Task<Transactions> AddTransactionTransferBeneficiary(AddTransactionTransferBeneficiaryDTO addTransactionTransferBeneficiaryDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionTransferBeneficiaryDTO.AccountID);
@@ -96,6 +123,13 @@ namespace Mavericks_Bank.Services
             return addedTransaction;
         }
 
+        /// <summary>
+        /// Initiating Withdrawal Transaction for Customers
+        /// </summary>
+        /// <param name="addTransactionWithdrawalDTO">Object of addTransactionWithdrawalDTO</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoAccountsFoundException"></exception>
+        /// <exception cref="TransactionAmountExceedsException"></exception>
         public async Task<Transactions> AddTransactionWithdrawal(AddTransactionWithdrawalDTO addTransactionWithdrawalDTO)
         {
             var foundedAccount = await _accountservice.GetAccount(addTransactionWithdrawalDTO.AccountID);
@@ -120,6 +154,12 @@ namespace Mavericks_Bank.Services
             return addedTransaction;
         }
 
+        /// <summary>
+        /// Deleting a made Transaction from Database
+        /// </summary>
+        /// <param name="transactionID">transactionID as int</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoTransactionsFoundException"></exception>
         public async Task<Transactions> DeleteTransaction(int transactionID)
         {
             var deletedTransaction = await _transactionsRepository.Delete(transactionID);
@@ -130,6 +170,12 @@ namespace Mavericks_Bank.Services
             return deletedTransaction;
         }
 
+        /// <summary>
+        /// Getting the amount of inbound and outbound transactions done in each account
+        /// </summary>
+        /// <param name="accountID">accountID as int</param>
+        /// <returns>Async Transactions object</returns>
+        /// <exception cref="NoTransactionsFoundException"></exception>
         public async Task<InboundAndOutboundTransactions> GetAccountInboundAndOutbooundTransactions(int accountID)
         {
             await _accountservice.GetAccount(accountID);

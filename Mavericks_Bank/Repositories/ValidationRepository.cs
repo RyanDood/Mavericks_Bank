@@ -29,6 +29,7 @@ namespace Mavericks_Bank.Repositories
             var foundedValidation = await Get(key);
             if (foundedValidation == null)
             {
+                _loggerValidationRepository.LogInformation($"Validation Not Found");
                 return null;
             }
             else
@@ -45,10 +46,12 @@ namespace Mavericks_Bank.Repositories
             var foundedValidation = await _mavericksBankContext.Validation.FirstOrDefaultAsync(validation => validation.Email == key);
             if (foundedValidation == null)
             {
+                _loggerValidationRepository.LogInformation("Validation Not Found");
                 return null;
             }
             else
             {
+                _loggerValidationRepository.LogInformation($"Founded Validation : {foundedValidation.Email}");
                 return foundedValidation;
             }
         }
@@ -58,10 +61,12 @@ namespace Mavericks_Bank.Repositories
             var allValidations = await _mavericksBankContext.Validation.ToListAsync();
             if(allValidations.Count == 0) 
             {
+                _loggerValidationRepository.LogInformation("No Validations Returned");
                 return null;
             }
             else
             {
+                _loggerValidationRepository.LogInformation("All Validations Returned");
                 return allValidations;
             }
         }
@@ -70,6 +75,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Validation>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerValidationRepository.LogInformation($"Updated Validation : {item.Email}");
             return item;
         }
     }

@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Admin.Remove(foundedAdmin);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerAdminRepository.LogInformation($"Deleted Admin : {foundedAdmin.AdminID}");
                 return foundedAdmin;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerAdminRepository.LogInformation($"Founded Admin : {foundedAdmin.AdminID}");
                 return foundedAdmin;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerAdminRepository.LogInformation("All Admins Returned");
                 return allAdmins;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<Admin>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerAdminRepository.LogInformation($"Updated Admin : {item.AdminID}");
             return item;
         }
     }

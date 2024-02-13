@@ -3,6 +3,7 @@ using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using Mavericks_Bank.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace Mavericks_Bank.Controllers
             _loggerValidationController = loggerValidationController;
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("GetAllValidations")]
         [HttpGet]
         public async Task<ActionResult<List<Validation>>> GetAllValidations()
@@ -36,6 +38,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        
         [Route("Login")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> Login(LoginValidationDTO loginValidationDTO)
@@ -50,7 +53,8 @@ namespace Mavericks_Bank.Controllers
                 return Unauthorized(e.Message);
             }
         }
-
+        
+        
         [Route("ForgotPassword")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> ForgotPassword(LoginValidationDTO loginValidationDTO)
@@ -71,6 +75,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        
         [Route("RegisterAdmin")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> RegisterAdmin(RegisterValidationAdminDTO registerValidationAdminDTO)
@@ -86,6 +91,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        
         [Route("RegisterBankEmployees")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> RegisterBankEmployees(RegisterValidationBankEmployees registerValidationBankEmployees)
@@ -101,6 +107,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        
         [Route("RegisterCustomers")]
         [HttpPost]
         public async Task<ActionResult<LoginValidationDTO>> RegisterCustomers(RegisterValidationCustomersDTO registerValidationCustomersDTO)

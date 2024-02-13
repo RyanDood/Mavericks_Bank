@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace Mavericks_Bank.Controllers
             _loggerLoansController = loggerLoansController;
         }
 
+        [Authorize]
         [Route("GetAllLoans")]
         [HttpGet]
         public async Task<ActionResult<List<Loans>>> GetAllLoans()
@@ -35,6 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetLoan")]
         [HttpGet]
         public async Task<ActionResult<Loans>> GetLoan(int loanID)
@@ -50,6 +53,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("AddLoan")]
         [HttpPost]
         public async Task<Loans> AddLoan(Loans loan)
@@ -57,6 +61,7 @@ namespace Mavericks_Bank.Controllers
             return await _loanService.AddLoan(loan);
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("UpdateLoanDetails")]
         [HttpPut]
         public async Task<ActionResult<Loans>> UpdateLoanDetails(Loans loan)
@@ -72,6 +77,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("DeleteLoan")]
         [HttpDelete]
         public async Task<ActionResult<Loans>> DeleteLoan(int loanID)

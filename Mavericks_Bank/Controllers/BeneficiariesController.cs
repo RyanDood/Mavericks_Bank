@@ -1,6 +1,7 @@
 ﻿using Mavericks_Bank.Exceptions;
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@ namespace Mavericks_Bank.Controllers
             _loggerBeneficiariesController = loggerBeneficiariesController;
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetAllBeneficiaries")]
         [HttpGet]
         public async Task<ActionResult<List<Beneficiaries>>> GetAllBeneficiaries()
@@ -34,6 +36,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("GetAllCustomerBeneficiaries")]
         [HttpGet]
         public async Task<ActionResult<List<Beneficiaries>>> GetAllCustomerBeneficiaries(int customerID)
@@ -54,6 +57,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [Route("GetBeneficiary")]
         [HttpGet]
         public async Task<ActionResult<Beneficiaries>> GetBeneficiary(int beneficiaryID)
@@ -69,6 +73,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("AddBeneficiary")]
         [HttpPost]
         public async Task<ActionResult<Beneficiaries>> AddBeneficiary(Beneficiaries beneficiary)
@@ -84,6 +89,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize]
         [Route("DeleteBeneficiary")]
         [HttpDelete]
         public async Task<ActionResult<Beneficiaries>> DeleteBeneficiary(int beneficiaryID)

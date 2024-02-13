@@ -36,7 +36,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.Banks.Remove(foundedBank);
                 await _mavericksBankContext.SaveChangesAsync();
-                _loggerBanksRepository.LogInformation($"Removed Bank : {key}");
+                _loggerBanksRepository.LogInformation($"Removed Bank : {foundedBank.BankID}");
                 return foundedBank;
             }
         }
@@ -50,7 +50,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
-                _loggerBanksRepository.LogInformation($"Founded Bank : {key}");
+                _loggerBanksRepository.LogInformation($"Founded Bank : {foundedBank.BankID}");
                 return foundedBank;
             }
         }

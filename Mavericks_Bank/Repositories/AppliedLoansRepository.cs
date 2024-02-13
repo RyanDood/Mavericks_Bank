@@ -35,6 +35,7 @@ namespace Mavericks_Bank.Repositories
             {
                 _mavericksBankContext.AppliedLoans.Remove(foundedAppliedLoan);
                 await _mavericksBankContext.SaveChangesAsync();
+                _loggerAppliedLoansRepository.LogInformation($"Deleted Applied Loan : {foundedAppliedLoan.LoanApplicationID}");
                 return foundedAppliedLoan;
             }
         }
@@ -48,6 +49,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerAppliedLoansRepository.LogInformation($"Founded Applied Loan : {foundedAppliedLoan.LoanApplicationID}");
                 return foundedAppliedLoan;
             }
         }
@@ -61,6 +63,7 @@ namespace Mavericks_Bank.Repositories
             }
             else
             {
+                _loggerAppliedLoansRepository.LogInformation("All Applied Loans Returned");
                 return allAppliedLoans;
             }
         }
@@ -69,6 +72,7 @@ namespace Mavericks_Bank.Repositories
         {
             _mavericksBankContext.Entry<AppliedLoans>(item).State = EntityState.Modified;
             await _mavericksBankContext.SaveChangesAsync();
+            _loggerAppliedLoansRepository.LogInformation($"Updated Applied Loan : {item.LoanApplicationID}");
             return item;
         }
     }
