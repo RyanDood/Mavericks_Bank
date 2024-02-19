@@ -1,24 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import Landing from './Components/Landing/Landing';
+import AllLoans from './Components/Loans/AllLoans';
+import RegisterCustomer from './Components/RegisterCustomer/RegisterCustomer';
+import ForgotPassword from './Components/ForgotPassword/ForgotPassword';
+import AllCustomerAccounts from './Components/Accounts/AllCustomerAccounts';
+import AllCustomerBeneficiaries from './Components/Beneficiaries/AllCustomerBeneficiaries';
+import AllCustomerTransactions from './Components/Transactions/AllCustomerTransactions';
+import { BrowserRouter, Route ,Routes} from 'react-router-dom';
+import InvalidPage from './Components/Errors/InvalidPage';
+import LoginRoute from './Components/PrivateRoutes/LoginRoute';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+        <Routes>
+            <Route element={<LoginRoute/>}>
+                <Route path="/" element={<Landing/>}/>
+            </Route>
+            <Route path="forgotPassword" element={<ForgotPassword/>}/>
+            <Route path="registerCustomer" element={<RegisterCustomer/>}/>
+            <Route path="allLoans" element={<AllLoans/>}/>
+            <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
+            <Route path="customerBeneficiaries" element={<AllCustomerBeneficiaries/>}/>
+            <Route path="customerTransactions" element={<AllCustomerTransactions/>}/>
+            <Route path="*" element={<InvalidPage/>}/>
+        </Routes>
+    </BrowserRouter>
   );
 }
 
