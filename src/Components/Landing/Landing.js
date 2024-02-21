@@ -19,7 +19,7 @@ function Landing(){
     var login = async() => await axios.post('http://localhost:5224/api/Validation/Login',loginValidation).then(function (response) {
                                 sessionStorage.setItem("email",response.data.email);
                                 sessionStorage.setItem("token",response.data.token);
-                                navigate("/customerAccounts");
+                                navigate("/menu/customerAccounts");
                             })
                             .catch(function (error) {
                                 console.log(error);

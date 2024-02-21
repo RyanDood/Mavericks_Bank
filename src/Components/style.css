@@ -64,7 +64,7 @@
 }
 
 .smallBox27 {
-    height: 490px;
+    height: 550px;
     display: flex;
     flex-direction: column;
 }
@@ -169,7 +169,6 @@
 }
 
 .whiteOutlineBox4{
-    margin-top: 30px;
     width: 560px;
     height: 270px;
     background: rgb(73,73,73);
@@ -178,6 +177,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 30px;
 }
 
 .whiteOutlineBoxMargin{

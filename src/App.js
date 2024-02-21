@@ -9,6 +9,8 @@ import AllCustomerTransactions from './Components/Transactions/AllCustomerTransa
 import { BrowserRouter, Route ,Routes} from 'react-router-dom';
 import InvalidPage from './Components/Errors/InvalidPage';
 import LoginRoute from './Components/PrivateRoutes/LoginRoute';
+import AvailedLoans from './Components/Loans/AvailedLoans';
+import Menu from './Components/Menu/Menu';
 
 function App() {
   return (
@@ -19,10 +21,13 @@ function App() {
             </Route>
             <Route path="forgotPassword" element={<ForgotPassword/>}/>
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
-            <Route path="allLoans" element={<AllLoans/>}/>
-            <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
-            <Route path="customerBeneficiaries" element={<AllCustomerBeneficiaries/>}/>
-            <Route path="customerTransactions" element={<AllCustomerTransactions/>}/>
+            <Route path="menu" element={<Menu/>}>
+                <Route path="availedLoans" element={<AvailedLoans/>}/>
+                <Route path="allLoans" element={<AllLoans/>}/>
+                <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
+                <Route path="customerBeneficiaries" element={<AllCustomerBeneficiaries/>}/>
+                <Route path="customerTransactions" element={<AllCustomerTransactions/>}/>
+            </Route>
             <Route path="*" element={<InvalidPage/>}/>
         </Routes>
     </BrowserRouter>
