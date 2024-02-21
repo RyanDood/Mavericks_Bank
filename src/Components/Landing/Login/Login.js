@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
-import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
+import '../../style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Landing(){
 
     var [email,setEmail]= useState("");
     var [password,setPassword]= useState("");
-    const navigate = useNavigate();
+    var navigate = useNavigate();
 
     var loginValidation = {
         "email": email,

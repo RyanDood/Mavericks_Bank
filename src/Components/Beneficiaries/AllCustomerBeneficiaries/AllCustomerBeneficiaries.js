@@ -19,7 +19,12 @@ function AllCustomerBeneficiaries(){
         }]
     );
 
-    var allBeneficiaries = async() => await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=1').then(function (response) {
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    var allBeneficiaries = async() => await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=1',httpHeader).then(function (response) {
                                         console.log(response.data);
                                         setBeneficiaries(response.data);
                                     })
@@ -32,10 +37,10 @@ function AllCustomerBeneficiaries(){
                 <div className="smallBox21">
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <a href="allBeneficiary.html" className="nav-link textDecoGreen smallBox23">All Beneficiaries</a>
+                            <Link className="nav-link textDecoGreen smallBox23" to="/menu/customerBeneficiaries">All Beneficiaries</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <a href="addBeneficiary.html" className="nav-link textDecoWhite smallBox23">Add Beneficiary</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/addBeneficiary">Add Beneficiary</Link>
                         </li>
                         <button onClick = {allBeneficiaries} className = 'btn btn-success'>Click</button>
                     </ul>

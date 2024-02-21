@@ -12,7 +12,12 @@ function AllCustomerTransactions(){
         }]
     );
 
-    var allTransactions = async() => await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=1').then(function (response) {
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    var allTransactions = async() => await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=1',httpHeader).then(function (response) {
                                         console.log(response.data);
                                         setTransactions(response.data);
                                     })
@@ -25,13 +30,16 @@ function AllCustomerTransactions(){
                 <div className="smallBox20">
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <a href="allTransaction.html" className="nav-link textDecoGreen smallBox23">History</a>
+                            <Link className="nav-link textDecoGreen smallBox23" to="/menu/customerTransactions">History</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <a href="transferMoney.html" className="nav-link textDecoWhite smallBox23">Transfer Money</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/transferMoney">Transfer Money</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <a href="depositMoney.html" className="nav-link textDecoWhite smallBox23">Deposit</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/depositMoney">Deposit</Link>
+                        </li>
+                        <li className="nav-item highlight">
+                            <Link className="nav-link textDecoWhite" to="/menu/withdrawMoney">Withdraw</Link>
                         </li>
                         <button onClick = {allTransactions} className = 'btn btn-success'>Click</button>
                     </ul>
@@ -43,9 +51,9 @@ function AllCustomerTransactions(){
                                     <span className="clickRegisterText">{transaction.transactionType}</span>
                                     <div className="transactiondetails">
                                         <span className="clickRegisterText">Rs.{transaction.amount}</span>
-                                        <a href="viewTransaction.html">
+                                        <Link to="/menu/viewTransaction">
                                             <div className="rightArrow change-my-color"></div>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

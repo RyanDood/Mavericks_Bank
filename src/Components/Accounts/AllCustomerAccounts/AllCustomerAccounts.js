@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
+import { Link } from 'react-router-dom';
 
 function AllCustomerAccounts(){
 
@@ -14,7 +14,12 @@ function AllCustomerAccounts(){
         }]
     );
 
-    var allAccounts = async() => await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1')
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    var allAccounts = async() => await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
                                 .then(function (response) {
                                     console.log(response.data);
                                     setAccounts(response.data);
@@ -28,10 +33,10 @@ function AllCustomerAccounts(){
             <div className="smallBox21">
                 <ul className="smallBox22 nav">
                     <li className="nav-item highlight smallBox23">
-                        <a href="allAccount.html" className="nav-link textDecoGreen smallBox23">All Accounts</a>
+                        <a className="nav-link textDecoGreen smallBox23" to="/menu/customerAccounts">All Accounts</a>
                     </li>
                     <li className="nav-item highlight smallBox23">
-                        <a href="addAccount.html" className="nav-link textDecoWhite smallBox23">Open New Account</a>
+                        <Link className="nav-link textDecoWhite smallBox23" to="/menu/openAccount">Open New Account</Link>
                     </li>
                     <button onClick = {allAccounts} className = 'btn btn-success'>Click</button>
                 </ul>
@@ -48,9 +53,9 @@ function AllCustomerAccounts(){
                                 <span className="clickRegisterText">Account type: {account.accountType}</span>
                                 <div className="smallBox23">
                                     <span className="clickRegisterText">Balance: {account.balance}</span>
-                                    <a href="viewAccount.html">
+                                    <Link to="/menu/viewAccount">
                                         <div className="rightArrow change-my-color"></div>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -5,7 +5,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 function Menu(){
 
-    const navigate = useNavigate();
+    var navigate = useNavigate();
 
     var removeSession = () => {
         sessionStorage.removeItem("email");
@@ -61,7 +61,7 @@ function Menu(){
                             <div className="flexRow3">
                                 <div className="profile change-my-color3"></div>
                                 <li className="nav-item highlight">
-                                    <a className="nav-link textDecoWhite" href="profile.html">Profile</a>
+                                    <Link className="nav-link textDecoWhite" to="/menu/profile">Profile</Link>
                                 </li>
                             </div>
                             <hr className="navBarLine"></hr>

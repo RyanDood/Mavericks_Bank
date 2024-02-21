@@ -19,7 +19,12 @@ function AvailedLoans(){
         }]
     );
 
-    var allAvailedLoans = async() => await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=3').then(function (response) {
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    var allAvailedLoans = async() => await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=3',httpHeader).then(function (response) {
                                 console.log(response.data);
                                 setAvailedLoans(response.data);
                             })

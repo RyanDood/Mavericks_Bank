@@ -15,7 +15,12 @@ function AllLoans(){
         }]
     );
 
-    var allLoans = async() => await axios.get('http://localhost:5224/api/Loans/GetAllLoans')
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    var allLoans = async() => await axios.get('http://localhost:5224/api/Loans/GetAllLoans',httpHeader)
                                 .then(function (response) {
                                     setloans(response.data);
                                 })
@@ -44,9 +49,9 @@ function AllLoans(){
                                 <span className="clickRegisterText">Tenure: {loan.tenure}</span>
                                 <div className="smallBox23">
                                     <span className="clickRegisterText">Type: {loan.loanType}</span>
-                                    <a className="btn btn-outline-success smallBox9" href="applyLoan.html">
+                                    <Link className="btn btn-outline-success smallBox9" to="/menu/applyLoan">
                                         <span>Apply</span>
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>)
