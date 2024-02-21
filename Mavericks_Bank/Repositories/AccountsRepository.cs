@@ -42,7 +42,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<Accounts?> Get(int key)
         {
-            var foundedAccount = await _mavericksBankContext.Accounts.FirstOrDefaultAsync(account => account.AccountID == key);
+            var foundedAccount = await _mavericksBankContext.Accounts.Include(account => account.Branches).ThenInclude(branch => branch!.Banks).Include(account => account.Customers).FirstOrDefaultAsync(account => account.AccountID == key);
             if (foundedAccount == null)
             {
                 return null;
@@ -56,7 +56,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<List<Accounts>?> GetAll()
         {
-            var allAccounts = await _mavericksBankContext.Accounts.ToListAsync();
+            var allAccounts = await _mavericksBankContext.Accounts.Include(account => account.Branches).ThenInclude(branch => branch!.Banks).Include(account => account.Customers).ToListAsync();
             if (allAccounts.Count == 0)
             {
                 return null;

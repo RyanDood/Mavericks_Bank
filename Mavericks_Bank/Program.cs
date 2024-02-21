@@ -64,6 +64,15 @@ namespace Mavericks_Bank
                       };
                   });
 
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MavericksBankPolicy", opts =>
+                {
+                    opts.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddDbContext<MavericksBankContext>(opts =>
             {
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("LocalConnectionString"));
@@ -106,6 +115,7 @@ namespace Mavericks_Bank
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("MavericksBankPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 

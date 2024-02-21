@@ -4,6 +4,7 @@ using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using Mavericks_Bank.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace Mavericks_Bank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MavericksBankPolicy")]
     public class ValidationController : ControllerBase
     {
         private readonly IValidationAdminService _validationService;

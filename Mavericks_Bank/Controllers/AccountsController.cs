@@ -3,6 +3,7 @@ using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace Mavericks_Bank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MavericksBankPolicy")]
     public class AccountsController : ControllerBase
     {
         private readonly IAccountsAdminService _accountsService;
@@ -95,7 +97,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [Route("GetAccount")]
         [HttpGet]
         public async Task<ActionResult<Accounts>> GetAccount(int accountID)

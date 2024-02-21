@@ -2,6 +2,7 @@
 using Mavericks_Bank.Interfaces;
 using Mavericks_Bank.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace Mavericks_Bank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MavericksBankPolicy")]
     public class BeneficiariesController : ControllerBase
     {
         private readonly IBeneficiariesAdminService _beneficiariesService;

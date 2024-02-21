@@ -42,7 +42,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<Transactions?> Get(int key)
         {
-            var foundedTransaction = await _mavericksBankContext.Transactions.FirstOrDefaultAsync(transaction => transaction.TransactionID == key);
+            var foundedTransaction = await _mavericksBankContext.Transactions.Include(transaction => transaction.Accounts).ThenInclude(account => account.Branches).ThenInclude(branch => branch.Banks).Include(transaction => transaction.Beneficiaries).ThenInclude(beneficiary => beneficiary!.Branches).ThenInclude(branch => branch.Banks).FirstOrDefaultAsync(transaction => transaction.TransactionID == key);
             if (foundedTransaction == null)
             {
                 return null;
@@ -56,7 +56,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<List<Transactions>?> GetAll()
         {
-            var allTransactions = await _mavericksBankContext.Transactions.ToListAsync();
+            var allTransactions = await _mavericksBankContext.Transactions.Include(transaction => transaction.Accounts).ThenInclude(account => account.Branches).ThenInclude(branch => branch.Banks).Include(transaction => transaction.Beneficiaries).ThenInclude(beneficiary => beneficiary!.Branches).ThenInclude(branch => branch.Banks).ToListAsync();
             if (allTransactions.Count == 0)
             {
                 return null;

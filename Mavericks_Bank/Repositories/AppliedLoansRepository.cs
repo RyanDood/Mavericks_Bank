@@ -42,7 +42,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<AppliedLoans?> Get(int key)
         {
-            var foundedAppliedLoan = await _mavericksBankContext.AppliedLoans.FirstOrDefaultAsync(loan => loan.LoanApplicationID == key);
+            var foundedAppliedLoan = await _mavericksBankContext.AppliedLoans.Include(loan => loan.Loans).Include(loan => loan.Customers).FirstOrDefaultAsync(loan => loan.LoanApplicationID == key);
             if (foundedAppliedLoan == null)
             {
                 return null;
@@ -56,7 +56,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<List<AppliedLoans>?> GetAll()
         {
-            var allAppliedLoans = await _mavericksBankContext.AppliedLoans.ToListAsync();
+            var allAppliedLoans = await _mavericksBankContext.AppliedLoans.Include(loan => loan.Loans).Include(loan => loan.Customers).ToListAsync();
             if (allAppliedLoans.Count == 0)
             {
                 return null;
