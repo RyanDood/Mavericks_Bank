@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link } from 'react-router-dom';
+import CustomerDetails from '../../Profile/CustomerDetails/CustomerDetails';
 
 function OpenNewAccount(){
     return (
@@ -15,46 +16,7 @@ function OpenNewAccount(){
                             <Link className="nav-link textDecoGreen smallBox23" to="/menu/openAccount">Open New Account</Link>
                         </li>
                     </ul>
-                    <div className="smallBox19"> 
-                        <div>
-                            <span className="clickRegisterText">Name</span>
-                            <input className="form-control enterDiv2" type="text"></input>
-                        </div>
-                        <div>
-                            <span className="clickRegisterText">Email</span>
-                            <input className="form-control enterDiv2" type="email"></input>
-                        </div>
-                    </div>
-                    <div className="smallBox19">
-                        <div>
-                            <span className="clickRegisterText">Date of Birth</span>
-                            <input className="form-control enterDiv2" type="date"></input>
-                        </div>
-                        <div>
-                            <span className="clickRegisterText">Phone Number</span>
-                            <input className="form-control enterDiv2" type="number"></input>
-                        </div>
-                    </div>
-                    <div className="smallBox19">
-                        <div>
-                            <span className="clickRegisterText">Aadhaar Number</span>
-                            <input className="form-control enterDiv2" type="number"></input>
-                        </div>
-                        <div>
-                            <span className="clickRegisterText">PAN Number</span>
-                            <input className="form-control enterDiv2" type="text"></input>
-                        </div>
-                    </div>
-                    <div className="smallBox19">
-                        <div>
-                            <span className="clickRegisterText">Gender</span>
-                            <input className="form-control enterDiv2" type="text"></input>
-                        </div>
-                        <div>
-                            <span className="clickRegisterText">Address</span>
-                            <input className="form-control enterDiv2" type="text"></input>
-                        </div>
-                    </div>
+                    <CustomerDetails/>
                     <div className="smallBox25">
                         <div>
                             <span className="clickRegisterText">Account Type</span>

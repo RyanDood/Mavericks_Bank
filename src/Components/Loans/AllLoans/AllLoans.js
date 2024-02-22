@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -20,14 +20,21 @@ function AllLoans(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    var allLoans = async() => await axios.get('http://localhost:5224/api/Loans/GetAllLoans',httpHeader)
-                                .then(function (response) {
-                                    setloans(response.data);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
-                     
+    useEffect(() => {
+        allLoans();
+    },[])
+
+    async function allLoans(){
+        await axios.get('http://localhost:5224/api/Loans/GetAllLoans',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setloans(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+                
     return(
         <div className="smallBox17 col-md-9 scrolling">
             <div className="smallBox26">
@@ -38,7 +45,6 @@ function AllLoans(){
                     <li className="nav-item highlight smallBox23">
                         <Link className="nav-link textDecoWhite smallBox23" to="/menu/availedLoans">Availed Loans</Link>
                     </li>
-                    <button onClick = {allLoans} className = 'btn btn-success'>Click</button>
                 </ul>
                 <div className="scrolling">
                     {loans.map(loan => 

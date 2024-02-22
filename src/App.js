@@ -20,6 +20,9 @@ import TransferMoney from './Components/Transactions/TransferMoney/TransferMoney
 import DepositMoney from './Components/Transactions/DepositMoney/DepositMoney';
 import Withdraw from './Components/Transactions/Withdraw/Withdraw';
 import Profile from './Components/Profile/Profile';
+import RecentTransaction from './Components/Accounts/ViewAccount/RecentTransaction/RecentTransaction';
+import LastMonthTransaction from './Components/Accounts/ViewAccount/LastMonthTransaction/LastMonthTransaction';
+import FilterTransaction from './Components/Accounts/ViewAccount/FilterTransaction.js/FilterTransaction';
 
 function App() {
   return (
@@ -32,7 +35,12 @@ function App() {
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
             <Route path="menu" element={<Menu/>}>
                 <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
-                <Route path="viewAccount" element={<ViewAccount/>}/>
+                <Route path="viewAccount" element={<ViewAccount/>}>
+                    <Route index element={<RecentTransaction/>}/>
+                    <Route path="recentTransaction" element={<RecentTransaction/>}/>
+                    <Route path="lastMonthTransaction" element={<LastMonthTransaction/>}/>
+                    <Route path="filterTransaction" element={<FilterTransaction/>}/>
+                </Route>
                 <Route path="openAccount" element={<OpenNewAccount/>}/>
                 <Route path="customerTransactions" element={<AllCustomerTransactions/>}/>
                 <Route path="viewTransaction" element={<ViewTransaction/>}/>

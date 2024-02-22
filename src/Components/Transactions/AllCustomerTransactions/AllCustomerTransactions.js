@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,13 +17,19 @@ function AllCustomerTransactions(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    var allTransactions = async() => await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=1',httpHeader).then(function (response) {
-                                        console.log(response.data);
-                                        setTransactions(response.data);
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    })
+    useEffect(() => {
+        allTransactions();
+    },[])
+
+    async function allTransactions(){
+        await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=1',httpHeader).then(function (response) {
+        console.log(response.data);
+            setTransactions(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
 
     return (
         <div className="smallBox17 col-md-9">
@@ -41,7 +47,6 @@ function AllCustomerTransactions(){
                         <li className="nav-item highlight">
                             <Link className="nav-link textDecoWhite" to="/menu/withdrawMoney">Withdraw</Link>
                         </li>
-                        <button onClick = {allTransactions} className = 'btn btn-success'>Click</button>
                     </ul>
                     <div className="scrolling">
                         {transactions.map(transaction => 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link } from 'react-router-dom';
 
@@ -19,14 +19,20 @@ function AllCustomerAccounts(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    var allAccounts = async() => await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
-                                .then(function (response) {
-                                    console.log(response.data);
-                                    setAccounts(response.data);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
+    useEffect(() => {
+        allAccounts();
+    },[]);
+
+    async function allAccounts(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAccounts(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
 
     return (
         <div className="smallBox17 col-md-9">
@@ -38,7 +44,6 @@ function AllCustomerAccounts(){
                     <li className="nav-item highlight smallBox23">
                         <Link className="nav-link textDecoWhite smallBox23" to="/menu/openAccount">Open New Account</Link>
                     </li>
-                    <button onClick = {allAccounts} className = 'btn btn-success'>Click</button>
                 </ul>
                 <div className="scrolling">
                     {accounts.map(account => 

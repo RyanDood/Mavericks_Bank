@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { useState } from 'react';
-import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import '../../style.css';
+import { Link, Outlet } from 'react-router-dom';
 
 function ViewAccount(){
 
@@ -29,19 +29,25 @@ function ViewAccount(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    var getAccount = async() => await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=2',httpHeader)
-                                .then(function (response) {
-                                    console.log(response.data);
-                                    setAccount(response.data);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
+    useEffect(() => {
+        getAccount();
+    },[])
+
+    async function getAccount(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=2',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAccount(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
 
     return (
         <div className="smallBox17 col-md-9">
-                <div className="smallBox21">
-                    <div className="upMargin">
+                <div className="smallBox40">
+                    <div className="upMargin3">
                         <Link to = "/menu/customerAccounts">
                             <div className="leftArrow change-my-color"></div>
                         </Link>
@@ -51,36 +57,23 @@ function ViewAccount(){
                             </a>
                             <span className="clickRegisterText">Close Account</span>
                         </div>
-                        <button onClick = {getAccount} className = 'btn btn-success'>Click</button>
                     </div>
-                    <span className="clickRegisterText">Account No: {account.accountNumber} - {account.accountType} Account</span>
-                    <span className="clickRegisterText">Balance: {account.balance}</span>
-                    <span className="clickRegisterText">IFSC: {account.branches.ifscNumber}, {account.branches.branchName} - {account.branches.banks.bankName}</span>
-                    <hr></hr>
+                    <span className="clickRegisterText7">Balance Remaining: {account.balance}</span>
+                    <span className="clickRegisterText7">Account No: {account.accountNumber} - {account.accountType} Account</span>
+                    <span className="clickRegisterText7">IFSC: {account.branches.ifscNumber}, {account.branches.branchName} - {account.branches.banks.bankName}</span>
+                    <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <a href="" className="nav-link textDecoGreen smallBox23">Recent Transactions</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/recentTransaction">Recent Transactions</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <a href="" className="nav-link textDecoWhite smallBox23">Last Month</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/lastMonthTransaction">Last Month</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <a href="" className="nav-link textDecoWhite smallBox23">From 2022 - 2023</a>
+                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/filterTransaction" >From 2022 - 2023</Link>
                         </li>
                     </ul>
-                    <div className="whiteOutlineBox2">
-                        <div className="whiteOutlineBoxMargin">
-                            <div className="smallBox23">
-                                <span className="clickRegisterText">Paid to Tharun Kumar</span>
-                                <div className="transactiondetails">
-                                    <span className="clickRegisterText">- 5000</span>
-                                    <a href="viewTransaction.html">
-                                        <div className="rightArrow change-my-color"></div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Outlet/>
                 </div>
                 <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">
                     <div className="modal-dialog">

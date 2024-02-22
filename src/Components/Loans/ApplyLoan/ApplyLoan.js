@@ -1,9 +1,40 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function ApplyLoan(){
+
+    var [loan,setloan] = useState(
+        {
+            "loanID": 0,
+            "loanAmount": "",
+            "loanType": "",
+            "interest": "",
+            "tenure": "",
+        }
+    );
+
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    useEffect(() => {
+        allLoans();
+    },[])
+
+    async function allLoans(){
+        await axios.get('http://localhost:5224/api/Loans/GetLoan?loanID=1',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setloan(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox28">
@@ -12,10 +43,10 @@ function ApplyLoan(){
                             <div className="leftArrow change-my-color"></div>
                         </Link >
                     </div>
-                    <span className="clickRegisterText">Loan Amount: 14,74,330</span>
-                    <span className="clickRegisterText">Interest: 6.4%</span>
-                    <span className="clickRegisterText">Tenure: 3 yrs</span>
-                    <span className="clickRegisterText">Business Loan - Acc No xxxxxxxx5487</span>
+                    <span className="clickRegisterText">Loan Amount: {loan.loanAmount}</span>
+                    <span className="clickRegisterText">Interest: {loan.interest}</span>
+                    <span className="clickRegisterText">Tenure: {loan.tenure}</span>
+                    <span className="clickRegisterText">Loan Type: {loan.loanType}</span>
                     <div>
                         <span className="clickRegisterText">Your Amount</span>
                         <input className="form-control enterDiv3" type="number"></input>

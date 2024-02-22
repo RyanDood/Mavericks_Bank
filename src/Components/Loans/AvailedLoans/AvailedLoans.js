@@ -23,14 +23,20 @@ function AvailedLoans(){
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
+    
+    useState(() => {
+        allAvailedLoans();
+    },[])
 
-    var allAvailedLoans = async() => await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=3',httpHeader).then(function (response) {
-                                console.log(response.data);
-                                setAvailedLoans(response.data);
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
+    async function allAvailedLoans(){
+        await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=3',httpHeader).then(function (response) {
+        console.log(response.data);
+            setAvailedLoans(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+         })
+    }
 
     return(
         <div className="smallBox17 col-md-9">
@@ -42,7 +48,6 @@ function AvailedLoans(){
                     <li className="nav-item highlight smallBox23">
                         <Link className="nav-link textDecoGreen smallBox23" to="/menu/availedLoans">Availed Loans</Link >
                     </li>
-                    <button onClick = {allAvailedLoans} className = 'btn btn-success'>Click</button>
                 </ul>
                 <div className="scrolling">
                     {availedLoans.map((availedLoan) => 
