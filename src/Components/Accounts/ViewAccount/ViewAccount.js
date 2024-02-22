@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../../style.css';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 
 function ViewAccount(){
 
+    var {customerID} = useParams();
+    
     var [account,setAccount] = useState(
         {
             "accountID": 0,
@@ -29,15 +31,26 @@ function ViewAccount(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
+    
     useEffect(() => {
         getAccount();
     },[])
 
     async function getAccount(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=2',httpHeader)
+        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
             setAccount(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    async function closeAccount(){
+        await axios.put('http://localhost:5224/api/Accounts/CloseAccount?accountID=8',account,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -64,13 +77,13 @@ function ViewAccount(){
                     <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/recentTransaction">Recent Transactions</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/recentTransaction"}>Recent Transactions</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/lastMonthTransaction">Last Month</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/lastMonthTransaction"}>Last Month</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to="/menu/viewAccount/filterTransaction" >From 2022 - 2023</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/filterTransaction"}>From 2022 - 2023</Link>
                         </li>
                     </ul>
                     <Outlet/>
@@ -79,15 +92,15 @@ function ViewAccount(){
                     <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                        <h6 className="modal-title" id="modalEg1">Delete Account</h6>
+                        <h6 className="modal-title" id="modalEg1">Close Account</h6>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                        Are you sure you want to delete this Account?
+                        Are you sure you want to close this Account?
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Back</button>
-                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal">Delete</button>
+                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={closeAccount}>Close</button>
                         </div>
                     </div>
                     </div>

@@ -1,9 +1,52 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link } from 'react-router-dom';
 
 function AddBeneficiary(){
+
+    var [allBanks, setAllBanks] = useState([]);
+    var [bankID, setBankID] = useState(1);
+    var [allBranches, setAllBranches] = useState([]);
+    var [branchID,setBranchID] = useState(1);
+
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    useEffect(() => {
+        getAllBanks();
+        getAllBranches(bankID);
+    },[])
+
+    async function getAllBanks(){
+        await axios.get('http://localhost:5224/api/Banks/GetAllBanks',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAllBanks(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    function changeBank(eventargs){
+        setBankID(eventargs.target.value);
+        getAllBranches(eventargs.target.value);
+    }
+
+    async function getAllBranches(changedBankID){
+        await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=' + changedBankID,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAllBranches(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox41">
@@ -25,11 +68,19 @@ function AddBeneficiary(){
                     </div>
                     <div>
                         <span className="clickRegisterText">Bank Name</span>
-                        <input className="form-control enterDiv3" type="password"></input>
+                        <select className="form-control enterDiv3" value = {bankID} onChange={changeBank}>
+                            {allBanks.map(bank => 
+                                <option key={bank.bankID} value={bank.bankID}>{bank.bankName}</option>
+                            )}
+                        </select>
                     </div>
                     <div>
                         <span className="clickRegisterText">Branch Name with IFSC</span>
-                        <input className="form-control enterDiv3" type="password"></input>
+                        <select className="form-control enterDiv3" value = {branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
+                            {allBranches.map(branch => 
+                                <option key={branch.branchID} value={branch.branchID}>{branch.branchName}</option>
+                            )}
+                        </select>
                     </div>
                     <a className="btn btn-outline-success smallBox9" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Add</span>

@@ -35,7 +35,7 @@ function App() {
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
             <Route path="menu" element={<Menu/>}>
                 <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
-                <Route path="viewAccount" element={<ViewAccount/>}>
+                <Route path="viewAccount/:customerID" element={<ViewAccount/>}>
                     <Route index element={<RecentTransaction/>}/>
                     <Route path="recentTransaction" element={<RecentTransaction/>}/>
                     <Route path="lastMonthTransaction" element={<LastMonthTransaction/>}/>

@@ -81,7 +81,11 @@ function CustomerDetails() {
             <div className="smallBox19">
                 <div className="margin1">
                     <span className="clickRegisterText">Gender</span>
-                    <input className="form-control enterDiv2" type="text" value={profile.gender} onChange={(eventargs) => setProfile({...profile,gender:eventargs.target.value})}></input>
+                    <select className="form-control enterDiv2" value={profile.gender} onChange={(eventargs) => setProfile({...profile,gender:eventargs.target.value})}>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
                 <div className="margin1">
                     <span className="clickRegisterText">Address</span>

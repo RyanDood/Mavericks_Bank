@@ -5,49 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import CustomerDetails from './CustomerDetails/CustomerDetails';
 
 function Profile(){
-
-    var [profile,setProfile] = useState(
-        {
-            "name": "",
-            "dob": "",
-            "age": 0,
-            "phoneNumber": 0,
-            "address": "",
-            "aadharNumber": 0,
-            "panNumber": "",
-            "gender": "",
-            "email": "",
-    })
-
-    const token = sessionStorage.getItem('token');
-    const httpHeader = { 
-        headers: {'Authorization': 'Bearer ' + token}
-    };
-
-    useEffect(() => {
-        getCustomerDetails();
-    },[])
-
-    async function getCustomerDetails(){
-        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=8',httpHeader)
-        .then(function (response) {
-            console.log(response.data);
-            covertDate(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-    }
-
-    function covertDate(data){
-        const date = new Date(data.dob);
-        const formattedDate = date.toISOString().split('T')[0];
-        console.log(formattedDate);
-        var fetchedData = data;
-        fetchedData.dob = formattedDate;
-        setProfile(fetchedData);
-    }
-
     return (
         <div className="smallBox17 col-sm-9">
             <div className="smallBox18">

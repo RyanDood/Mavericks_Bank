@@ -1,9 +1,33 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function DepositMoney(){
+
+    var [accounts,setAccounts] = useState([]);
+    var [accountID,setAccountID] = useState(1);
+
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    useEffect(() => {
+        getAllCustomerAccounts();
+    },[])
+
+    async function getAllCustomerAccounts(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAccounts(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox29">
@@ -28,7 +52,11 @@ function DepositMoney(){
                         </div>
                         <div>
                             <span className="clickRegisterText">To (Account Number)</span>
-                            <input className="form-control enterDiv2" type="number"></input>
+                            <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                                {accounts.map(account => 
+                                    <option key={account.accountID} value={account.accountID}>{account.accountNumber}</option>
+                                )}
+                            </select>
                         </div>
                     </div>
                     <a className="btn btn-outline-success smallBox31" href="" data-bs-toggle="modal" data-bs-target="#modal1">

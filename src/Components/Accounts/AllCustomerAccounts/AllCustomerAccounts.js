@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AllCustomerAccounts(){
+
+    var navigate = useNavigate();
 
     var [accounts,setAccounts] = useState(
         [{
@@ -24,7 +26,7 @@ function AllCustomerAccounts(){
     },[]);
 
     async function allAccounts(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
+        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=8',httpHeader)
         .then(function (response) {
             console.log(response.data);
             setAccounts(response.data);
@@ -32,6 +34,14 @@ function AllCustomerAccounts(){
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    var nav = (accountID) => {
+        navigate("/menu/viewAccount/" + accountID);
+    }
+
+    function navigateToViewAccount(accountID){
+        
     }
 
     return (
@@ -49,19 +59,14 @@ function AllCustomerAccounts(){
                     {accounts.map(account => 
                         <div key = {account.accountID} className="whiteOutlineBox1">
                             <div className="whiteOutlineBoxMargin">
+                                <span className="clickRegisterText">Account No: {account.accountNumber}</span>
                                 <div className="smallBox23">
-                                    <span className="clickRegisterText">Account No: {account.accountNumber}</span>
-                                    <a href="" data-bs-toggle="modal" data-bs-target="#modal1">
-                                        <div className="delete change-my-color2"></div>
-                                    </a>
-                                </div>
-                                <span className="clickRegisterText">Account type: {account.accountType}</span>
-                                <div className="smallBox23">
-                                    <span className="clickRegisterText">Balance: {account.balance}</span>
-                                    <Link to="/menu/viewAccount">
-                                        <div className="rightArrow change-my-color"></div>
+                                    <span className="clickRegisterText">Account type: {account.accountType}</span>
+                                    <Link to={"/menu/viewAccount/" + account.accountID}>
+                                        <div className="rightArrow2 change-my-color"></div>
                                     </Link>
                                 </div>
+                                <span className="clickRegisterText">Balance: {account.balance}</span>
                             </div>
                         </div>
                     )}
