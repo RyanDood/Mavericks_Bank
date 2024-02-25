@@ -49,13 +49,13 @@ function RegisterCustomer(){
             console.log("Please fill in all fields");
         }
         else{
-            if(email.includes("@") && email.includes(".com") && email.length > 5){
+            if(email.includes("@") && email.includes(".com") && email.length > 5 && email.length < 50){
                 if(password.length >= 8 && password.length <= 15){
                     if(password === confirmPassword){
-                        if(name.length > 2){
+                        if(name.length > 2 && name.length < 100){
                             if(age >= 18){
                                 if(phoneNumber.length === 10){
-                                    if(address.length > 5){
+                                    if(address.length > 5 && address.length < 100){
                                         if(aadharNumber.length === 12){
                                             if(panNumber.length === 10){
                                                 addCustomer();
@@ -69,7 +69,7 @@ function RegisterCustomer(){
                                         }
                                     }
                                     else{
-                                        console.log("Address should be more than 5 characters");
+                                        console.log("Address should be between 6 and 100 characters long");
                                     }
                                 }
                                 else{
@@ -81,7 +81,7 @@ function RegisterCustomer(){
                             }
                         }
                         else{
-                            console.log("Name should be more than 2 characters");
+                            console.log("Name should be between 6 and 100 characters long");
                         }
                     }
                     else{

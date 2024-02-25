@@ -26,7 +26,7 @@ function Menu(){
                             <div className="flexRow3">
                                 <div className="dashboard change-my-color3"></div>
                                 <li className="nav-item highlight">
-                                    <Link className="nav-link textDecoWhite" href="dashboard.html">DashBoard</Link>
+                                    <Link className="nav-link textDecoWhite" to="/menu/dashboard">DashBoard</Link>
                                 </li>
                             </div>
                             <hr className="navBarLine"></hr>

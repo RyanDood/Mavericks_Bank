@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function ViewTransaction(){
+
+    var transactionID = useSelector((state) => state.transactionID);
+    var navigate = useNavigate();
 
     var [transaction,setTransaction] = useState(
         {
@@ -30,7 +34,7 @@ function ViewTransaction(){
                 }
               },
             }
-          }
+        }
     );
 
     const token = sessionStorage.getItem('token');
@@ -43,36 +47,62 @@ function ViewTransaction(){
     },[])
 
     async function getTransaction(){
-        await axios.get('http://localhost:5224/api/Transactions/GetTransaction?transactionID=1',httpHeader).then(function (response) {
-        console.log(response.data);
-            setTransaction(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+      if(transactionID === 0){
+        navigate("/menu/customerTransactions")
+      }
+      else{
+        await axios.get('http://localhost:5224/api/Transactions/GetTransaction?transactionID=' + transactionID,httpHeader).then(function (response) {
+          console.log(response.data);
+              setTransaction(response.data);
+          })
+          .catch(function (error) {
+              console.log(error);
+          })
+      }
     }
 
     return (
         <div className="smallBox17 col-md-9">
-                <div className="smallBox26">
+                {transaction.transactionType === "Transfer" ? 
+                  <div className="smallBox26">
                     <div className="upMargin2">
-                        <Link to="/menu/customerTransactions">
-                            <div className="leftArrow change-my-color"></div>
-                        </Link>
+                      <Link to="/menu/customerTransactions">
+                        <div className="leftArrow change-my-color"></div>
+                      </Link>
                     </div>
                     <span className="clickRegisterText8">{transaction.amount}</span>
-                    <span className="clickRegisterText7">{transaction.description}</span>
+                    {transaction.status === "Failed" ? <span className="clickRegisterText9">Transaction Failed</span> : null}
+                    {transaction.description === "" ? null : <span className="clickRegisterText7">Description: {transaction.description}</span>}
                     <span className="clickRegisterText7">{transaction.transactionType} To {transaction.beneficiaries.name}</span>
                     <span className="clickRegisterText7">{transaction.beneficiaries.branches.banks.bankName}</span>
-                    <hr className="hrS"></hr>
+                    <hr className="hr3"></hr>
                     <span className="clickRegisterText7">From</span>
                     <span className="clickRegisterText7">{transaction.accounts.customers.name}</span>
                     <span className="clickRegisterText7">{transaction.accounts.branches.banks.bankName}</span>
-                    <hr className="hrS"></hr>
+                    <hr className="hr3"></hr>
                     <span className="clickRegisterText7">Paid at {transaction.transactionDate}</span>
                     <span className="clickRegisterText7">Transaction ID: {transaction.transactionID}</span>
-                </div>
-            </div>
+                  </div> : 
+                  <div className="smallBox26">
+                    <div className="upMargin2">
+                      <Link to="/menu/customerTransactions">
+                        <div className="leftArrow change-my-color"></div>
+                      </Link>
+                    </div>
+                    <span className="clickRegisterText8">{transaction.amount}</span>
+                    {transaction.status === "Failed" ? <span className="clickRegisterText9">Transaction Failed</span> : null}
+                    {transaction.description === "" ? null : <span className="clickRegisterText7">Description: {transaction.description}</span>}
+                    <span className="clickRegisterText7">{transaction.transactionType}</span>
+                    {transaction.transactionType === "Deposit" ? 
+                    <span className="clickRegisterText7">To {transaction.accounts.branches.banks.bankName}</span> : 
+                    <span className="clickRegisterText7">From {transaction.accounts.branches.banks.bankName}</span>}
+                    <hr className="hr3"></hr>
+                    <span className="clickRegisterText7">Paid at {transaction.transactionDate}</span>
+                    <span className="clickRegisterText7">Transaction ID: {transaction.transactionID}</span>
+                  </div>
+                }
+                
+        </div>
     );
 }
 

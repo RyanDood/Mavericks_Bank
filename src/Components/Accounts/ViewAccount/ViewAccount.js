@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../../style.css';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function ViewAccount(){
 
-    var {customerID} = useParams();
+    var accountID = useSelector((state) => state.accountID);
+    var navigate = useNavigate();
     
     var [account,setAccount] = useState(
         {
@@ -37,18 +39,23 @@ function ViewAccount(){
     },[])
 
     async function getAccount(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + customerID,httpHeader)
-        .then(function (response) {
-            console.log(response.data);
-            setAccount(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        if(accountID === 0){
+            navigate("/menu/customerAccounts");
+        }
+        else{
+            await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
+            .then(function (response) {
+                console.log(response.data);
+                setAccount(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
     }
 
     async function closeAccount(){
-        await axios.put('http://localhost:5224/api/Accounts/CloseAccount?accountID=8',account,httpHeader)
+        await axios.put('http://localhost:5224/api/Accounts/CloseAccount?accountID=' + accountID,account,httpHeader)
         .then(function (response) {
             console.log(response.data);
         })
@@ -77,13 +84,13 @@ function ViewAccount(){
                     <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/recentTransaction"}>Recent Transactions</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/recentTransaction"}>Recent Transactions</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/lastMonthTransaction"}>Last Month</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/lastMonthTransaction"}>Last Month</Link>
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/" + customerID + "/filterTransaction"}>From 2022 - 2023</Link>
+                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/filterTransaction"}>From 2022 - 2023</Link>
                         </li>
                     </ul>
                     <Outlet/>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Loan from '../Loan/Loan';
 
 function AllLoans(){
 
@@ -48,19 +49,8 @@ function AllLoans(){
                 </ul>
                 <div className="scrolling">
                     {loans.map(loan => 
-                        <div key = {loan.loanID} className="whiteOutlineBox3">
-                            <div className="whiteOutlineBoxMargin">
-                                <span className="clickRegisterText">Loan Amount: {loan.loanAmount}</span>
-                                <span className="clickRegisterText">Interest: {loan.interest}</span>
-                                <span className="clickRegisterText">Tenure: {loan.tenure}</span>
-                                <div className="smallBox23">
-                                    <span className="clickRegisterText">Type: {loan.loanType}</span>
-                                    <Link className="btn btn-outline-success smallBox9" to="/menu/applyLoan">
-                                        <span>Apply</span>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>)
+                        <Loan key = {loan.loanID} loan = {loan}/>
+                    )
                     }
                 </div>
             </div>

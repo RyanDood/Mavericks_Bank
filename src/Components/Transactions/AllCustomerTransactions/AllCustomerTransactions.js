@@ -2,15 +2,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Transaction from '../Transaction/Transaction';
 
 function AllCustomerTransactions(){
-    var [transactions,setTransactions] = useState(
-        [{
-            "transactionID": 0,
-            "amount": 0,
-            "transactionType": "",
-        }]
-    );
+
+    var customerID = 1;
+    var [transactions,setTransactions] = useState([]);
+    var [error,setError] = useState(false);
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
@@ -22,18 +20,21 @@ function AllCustomerTransactions(){
     },[])
 
     async function allTransactions(){
-        await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=1',httpHeader).then(function (response) {
+        await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setTransactions(response.data);
         })
         .catch(function (error) {
             console.log(error);
+            if(error.response.data === "No Transaction History Found for Customer ID " + customerID){
+                setError(true);
+            }
         })
     }
 
     return (
         <div className="smallBox17 col-md-9">
-                <div className="smallBox20">
+                <div className="smallBox43">
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
                             <Link className="nav-link textDecoGreen smallBox23" to="/menu/customerTransactions">History</Link>
@@ -48,23 +49,18 @@ function AllCustomerTransactions(){
                             <Link className="nav-link textDecoWhite" to="/menu/withdrawMoney">Withdraw</Link>
                         </li>
                     </ul>
-                    <div className="scrolling">
-                        {transactions.map(transaction => 
-                        <div  key = {transaction.transactionID} className="whiteOutlineBox2">
-                            <div className="whiteOutlineBoxMargin">
-                                <div className="smallBox23">
-                                    <span className="clickRegisterText">{transaction.transactionType}</span>
-                                    <div className="transactiondetails">
-                                        <span className="clickRegisterText">Rs.{transaction.amount}</span>
-                                        <Link to="/menu/viewTransaction">
-                                            <div className="rightArrow change-my-color"></div>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>)
-                        }
-                    </div>
+                    {error ? 
+                        <div className="smallBox48">
+                            <div className="errorImage2 change-my-color2"></div>
+                            <div className="clickRegisterText">No Transaction History Found</div>
+                        </div> : 
+                        <div className="scrolling">
+                            {transactions.map(transaction =>
+                            <Transaction key={transaction.transactionID} transaction = {transaction}/> 
+                            )
+                            }
+                        </div>
+                    }
                 </div>
         </div>
     );

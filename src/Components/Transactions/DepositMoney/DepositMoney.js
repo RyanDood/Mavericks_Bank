@@ -6,12 +6,20 @@ import { Link, useNavigate } from 'react-router-dom';
 function DepositMoney(){
 
     var [accounts,setAccounts] = useState([]);
-    var [accountID,setAccountID] = useState(1);
+    var [accountID,setAccountID] = useState("");
+    var [amount,setAmount] = useState("");
+    var [description,setDescription] = useState("");
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
+
+    var newDeposit = {
+        "amount": amount,
+        "description": description,
+        "accountID": accountID
+    }
 
     useEffect(() => {
         getAllCustomerAccounts();
@@ -26,6 +34,30 @@ function DepositMoney(){
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    async function depositMoney(){
+        if(amount === "" || accountID === ""){
+            console.log("Please fill in all the fields");
+        }
+        else{
+            if(amount > 0){
+                if(description.length < 20){
+                    await axios.post('http://localhost:5224/api/Transactions/Deposit',newDeposit,httpHeader).then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                }
+                else{
+                    console.log("Description is too long");
+                }
+            }
+            else{
+                console.log("Please enter a valid amount to deposit");
+            }
+        }
     }
 
     return (
@@ -46,19 +78,26 @@ function DepositMoney(){
                         </li>
                     </ul>
                     <div className="smallBox30"> 
-                        <div>
-                            <span className="clickRegisterText">Amount</span>
-                            <input className="form-control enterDiv2" type="number"></input>
+                            <div>
+                                <span className="clickRegisterText">Amount</span>
+                                <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
+                            </div>
+                            <div>
+                                <span className="clickRegisterText">Description</span>
+                                <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setDescription(eventargs.target.value)}></input>
+                            </div>
                         </div>
-                        <div>
-                            <span className="clickRegisterText">To (Account Number)</span>
-                            <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
-                                {accounts.map(account => 
-                                    <option key={account.accountID} value={account.accountID}>{account.accountNumber}</option>
-                                )}
-                            </select>
+                        <div className="smallBox47"> 
+                            <div>
+                                <span className="clickRegisterText">To (Account Number)</span>
+                                <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                                    <option value="">Select</option>
+                                    {accounts.map(account => 
+                                        <option key={account.accountID} value={account.accountID}>{account.accountNumber}</option>
+                                    )}
+                                </select>
+                            </div>
                         </div>
-                    </div>
                     <a className="btn btn-outline-success smallBox31" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Deposit</span>
                     </a>
@@ -75,7 +114,7 @@ function DepositMoney(){
                             </div>
                             <div className="modal-footer">
                             <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Back</button>
-                            <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal">Deposit</button>
+                            <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={depositMoney}>Deposit</button>
                             </div>
                         </div>
                     </div>

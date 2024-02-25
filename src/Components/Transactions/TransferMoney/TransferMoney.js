@@ -6,29 +6,50 @@ import { Link, useNavigate } from 'react-router-dom';
 function TransferMoney(){
 
     var [allBanks, setAllBanks] = useState([]);
-    var [bankID, setBankID] = useState(1);
+    var [bankID, setBankID] = useState("");
     var [allBranches, setAllBranches] = useState([]);
-    var [branchID,setBranchID] = useState(1);
+    var [branchID,setBranchID] = useState("");
     var [accounts,setAccounts] = useState([]);
-    var [accountID,setAccountID] = useState(1);
+    var [accountID,setAccountID] = useState("");
     var [beneficiaries,setBeneficiaries] = useState([]);
-    var [beneficiaryID,setBeneficiaryID] = useState(1);
+    var [beneficiaryID,setBeneficiaryID] = useState("");
     var [addBeneficiary,setAddBeneficiary] = useState(false);
+    var [amount,setAmount] = useState("");
+    var [description,setDescription] = useState("");
+    var [beneficiaryAccountNumber,setBeneficiaryAccountNumber] = useState("");
+    var [beneficiaryName,setBeneficiaryName] = useState("");
+    var customerID = 1;
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
+    var newTransfer = {
+        "amount": amount,
+        "description": description,
+        "accountID": accountID,
+        "beneficiaryID": beneficiaryID
+    };
+
+    var newTransferWithBeneficiary = {
+        "amount": amount,
+        "description": description,
+        "accountID": accountID,
+        "beneficiaryAccountNumber": beneficiaryAccountNumber,
+        "beneficiaryName": beneficiaryName,
+        "branchID": branchID,
+        "customerID": customerID
+    }
+
     useEffect(() => {
         getAllBanks();
-        getAllBranches(bankID);
         getAllCustomerAccounts();
         getAllCustomerBeneficiaries();
     },[])
 
     async function getAllCustomerAccounts(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
+        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
             setAccounts(response.data);
@@ -39,7 +60,7 @@ function TransferMoney(){
     }
 
     async function getAllCustomerBeneficiaries(){
-        await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=1',httpHeader).then(function (response) {
+        await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setBeneficiaries(response.data);
         })
@@ -60,8 +81,15 @@ function TransferMoney(){
     }
 
     function changeBank(eventargs){
-        setBankID(eventargs.target.value);
-        getAllBranches(eventargs.target.value);
+        if(eventargs.target.value === ""){
+            setBankID(eventargs.target.value);
+            setAllBranches([]);
+            setBranchID("");
+        }
+        else{
+            setBankID(eventargs.target.value);
+            getAllBranches(eventargs.target.value);
+        }
     }
 
     async function getAllBranches(changedBankID){
@@ -73,6 +101,60 @@ function TransferMoney(){
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    async function transferMoney(){
+        if(amount === ""){
+            console.log("Please fill all fields");
+        }
+        else{
+            if(amount > 0){
+                if(description.length < 20){
+                    if(addBeneficiary){
+                        if(accountID === "" || beneficiaryAccountNumber === "" || beneficiaryName === "" || bankID === "" || branchID === ""){
+                            console.log("Please fill all fields");
+                        }
+                        else{
+                            if(beneficiaryAccountNumber.length > 9 && beneficiaryAccountNumber.length < 17){
+                                if(beneficiaryName.length > 2 && beneficiaryName.length < 50){
+                                    await axios.post('http://localhost:5224/api/Transactions/TransferWithBeneficiary',newTransferWithBeneficiary,httpHeader).then(function (response) {
+                                        console.log(response.data);
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                    })
+                                }
+                                else{
+                                    console.log("Beneficiary Name should be between 3 and 50 characters long");
+                                }
+                            }
+                            else{
+                                console.log("Account number should be between 9 and 17 digits long")
+                            }
+                        }
+                    }
+                    else{
+                        if(accountID === "" || beneficiaryID === ""){
+                            console.log("Please fill all fields");
+                        }
+                        else{
+                            await axios.post('http://localhost:5224/api/Transactions/Transfer',newTransfer,httpHeader).then(function (response) {
+                                console.log(response.data);
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                        }
+                    }
+                }
+                else{
+                    console.log("Description too long");
+                }
+            }
+            else{
+                console.log("Invalid Amount Entered");
+            }
+        }
     }
 
     return (
@@ -95,44 +177,61 @@ function TransferMoney(){
                     <div className="smallBox19"> 
                         <div>
                             <span className="clickRegisterText">Amount</span>
-                            <input className="form-control enterDiv2" type="number"></input>
+                            <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
                         </div>
                         <div>
                             <span className="clickRegisterText">Description</span>
-                            <input className="form-control enterDiv2" type="text"></input>
+                            <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setDescription(eventargs.target.value)}></input>
                         </div>
                     </div>
-                    {addBeneficiary ? <div className="smallBox19">
+                    {addBeneficiary ? 
                         <div>
-                            <span className="clickRegisterText">Account Holder Name</span>
-                            <input className="form-control enterDiv2" type="text"></input>
+                            <div className='margin3'>
+                                <span className="clickRegisterText">From</span>
+                                <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                                    <option value="">Select</option>
+                                    {accounts.map(account => 
+                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div className="smallBox19">
+                                <div>
+                                    <span className="clickRegisterText">Account Holder Name</span>
+                                    <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setBeneficiaryName(eventargs.target.value)}></input>
+                                </div>
+                                <div>
+                                    <span className="clickRegisterText">Holder Account Number</span>
+                                    <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setBeneficiaryAccountNumber(eventargs.target.value)}></input>
+                                </div>
+                            </div>
+                        </div> : 
+                        <div className="smallBox19">
+                            <div>
+                                <span className="clickRegisterText">From</span>
+                                <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                                    <option value="">Select</option>
+                                    {accounts.map(account => 
+                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div>
+                                <span className="clickRegisterText">To</span>
+                                <select className="form-control enterDiv2" value = {beneficiaryID} onChange={(eventargs) => setBeneficiaryID(eventargs.target.value)}>
+                                    <option value="">Select</option>
+                                    {beneficiaries.map(beneficiary => 
+                                        <option key={beneficiary.beneficiaryID} value={beneficiary.beneficiaryID}>{beneficiary.name} - {beneficiary.accountNumber}</option>
+                                    )}
+                                </select>
+                            </div>
                         </div>
-                        <div>
-                            <span className="clickRegisterText">Holder Account Number</span>
-                            <input className="form-control enterDiv2" type="number"></input>
-                        </div>
-                    </div> : <div className="smallBox19">
-                        <div>
-                            <span className="clickRegisterText">From</span>
-                            <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
-                                {accounts.map(account => 
-                                    <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
-                                )}
-                            </select>
-                        </div>
-                        <div>
-                            <span className="clickRegisterText">To</span>
-                            <select className="form-control enterDiv2" value = {beneficiaryID} onChange={(eventargs) => setBeneficiaryID(eventargs.target.value)}>
-                                {beneficiaries.map(beneficiary => 
-                                    <option key={beneficiary.beneficiaryID} value={beneficiary.beneficiaryID}>{beneficiary.name} - {beneficiary.accountNumber}</option>
-                                )}
-                            </select>
-                        </div>
-                    </div>}
+                        }
                     {addBeneficiary ? <div className="smallBox19">
                         <div>
                             <span className="clickRegisterText">Bank Name</span>
                             <select className="form-control enterDiv2" value = {bankID} onChange={changeBank}>
+                                <option value="">Select</option>
                                 {allBanks.map(bank => 
                                     <option key={bank.bankID} value={bank.bankID}>{bank.bankName}</option>
                                 )}
@@ -141,6 +240,7 @@ function TransferMoney(){
                         <div>
                             <span className="clickRegisterText">Branch Name with IFSC</span>
                             <select className="form-control enterDiv2" value = {branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
+                                <option value="">Select</option>
                                 {allBranches.map(branch => 
                                     <option key={branch.branchID} value={branch.branchID}>{branch.branchName}</option>
                                 )}
@@ -152,7 +252,7 @@ function TransferMoney(){
                             <span>Transfer</span>
                         </a>
                         {addBeneficiary ? 
-                        <a className="btn btn-outline-success smallBox45" onClick={() => setAddBeneficiary(false)}>
+                        <a className="btn btn-outline-danger smallBox45" onClick={() => setAddBeneficiary(false)}>
                             <span>Cancel</span>
                         </a> : 
                         <a className="btn btn-outline-success smallBox45" onClick={() => setAddBeneficiary(true)}>
@@ -172,7 +272,7 @@ function TransferMoney(){
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Back</button>
-                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal">Transfer</button>
+                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={transferMoney}>Transfer</button>
                         </div>
                     </div>
                     </div>

@@ -2,8 +2,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function ApplyLoan(){
+
+    var loanID = useSelector((state) => state.loanID);
+    var customerID = 3;
+    var [amount,setAmount] = useState("");
+    var [purpose,setPurpose] = useState("");
 
     var [loan,setloan] = useState(
         {
@@ -15,6 +21,15 @@ function ApplyLoan(){
         }
     );
 
+    var newLoan = {
+        "amount": amount,
+        "purpose": purpose,
+        "loanID": loanID,
+        "customerID": customerID 
+    }
+
+    var navigate = useNavigate();
+
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
@@ -25,14 +40,44 @@ function ApplyLoan(){
     },[])
 
     async function allLoans(){
-        await axios.get('http://localhost:5224/api/Loans/GetLoan?loanID=1',httpHeader)
-        .then(function (response) {
-            console.log(response.data);
-            setloan(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        if(loanID === 0){
+            navigate("/menu/allLoans")
+        }
+        else{
+            await axios.get('http://localhost:5224/api/Loans/GetLoan?loanID=' + loanID,httpHeader)
+            .then(function (response) {
+                console.log(response.data);
+                setloan(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        }
+    }
+
+    async function applyForLoan(){
+        if(amount === "" || purpose === ""){
+            console.log("Please fill in all the details");
+        }
+        else{
+            if(amount > 0){
+                if(purpose.length > 3 &&purpose.length < 100){
+                    await axios.post('http://localhost:5224/api/AppliedLoans/AddAppliedLoan', newLoan, httpHeader)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                }
+                else{
+                    console.log("Purpose field should be between 4 and 100 characters long");
+                }
+            }
+            else{
+                console.log("Please enter a valid amount");
+            }
+        }
     }
 
     return (
@@ -49,11 +94,11 @@ function ApplyLoan(){
                     <span className="clickRegisterText">Loan Type: {loan.loanType}</span>
                     <div>
                         <span className="clickRegisterText">Your Amount</span>
-                        <input className="form-control enterDiv3" type="number"></input>
+                        <input className="form-control enterDiv3" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
                     </div>
                     <div>
                         <span className="clickRegisterText">Purpose</span>
-                        <textarea className="form-control enterDiv4" type="text"></textarea>
+                        <textarea className="form-control enterDiv4" type="text" onChange={(eventargs) => setPurpose(eventargs.target.value)}></textarea>
                     </div>
                     <a className="btn btn-outline-success smallBox9" href="applyLoan.html" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Apply</span>
@@ -71,7 +116,7 @@ function ApplyLoan(){
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal">Back</button>
-                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal">Apply</button>
+                        <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={applyForLoan}>Apply</button>
                         </div>
                     </div>
                     </div>

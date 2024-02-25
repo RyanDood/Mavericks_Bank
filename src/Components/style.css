@@ -14,6 +14,10 @@
     margin-bottom: 20px;
 }
 
+.margin3{
+    margin-bottom: 30px;
+}
+
 .greenBackground{
     background-color: rgb(49,198,109);
 }
@@ -27,7 +31,7 @@
 
 
 .smallBox43{
-    height: 500px;
+    height: 550px;
     display: flex;
     flex-direction: column;
 }
@@ -47,7 +51,7 @@
 
 .smallBox41{
     height: 550px;
-    width: 577px;
+    width: 610px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -72,13 +76,21 @@
     justify-content: space-between;
 }
 
+.smallBox48{
+    width: 560px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top:150px
+}
+
 .smallBox24 {
     height: 44px;
     width: 262px;
 }
 
 .smallBox25 {
-    width: 560px;
+    width: 577px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -109,6 +121,15 @@
     justify-content: space-between;
 }
 
+.smallBox47 {
+    width: 560px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
 .smallBox27 {
     height: 550px;
     display: flex;
@@ -123,13 +144,13 @@
 }
 
 .smallBox29 {
-    height: 500px;
+    height: 550px;
     display: flex;
     flex-direction: column;
 }
 
 .smallBox30 {
-    width: 560px;
+    width: 577px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -178,7 +199,7 @@
 }
 
 .whiteOutlineBox1{
-    width: 560px;
+    width: 593px;
     height: 130px;
     background: rgb(73,73,73);
     border: 1px solid rgb(120 120 120);
@@ -323,6 +344,14 @@
     margin-bottom: 30px;
 }
 
+.errorImage2 {
+    width: 30px;
+    height: 30px;
+    background: url(error.svg);
+    overflow: hidden;
+    margin-right: 15px;
+}
+
 .rightArrow {
     width: 22px;
     height: 22px;
@@ -433,7 +462,6 @@
 }
 
 .transactiondetails{
-    width: 70px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -458,11 +486,33 @@ hr{
     margin-bottom: 25px;
 }
 
+.hr3{
+    width: 400px;
+    color: white;
+    margin-bottom: 25px;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.buttonWidth{
+    width: 265px;
+}
+
 .clickRegisterText3{
     color: rgb(49,198,109);
     font-family: Nunito;
     font-weight: 300;
-    font-size: 25px;
+    font-size: 18px;
+}
+
+.clickRegisterText9{
+    color: rgb(238 86 86);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+    margin-bottom: 25px
 }
 
 .clickRegisterText8{
@@ -499,6 +549,7 @@ hr{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 25px;
 }
 
 .topcorner{
@@ -579,6 +630,14 @@ hr{
         font-size: 14px;
         margin-top: 6px;
         margin-bottom: 6px;
+    }
+
+    .clickRegisterText10{
+        color: rgb(255, 255, 255);
+        font-family: Nunito;
+        font-weight: 300;
+        font-size: 14px;
+        margin-bottom: 25px;
     }
 
     .clickRegisterText7{
@@ -928,12 +987,17 @@ hr{
     }
 
     .smallBox19{
-        width: 560px;
+        width: 577px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;
+    }
+
+    .smallBox49{
+        display: flex;
+        flex-direction: row;
     }
 }
 

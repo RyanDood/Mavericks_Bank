@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import Account from '../Account/Account';
 
 function AllCustomerAccounts(){
 
@@ -57,18 +58,7 @@ function AllCustomerAccounts(){
                 </ul>
                 <div className="scrolling">
                     {accounts.map(account => 
-                        <div key = {account.accountID} className="whiteOutlineBox1">
-                            <div className="whiteOutlineBoxMargin">
-                                <span className="clickRegisterText">Account No: {account.accountNumber}</span>
-                                <div className="smallBox23">
-                                    <span className="clickRegisterText">Account type: {account.accountType}</span>
-                                    <Link to={"/menu/viewAccount/" + account.accountID}>
-                                        <div className="rightArrow2 change-my-color"></div>
-                                    </Link>
-                                </div>
-                                <span className="clickRegisterText">Balance: {account.balance}</span>
-                            </div>
-                        </div>
+                        <Account key = {account.accountID} account={account}/>
                     )}
                 </div>
             </div>

@@ -23,6 +23,7 @@ import Profile from './Components/Profile/Profile';
 import RecentTransaction from './Components/Accounts/ViewAccount/RecentTransaction/RecentTransaction';
 import LastMonthTransaction from './Components/Accounts/ViewAccount/LastMonthTransaction/LastMonthTransaction';
 import FilterTransaction from './Components/Accounts/ViewAccount/FilterTransaction.js/FilterTransaction';
+import DashBoard from './Components/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -34,8 +35,9 @@ function App() {
             <Route path="forgotPassword" element={<ForgotPassword/>}/>
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
             <Route path="menu" element={<Menu/>}>
+                <Route path="dashboard" element={<DashBoard/>}/>
                 <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
-                <Route path="viewAccount/:customerID" element={<ViewAccount/>}>
+                <Route path="viewAccount" element={<ViewAccount/>}>
                     <Route index element={<RecentTransaction/>}/>
                     <Route path="recentTransaction" element={<RecentTransaction/>}/>
                     <Route path="lastMonthTransaction" element={<LastMonthTransaction/>}/>
