@@ -24,6 +24,7 @@ import RecentTransaction from './Components/Accounts/ViewAccount/RecentTransacti
 import LastMonthTransaction from './Components/Accounts/ViewAccount/LastMonthTransaction/LastMonthTransaction';
 import FilterTransaction from './Components/Accounts/ViewAccount/FilterTransaction.js/FilterTransaction';
 import DashBoard from './Components/Dashboard/Dashboard';
+import AccountStatement from './Components/Dashboard/AccountStatement/AccountStatement';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
             <Route path="menu" element={<Menu/>}>
                 <Route path="dashboard" element={<DashBoard/>}/>
+                <Route path="statement" element={<AccountStatement/>}/>
                 <Route path="customerAccounts" element={<AllCustomerAccounts/>}/>
                 <Route path="viewAccount" element={<ViewAccount/>}>
                     <Route index element={<RecentTransaction/>}/>

@@ -6,8 +6,6 @@ import Account from '../Account/Account';
 
 function AllCustomerAccounts(){
 
-    var navigate = useNavigate();
-
     var [accounts,setAccounts] = useState(
         [{
             "accountID": 0,
@@ -35,14 +33,6 @@ function AllCustomerAccounts(){
         .catch(function (error) {
             console.log(error);
         })
-    }
-
-    var nav = (accountID) => {
-        navigate("/menu/viewAccount/" + accountID);
-    }
-
-    function navigateToViewAccount(accountID){
-        
     }
 
     return (
