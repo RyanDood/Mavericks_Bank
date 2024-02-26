@@ -16,10 +16,11 @@ function AllCustomerTransactions(){
     };
 
     useEffect(() => {
-        allTransactions();
+        const customerID = sessionStorage.getItem('id');
+        allTransactions(customerID);
     },[])
 
-    async function allTransactions(){
+    async function allTransactions(customerID){
         await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setTransactions(response.data);

@@ -20,7 +20,7 @@ function Profile(){
             "email": "",
     })
 
-    var customerID = 8;
+    var customerID = sessionStorage.getItem('id');
 
     var updateCustomer = {
         "customerID": customerID,
@@ -40,11 +40,12 @@ function Profile(){
     };
 
     useEffect(() => {
-        getCustomerDetails();
+        const customerID = sessionStorage.getItem('id');
+        getCustomerDetails(customerID);
     },[])
 
-    async function getCustomerDetails(){
-        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=8',httpHeader)
+    async function getCustomerDetails(customerID){
+        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
             convertDate(response.data);

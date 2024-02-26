@@ -25,11 +25,12 @@ function AvailedLoans(){
     };
     
     useState(() => {
-        allAvailedLoans();
+        const customerID = sessionStorage.getItem('id');
+        allAvailedLoans(customerID);
     },[])
 
-    async function allAvailedLoans(){
-        await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=3',httpHeader).then(function (response) {
+    async function allAvailedLoans(customerID){
+        await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setAvailedLoans(response.data);
         })

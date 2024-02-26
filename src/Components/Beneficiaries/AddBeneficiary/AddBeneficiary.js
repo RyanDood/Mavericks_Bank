@@ -11,7 +11,7 @@ function AddBeneficiary(){
     var [branchID,setBranchID] = useState("");
     var [beneficiaryAccountNumber,setBeneficiaryAccountNumber] = useState("");
     var [beneficiaryName,setBeneficiaryName] = useState("");
-    var customerID = 1;
+    const customerID = sessionStorage.getItem('id');
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 

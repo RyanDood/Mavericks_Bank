@@ -18,8 +18,8 @@ function TransferMoney(){
     var [description,setDescription] = useState("");
     var [beneficiaryAccountNumber,setBeneficiaryAccountNumber] = useState("");
     var [beneficiaryName,setBeneficiaryName] = useState("");
-    var customerID = 1;
 
+    const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
@@ -43,12 +43,13 @@ function TransferMoney(){
     }
 
     useEffect(() => {
+        const customerID = sessionStorage.getItem('id');
         getAllBanks();
-        getAllCustomerAccounts();
-        getAllCustomerBeneficiaries();
+        getAllCustomerAccounts(customerID);
+        getAllCustomerBeneficiaries(customerID);
     },[])
 
-    async function getAllCustomerAccounts(){
+    async function getAllCustomerAccounts(customerID){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
@@ -59,7 +60,7 @@ function TransferMoney(){
         })
     }
 
-    async function getAllCustomerBeneficiaries(){
+    async function getAllCustomerBeneficiaries(customerID){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setBeneficiaries(response.data);

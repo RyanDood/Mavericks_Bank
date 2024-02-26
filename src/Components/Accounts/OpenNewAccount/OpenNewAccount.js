@@ -7,7 +7,7 @@ function OpenNewAccount(){
 
     var [accountType,setAccountType] = useState("")
     var [branchID, setBranchID] = useState("");
-    var customerID = 8;
+    var customerID = sessionStorage.getItem('id');
     var [branches,setBranches] = useState(
         [{
         "branchID": 0,
@@ -27,8 +27,6 @@ function OpenNewAccount(){
         "customerID": customerID
     }
 
-    var [oldData,setOldData] = useState({})
-
     var [profile,setProfile] = useState(
         {
             "name": "",
@@ -41,8 +39,6 @@ function OpenNewAccount(){
             "gender": "",
             "email": "",
     })
-
-    var customerID = 8;
 
     var updateCustomer = {
         "customerID": customerID,
@@ -57,7 +53,8 @@ function OpenNewAccount(){
     }
 
     useEffect(() => {
-        getCustomerDetails();
+        const customerID = sessionStorage.getItem('id');
+        getCustomerDetails(customerID);
         getAllMavericksBranches();
     },[])
 
@@ -66,8 +63,8 @@ function OpenNewAccount(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    async function getCustomerDetails(){
-        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=8',httpHeader)
+    async function getCustomerDetails(customerID){
+        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
             convertDate(response.data);
@@ -92,7 +89,6 @@ function OpenNewAccount(){
         data.dob = formattedDate;
         data.phoneNumber = data.phoneNumber.toString();
         setProfile(data);
-        setOldData(data);
     }
 
     async function createAccount() {

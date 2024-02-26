@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../../../style.css';
 import { Link, Outlet } from 'react-router-dom';
+import Transaction from '../../../Transactions/Transaction/Transaction';
 
 function FilterTransaction(){
     var [transactions,setTransactions] = useState(
@@ -35,19 +36,7 @@ function FilterTransaction(){
     return (
         <div className="scrolling">
             {transactions.map(transaction => 
-                <div key={transaction.transactionID} className="whiteOutlineBox2">
-                    <div className="whiteOutlineBoxMargin">
-                        <div className="smallBox23">
-                            <span className="clickRegisterText">{transaction.transactionType}</span>
-                            <div className="transactiondetails">
-                                <span className="clickRegisterText">Rs.{transaction.amount}</span>
-                                <Link to="/menu/viewTransaction">
-                                    <div className="rightArrow change-my-color"></div>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Transaction key={transaction.transactionID} transaction = {transaction}/> 
             )}
         </div> 
     );

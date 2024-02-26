@@ -10,6 +10,7 @@ function Menu(){
     var removeSession = () => {
         sessionStorage.removeItem("email");
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("id");
         navigate("/");
     }
 

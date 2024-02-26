@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import '../../style.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Landing(){
 
@@ -19,7 +20,7 @@ function Landing(){
     var login = async() => await axios.post('http://localhost:5224/api/Validation/Login',loginValidation).then(function (response) {
                                 sessionStorage.setItem("email",response.data.email);
                                 sessionStorage.setItem("token",response.data.token);
-                                navigate("/menu/customerAccounts");
+                                getCustomerID();
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -42,6 +43,23 @@ function Landing(){
                 console.log("Invalid Email");
             }
         }
+    }
+
+    async function getCustomerID(){
+        const email = sessionStorage.getItem('email');
+        const token = sessionStorage.getItem('token');
+        const httpHeader = { 
+            headers: {'Authorization': 'Bearer ' + token}
+        };
+        await axios.get('http://localhost:5224/api/Customers/GetCustomerByEmail?email=' + email,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            sessionStorage.setItem("id",response.data.customerID);
+            navigate("/menu/dashboard");
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     return(

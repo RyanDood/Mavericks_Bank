@@ -2,13 +2,14 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import Transaction from '../../Transactions/Transaction/Transaction';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function AccountStatement() {
 
     var [accountStatement,setAccountStatement] = useState({});
     var [transactions,setTransactions] = useState([]);
+    var navigate = useNavigate();
 
     var statementData = useSelector((state) => state.statement);
 
@@ -22,14 +23,19 @@ function AccountStatement() {
     },[])
 
     async function generateReport(){
-        await axios.get('http://localhost:5224/api/Transactions/GetAccountStatement?accountID=' + statementData.accountID +'&fromDate=' + statementData.fromDate +'&toDate=' + statementData.toDate,httpHeader).then(function (response) {
-            console.log(response.data);
-            setAccountStatement(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        transactionReport();
+        if(statementData.accountID=== 0){
+            navigate("/menu/dashboard");
+        }
+        else{
+            await axios.get('http://localhost:5224/api/Transactions/GetAccountStatement?accountID=' + statementData.accountID +'&fromDate=' + statementData.fromDate +'&toDate=' + statementData.toDate,httpHeader).then(function (response) {
+                console.log(response.data);
+                setAccountStatement(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            transactionReport();
+        }
     }
 
     async function transactionReport(){

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 function ApplyLoan(){
 
     var loanID = useSelector((state) => state.loanID);
-    var customerID = 3;
+    const customerID = sessionStorage.getItem('id');
     var [amount,setAmount] = useState("");
     var [purpose,setPurpose] = useState("");
 

@@ -26,11 +26,12 @@ function AllCustomerBeneficiaries(){
     };
 
     useEffect(() => {
-        allBeneficiaries();
+        const customerID = sessionStorage.getItem('id');
+        allBeneficiaries(customerID);
     },[])
 
-    async function allBeneficiaries(){
-        await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=1',httpHeader).then(function (response) {
+    async function allBeneficiaries(customerID){
+        await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setBeneficiaries(response.data);
         })
@@ -38,8 +39,6 @@ function AllCustomerBeneficiaries(){
             console.log(error);
         })  
     }
-
-    
 
     return (
         <div className="smallBox17 col-md-9">

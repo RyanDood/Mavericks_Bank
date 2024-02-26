@@ -22,11 +22,12 @@ function DepositMoney(){
     }
 
     useEffect(() => {
-        getAllCustomerAccounts();
+        const customerID = sessionStorage.getItem('id');
+        getAllCustomerAccounts(customerID);
     },[])
 
-    async function getAllCustomerAccounts(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=1',httpHeader)
+    async function getAllCustomerAccounts(customerID){
+        await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
             setAccounts(response.data);
@@ -93,7 +94,7 @@ function DepositMoney(){
                                 <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
                                     <option value="">Select</option>
                                     {accounts.map(account => 
-                                        <option key={account.accountID} value={account.accountID}>{account.accountNumber}</option>
+                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
                                     )}
                                 </select>
                             </div>
