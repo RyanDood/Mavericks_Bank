@@ -6,21 +6,20 @@ import Transaction from '../Transaction/Transaction';
 
 function AllCustomerTransactions(){
 
-    var customerID = 1;
     var [transactions,setTransactions] = useState([]);
     var [error,setError] = useState(false);
 
+    const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
     useEffect(() => {
-        const customerID = sessionStorage.getItem('id');
-        allTransactions(customerID);
+        allTransactions();
     },[])
 
-    async function allTransactions(customerID){
+    async function allTransactions(){
         await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setTransactions(response.data);

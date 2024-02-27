@@ -15,17 +15,17 @@ function AllCustomerAccounts(){
         }]
     );
 
+    const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
     useEffect(() => {
-        const customerID = sessionStorage.getItem('id');
-        allAccounts(customerID);
+        allAccounts();
     },[]);
 
-    async function allAccounts(customerID){
+    async function allAccounts(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
@@ -41,7 +41,7 @@ function AllCustomerAccounts(){
             <div className="smallBox21">
                 <ul className="smallBox22 nav">
                     <li className="nav-item highlight smallBox23">
-                        <a className="nav-link textDecoGreen smallBox23" to="/menu/customerAccounts">All Accounts</a>
+                        <Link className="nav-link textDecoGreen smallBox23" to="/menu/customerAccounts">All Accounts</Link>
                     </li>
                     <li className="nav-item highlight smallBox23">
                         <Link className="nav-link textDecoWhite smallBox23" to="/menu/openAccount">Open New Account</Link>

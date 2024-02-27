@@ -12,7 +12,9 @@ function DashBoard() {
     var [report,setReport] = useState([]);
     var [fromDate,setFromDate] = useState("");
     var [toDate,setToDate] = useState("");
-
+    var [availedLoans,setAvailedLoans] = useState([]);
+    var [beneficiaries,setBeneficiaries] = useState([]);
+    var [customer,setCustomer] = useState({});
 
     var statementData = {
         "accountID": accountID,
@@ -30,7 +32,10 @@ function DashBoard() {
     };
 
     useEffect(() => {
+        getCustomer();
         getAllCustomerAccounts();
+        allAvailedLoans();
+        allBeneficiaries();
         getCustomerReport();
     },[])
 
@@ -61,6 +66,36 @@ function DashBoard() {
         })
     }
 
+    async function allAvailedLoans(){
+        await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
+        console.log(response.data);
+            setAvailedLoans(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+         })
+    }
+
+    async function allBeneficiaries(){
+        await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
+            console.log(response.data);
+            setBeneficiaries(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })  
+    }
+
+    async function getCustomer(){
+        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader).then(function (response) {
+            console.log(response.data);
+            setCustomer(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })  
+    }
+
     async function getCustomerReport(){
         await axios.get('http://localhost:5224/api/Transactions/CustomerRegulatoryReport?customerID=' + customerID,httpHeader)
         .then(function (response) {
@@ -76,7 +111,7 @@ function DashBoard() {
         <div className="smallBox17 col-md-9">
             <div className="smallBox40">
                 <div className="flexRow2">
-                    <span className="clickRegisterText5">Hello Ryan,</span>
+                    <span className="clickRegisterText5">Hello {customer.name},</span>
                 </div>
                 <hr className="hrS"></hr>
                 <div className="flexRow2">
@@ -86,15 +121,15 @@ function DashBoard() {
                     </div>
                     <div className="smallBox32">
                         <span className="clickRegisterText">Total Accounts</span>
-                        <span className="clickRegisterText3">2</span>
+                        <span className="clickRegisterText3">{accounts.length}</span>
                     </div>
                     <div className="smallBox32">
                         <span className="clickRegisterText">Active Loans</span>
-                        <span className="clickRegisterText3">1</span>
+                        <span className="clickRegisterText3">{availedLoans.length}</span>
                     </div>
                     <div className="smallBox32">
                         <span className="clickRegisterText">Beneficiaries</span>
-                        <span className="clickRegisterText3">3</span>
+                        <span className="clickRegisterText3">{beneficiaries.length}</span>
                     </div>
                 </div>
                 <div className="flexRow2">
@@ -112,12 +147,12 @@ function DashBoard() {
                         <span className="clickRegisterText3">{report.outboundTransactions}</span>
                     </div>
                     <div className="smallBox32">
-                        <span className="clickRegisterText">Ratio</span>
+                        <span className="clickRegisterText">Credit Score</span>
                         <span className="clickRegisterText3">{report.ratio}</span>
                     </div>
                 </div>
                 <hr className="hrS"></hr>
-                <span className="clickRegisterText10">Generate Report</span>
+                <span className="clickRegisterText10">Generate Account Statement</span>
                 <div>
                     <div className="smallBox19">
                         <div className="margin1">

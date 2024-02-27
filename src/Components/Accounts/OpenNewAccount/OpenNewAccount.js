@@ -53,8 +53,7 @@ function OpenNewAccount(){
     }
 
     useEffect(() => {
-        const customerID = sessionStorage.getItem('id');
-        getCustomerDetails(customerID);
+        getCustomerDetails();
         getAllMavericksBranches();
     },[])
 
@@ -63,7 +62,7 @@ function OpenNewAccount(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    async function getCustomerDetails(customerID){
+    async function getCustomerDetails(){
         await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import '../../../style.css';
+import '../../../../style.css';
 import { Link, Outlet } from 'react-router-dom';
-import Transaction from '../../../Transactions/Transaction/Transaction';
-import { useSelector } from 'react-redux';
 
-function FilterTransaction(){
+import { useSelector } from 'react-redux';
+import Transaction from '../../../../Transactions/Transaction/Transaction';
+
+function AccountTransaction(){
 
     var accountID = useSelector((state) => state.accountID);
     var [fromDate,setFromDate] = useState("");
@@ -66,4 +67,4 @@ function FilterTransaction(){
     );
 }
 
-export default FilterTransaction;
+export default AccountTransaction;

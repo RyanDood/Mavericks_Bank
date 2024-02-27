@@ -5,6 +5,13 @@
     justify-content: space-between;
 }
 
+.smallBox52{
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .scrolling{
     overflow-y: auto;
     height: 100%;
@@ -41,6 +48,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.heigthBox{
+    height: 243px;
+}
+
+.heigthBox2{
+    height: 400px;
 }
 
 .smallBox40{
@@ -96,6 +111,14 @@
     justify-content: space-between;
     align-items: end;
     margin-bottom: 10px;
+}
+
+.smallBox53 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    margin-right: 10px;
 }
 
 .smallBox26 {
@@ -184,6 +207,14 @@
     justify-content: space-between;
 }
 
+.smallBox51{
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 75px;
+}
+
 .logo{
     color: rgb(49,198,109);
     font-family: Orbitron;
@@ -201,6 +232,18 @@
 .whiteOutlineBox1{
     width: 593px;
     height: 130px;
+    background: rgb(73,73,73);
+    border: 1px solid rgb(120 120 120);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.whiteOutlineBox5{
+    width: 593px;
+    height: 100px;
     background: rgb(73,73,73);
     border: 1px solid rgb(120 120 120);
     border-radius: 10px;
@@ -507,6 +550,23 @@ hr{
     font-size: 18px;
 }
 
+.clickRegisterText11{
+    color: rgb(49,198,109);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.clickRegisterText12{
+    color: rgb(255, 255, 255);
+    font-family: Nunito;
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 25px;
+}
+
+
 .clickRegisterText9{
     color: rgb(238 86 86);
     font-family: Nunito;
@@ -577,6 +637,8 @@ hr{
     align-items: center;
     margin-left: -36px;
 }
+
+
 
 @media screen and (min-width: 576px) {
     body {
@@ -964,6 +1026,14 @@ hr{
         align-items: center;
     }
 
+    .smallBox50{
+        background: rgb(73,73,73);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .smallBox13{
         width: 300px;
         display: flex;
@@ -1003,6 +1073,10 @@ hr{
 
 @media screen and (max-width: 825px){
     .smallBox15{
+        display: none;
+    }
+
+    .smallBox50{
         display: none;
     }
 

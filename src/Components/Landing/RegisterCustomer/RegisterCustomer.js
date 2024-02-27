@@ -49,7 +49,7 @@ function RegisterCustomer(){
             console.log("Please fill in all fields");
         }
         else{
-            if(email.includes("@") && email.includes(".com") && email.length > 5 && email.length < 50){
+            if(email.includes("@") && email.includes(".") && email.length > 5 && email.length < 50){
                 if(password.length >= 8 && password.length <= 15){
                     if(password === confirmPassword){
                         if(name.length > 2 && name.length < 100){

@@ -18,9 +18,15 @@ function Landing(){
     }
 
     var login = async() => await axios.post('http://localhost:5224/api/Validation/Login',loginValidation).then(function (response) {
+                                console.log(response.data);
                                 sessionStorage.setItem("email",response.data.email);
                                 sessionStorage.setItem("token",response.data.token);
-                                getCustomerID();
+                                if(response.data.userType === "Customer"){
+                                    getCustomerID();
+                                }
+                                else if(response.data.userType === "Employee"){
+                                    navigate("/employeeMenu/accounts");
+                                }
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -31,7 +37,7 @@ function Landing(){
             console.log("Please fill in all fields");
         }
         else{
-            if(email.includes("@") && email.includes(".com") && email.length > 5){
+            if(email.includes("@") && email.includes(".") && email.length > 5){
                 if(password.length >= 8 && password.length <= 15){
                     login();
                 }

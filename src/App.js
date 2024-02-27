@@ -25,6 +25,15 @@ import LastMonthTransaction from './Components/Accounts/ViewAccount/LastMonthTra
 import FilterTransaction from './Components/Accounts/ViewAccount/FilterTransaction.js/FilterTransaction';
 import DashBoard from './Components/Dashboard/Dashboard';
 import AccountStatement from './Components/Dashboard/AccountStatement/AccountStatement';
+import EmployeeMenu from './Components/Employees/EmployeeMenu/EmployeeMenu';
+import Accounts from './Components/Employees/Accounts/Accounts';
+import OpenRequests from './Components/Employees/Accounts/OpenRequests/OpenRequests';
+import CloseRequests from './Components/Employees/Accounts/CloseRequests/CloseRequests';
+import ViewCustomerAccount from './Components/Employees/Accounts/ViewCustomerAccount/ViewCustomerAccount';
+import ViewCustomerRequest from './Components/Employees/Accounts/ViewCustomerRequest/ViewCustomerRequest';
+import ViewCustomerAccountDetails from './Components/Employees/Accounts/ViewCustomerAccountDetails/ViewCustomerAccountDetails';
+import AccountTransaction from './Components/Employees/Accounts/ViewCustomerAccountDetails/AccountTransactions/AccountTransactions';
+import CustomerTransactions from './Components/Employees/Accounts/ViewCustomerAccountDetails/CustomerTransactions/CustomerTransactions';
 
 function App() {
   return (
@@ -57,6 +66,20 @@ function App() {
                 <Route path="customerBeneficiaries" element={<AllCustomerBeneficiaries/>}/>
                 <Route path="addBeneficiary" element={<AddBeneficiary/>}/>
                 <Route path="profile" element={<Profile/>}/>
+            </Route>
+            <Route path="employeeMenu" element={<EmployeeMenu/>}>
+                <Route path="accounts" element={<Accounts/>}>
+                    <Route index element={<OpenRequests/>}/>
+                    <Route path="openRequests" element={<OpenRequests/>}/>
+                    <Route path="closeRequests" element={<CloseRequests/>}/>
+                    <Route path="viewCustomerAccount" element={<ViewCustomerAccount/>}/>
+                </Route>
+                <Route path="viewOpenRequest" element={<ViewCustomerRequest/>}/>
+                <Route path="viewDetails" element={<ViewCustomerAccountDetails/>}>
+                    <Route index element={<AccountTransaction/>}/>
+                    <Route path="accountTransactions" element={<AccountTransaction/>}/>
+                    <Route path="customerTransactions" element={<CustomerTransactions/>}/>
+                </Route>
             </Route>
             <Route path="*" element={<InvalidPage/>}/>
         </Routes>

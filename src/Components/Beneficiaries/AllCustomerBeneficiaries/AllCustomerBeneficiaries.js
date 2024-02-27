@@ -20,17 +20,17 @@ function AllCustomerBeneficiaries(){
         }]
     );
 
+    const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
     useEffect(() => {
-        const customerID = sessionStorage.getItem('id');
-        allBeneficiaries(customerID);
+        allBeneficiaries();
     },[])
 
-    async function allBeneficiaries(customerID){
+    async function allBeneficiaries(){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setBeneficiaries(response.data);

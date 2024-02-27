@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 
 function ViewAccount(){
 
+    var [clicked,setClicked] = useState([true,false,false]);
     var accountID = useSelector((state) => state.accountID);
     var navigate = useNavigate();
     
@@ -64,6 +65,21 @@ function ViewAccount(){
         })
     }
 
+    function navigateToRecentTransactions(){
+        setClicked([true,false,false]);
+        navigate("/menu/viewAccount/recentTransaction");
+    }
+
+    function navigateToLastMonthTransactions(){
+        setClicked([false,true,false]);
+        navigate("/menu/viewAccount/lastMonthTransaction");
+    }
+
+    function navigateToFilterTransactions(){
+        setClicked([false,false,true]);
+        navigate("/menu/viewAccount/filterTransaction");
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox40">
@@ -84,13 +100,16 @@ function ViewAccount(){
                     <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/recentTransaction"}>Recent Transactions</Link>
+                            {clicked[0] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToRecentTransactions}>Recent Transactions</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToRecentTransactions}>Recent Transactions</span>}
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/lastMonthTransaction"}>Last Month</Link>
+                            {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToLastMonthTransactions}>Last Month</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToLastMonthTransactions}>Last Month</span>}
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            <Link className="nav-link textDecoWhite smallBox23" to={"/menu/viewAccount/filterTransaction"}>From 2022 - 2023</Link>
+                            {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToFilterTransactions}>Filter Transactions</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToFilterTransactions}>Filter Transactions</span>}
                         </li>
                     </ul>
                     <Outlet/>

@@ -1,0 +1,63 @@
+import { Link, useNavigate } from "react-router-dom";
+import '../../../style.css';
+import axios from 'axios';
+import { useEffect, useState } from "react";
+import Request from "../Request/Request";
+import { useSelector } from "react-redux";
+
+function OpenRequests(){
+
+    var [accounts,setAccounts] = useState([]);
+    var [errorMessage,setErrorMessage] = useState("");
+
+    useEffect(() => {
+        allAccounts();
+    },[]);
+
+    const token = sessionStorage.getItem('token');
+    const httpHeader = { 
+        headers: {'Authorization': 'Bearer ' + token}
+    };
+
+    async function allAccounts(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAllAccountsStatus?status=Open%20Account%20Request%20Pending',httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setAccounts(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+            setErrorMessage(error.response.data);
+        })
+    }
+
+    return (
+        <div>
+            <ul className="smallBox22 nav">
+                <li className="nav-item highlight smallBox23">
+                    <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/openRequests">Open Account Requests</Link>
+                </li>
+                <li className="nav-item highlight smallBox23">
+                    <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/closeRequests">Close Account Requests</Link>
+                </li>
+                <li className="nav-item highlight smallBox23">
+                    <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
+                </li>
+            </ul>
+            {errorMessage === "No Open Account Request Pending Accounts Available" ?
+                <div className="smallBox48">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">No Open Account Request Pending Accounts Available</div>
+                </div> : 
+            <div className="heigthBox2">
+                <div className="scrolling">
+                        {accounts.map(account => 
+                            <Request key = {account.accountID} account={account}/>
+                        )}
+                </div>
+            </div>}
+        </div>
+    );
+}
+
+export default OpenRequests;

@@ -19,17 +19,17 @@ function AvailedLoans(){
         }]
     );
 
+    const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
     
     useState(() => {
-        const customerID = sessionStorage.getItem('id');
-        allAvailedLoans(customerID);
+        allAvailedLoans();
     },[])
 
-    async function allAvailedLoans(customerID){
+    async function allAvailedLoans(){
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setAvailedLoans(response.data);
