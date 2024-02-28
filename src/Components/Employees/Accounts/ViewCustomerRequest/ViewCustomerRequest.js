@@ -2,9 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import CustomerDetails from './CustomerDetails/CustomerDetails';
+import CustomerAccounts from './CustomerAccounts/CustomerAccounts';
 
 function ViewCustomerRequest(){
 
+    var [clicked,setClicked] = useState([true,false]);
     var accountID = useSelector((state) => state.accountID);
     var navigate = useNavigate();
 
@@ -82,6 +85,14 @@ function ViewCustomerRequest(){
         })
     }
 
+    function setCustomerDetails(){
+        setClicked([true,false,false]);
+    }
+
+    function setCustomerAccounts(){
+        setClicked([false,true,false]);
+    }
+
     return(
         <div className="smallBox17 col-md-9">
             <div className="smallBox40">
@@ -118,21 +129,21 @@ function ViewCustomerRequest(){
                 <span className="clickRegisterText12">Close Account</span>}
                 
                 <span className="clickRegisterText11">Account Details</span>
-                <span className="clickRegisterText7">Balance Remaining: {account.balance}</span>
-                <span className="clickRegisterText7">Account No: {account.accountNumber} - {account.accountType} Account</span>
-                <span className="clickRegisterText7">IFSC: {account.branches.ifscNumber}, {account.branches.branchName} - {account.branches.banks.bankName}</span>
+                <span className="clickRegisterText7">Balance: {account.balance} --- Account No: {account.accountNumber} ---- {account.accountType} Account</span>
+                <span className="clickRegisterText7">IFSC: {account.branches.ifscNumber} --- {account.branches.branchName} --- {account.branches.banks.bankName}</span>
                 <hr className='hrS'></hr>
-                <span className="clickRegisterText11">Customer Details</span>
-                <div className='smallBox40 scrolling'>
-                    <span className="clickRegisterText7">Name: {account.customers.name}</span>
-                    <span className="clickRegisterText7">Email: {account.customers.email}</span>
-                    <span className="clickRegisterText7">Date of Birth: {account.customers.dob}</span>
-                    <span className="clickRegisterText7">Phone Number: {account.customers.phoneNumber}</span>
-                    <span className="clickRegisterText7">Aadhaar Number: {account.customers.aadharNumber}</span>
-                    <span className="clickRegisterText7">PAN Number: {account.customers.panNumber}</span>
-                    <span className="clickRegisterText7">Address: {account.customers.address}</span>
-                    <span className="clickRegisterText7">Gender: {account.customers.gender}</span>
-                </div>
+                <ul className="smallBox22 nav">
+                <li className="nav-item highlight smallBox23">
+                            {clicked[0] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCustomerDetails}>Customer Details</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCustomerDetails}>Customer Details</span>}
+                        </li>
+                        <li className="nav-item highlight smallBox23">
+                            {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCustomerAccounts}>Customer Accounts</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCustomerAccounts}>Customer Accounts</span>}
+                        </li>
+                </ul>
+                {clicked[0] ? <CustomerDetails account = {account}/> : null}
+                {clicked[1] ? <CustomerAccounts account = {account}/> : null}
             </div>
             <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">
                     <div className="modal-dialog">

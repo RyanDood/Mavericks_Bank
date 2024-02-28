@@ -7,11 +7,21 @@ function Account(props){
     var dispatch = useDispatch();
     var navigate = useNavigate();
 
+    const email = sessionStorage.getItem('email');
+
     function updateAccountId(){
-        navigate("/menu/viewAccount");
-        dispatch(
-            updateAccountID(props.account.accountID)
-        );
+        if(email.includes("@maverick.in")){
+            navigate("/employeeMenu/viewDetails");
+            dispatch(
+                updateAccountID(props.account.accountID)
+            );
+        }
+        else{
+            navigate("/menu/viewAccount");
+            dispatch(
+                updateAccountID(props.account.accountID)
+            );
+        }
     }
 
     return (

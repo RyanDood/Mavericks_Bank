@@ -37,6 +37,7 @@ function ViewTransaction(){
         }
     );
 
+    const email = sessionStorage.getItem('email');
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
@@ -61,14 +62,23 @@ function ViewTransaction(){
       }
     }
 
+    function navigateBack(){
+      if(email.includes("@maverick.in")){
+        navigate("/employeeMenu/viewDetails/accountTransactions");
+      }
+      else{
+        navigate("/menu/customerTransactions");
+      }
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 {transaction.transactionType === "Transfer" ? 
                   <div className="smallBox26">
                     <div className="upMargin2">
-                      <Link to="/menu/customerTransactions">
+                      <span className="pointer" onClick={navigateBack}>
                         <div className="leftArrow change-my-color"></div>
-                      </Link>
+                      </span>
                     </div>
                     <span className="clickRegisterText8">{transaction.amount}</span>
                     {transaction.status === "Failed" ? <span className="clickRegisterText9">Transaction Failed</span> : null}
@@ -85,9 +95,9 @@ function ViewTransaction(){
                   </div> : 
                   <div className="smallBox26">
                     <div className="upMargin2">
-                      <Link to="/menu/customerTransactions">
+                      <span className="pointer" onClick={navigateBack}>
                         <div className="leftArrow change-my-color"></div>
-                      </Link>
+                      </span>
                     </div>
                     <span className="clickRegisterText8">{transaction.amount}</span>
                     {transaction.status === "Failed" ? <span className="clickRegisterText9">Transaction Failed</span> : null}

@@ -7,11 +7,21 @@ function Transaction(props){
     var dispatch = useDispatch();
     var navigate = useNavigate();
 
+    const email = sessionStorage.getItem('email');
+
     function updatetransactionId(){
-        navigate("/menu/viewTransaction");
-        dispatch(
-            updatetransactionID(props.transaction.transactionID)
-        );
+        if(email.includes("@maverick.in")){
+            navigate("/employeeMenu/viewTransaction");
+            dispatch(
+                updatetransactionID(props.transaction.transactionID)
+            );
+        }
+        else{
+            navigate("/menu/viewTransaction");
+            dispatch(
+                updatetransactionID(props.transaction.transactionID)
+            );
+        }
     }
 
     return (

@@ -6,7 +6,7 @@
 }
 
 .smallBox52{
-    height: 200px;
+    height: 280px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -15,6 +15,12 @@
 .scrolling{
     overflow-y: auto;
     height: 100%;
+}
+
+.scrolling2{
+    overflow-x: scroll; 
+    overflow-y:hidden;
+    white-space: nowrap;
 }
 
 .marginRegisterCustomer{
@@ -83,6 +89,14 @@
     display: flex;
     flex-direction: row;
     margin-bottom: 35px;
+}
+
+.widthBox{
+    width: 547px;
+}
+
+.widthBox2{
+    width: 593px;
 }
 
 .smallBox23{
@@ -208,7 +222,7 @@
 }
 
 .smallBox51{
-    height: 280px;
+    height: 365px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -232,6 +246,18 @@
 .whiteOutlineBox1{
     width: 593px;
     height: 130px;
+    background: rgb(73,73,73);
+    border: 1px solid rgb(120 120 120);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.whiteOutlineBox6{
+    width: 593px;
+    height: 200px;
     background: rgb(73,73,73);
     border: 1px solid rgb(120 120 120);
     border-radius: 10px;
@@ -399,6 +425,20 @@
     width: 22px;
     height: 22px;
     background: url(arrow-right.svg);
+    overflow: hidden;
+}
+
+.search {
+    width: 22px;
+    height: 22px;
+    background: url(search.svg);
+    overflow: hidden;
+}
+
+.cancel {
+    width: 22px;
+    height: 22px;
+    background: url(cancel.svg);
     overflow: hidden;
 }
 
@@ -583,11 +623,29 @@ hr{
     margin-bottom: 25px;
 }
 
+
+.margin4 {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.margin5 {
+    margin-bottom: 15px;
+}
+
 .clickRegisterText4{
     color: rgb(49,198,109);
     font-family: Nunito;
     font-weight: 300;
     font-size: 14px;
+}
+
+.clickRegisterText13{
+    color: rgb(49,198,109);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 .clickRegisterText5{
@@ -762,6 +820,17 @@ hr{
         border: 1px solid rgb(120 120 120);
         color: white;
     }
+
+    .enterDiv6 {
+        width: 545px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
     
     .smallBox6{
         display: flex;
@@ -923,6 +992,17 @@ hr{
     
     .enterDiv {
         width: 265px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .enterDiv6 {
+        width: 400px;
         height: 44px;
         font-size: 14px;
         font-family: Nunito;

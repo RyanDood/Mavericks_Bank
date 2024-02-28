@@ -35,7 +35,6 @@ function ViewCustomerAccountDetails(){
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    
     useEffect(() => {
         getAccount();
     },[])
@@ -63,7 +62,7 @@ function ViewCustomerAccountDetails(){
 
     function navigateToInboundsOutbounds(){
         setClicked([false,true,false]);
-        // navigate("/menu/viewAccount/lastMonthTransaction");
+        navigate("/employeeMenu/viewDetails/inboudsOutbounds");
     }
 
     function navigateToCustomerTransactions(){
@@ -84,18 +83,18 @@ function ViewCustomerAccountDetails(){
                     <span className="clickRegisterText7">IFSC: {account.branches.ifscNumber}, {account.branches.branchName} - {account.branches.banks.bankName}</span>
                     <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
-                        <li className="nav-item highlight smallBox23">
-                            {clicked[0] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToAccountTransactions}>Account Transactions</span> :
-                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToAccountTransactions}>Account Transactions</span>}
-                        </li>
-                        <li className="nav-item highlight smallBox23">
-                            {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToInboundsOutbounds}>Inbouds/Outbounds</span> :
-                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToInboundsOutbounds}>Inbouds/Outbounds</span>}
-                        </li>
-                        <li className="nav-item highlight smallBox23">
-                            {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span> :
-                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span>}
-                        </li>
+                            <li className="nav-item highlight smallBox23">
+                                {clicked[0] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToAccountTransactions}>Account Transactions</span> :
+                                <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToAccountTransactions}>Account Transactions</span>}
+                            </li>
+                            <li className="nav-item highlight smallBox23">
+                                {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToInboundsOutbounds}>Inbouds/Outbounds</span> :
+                                <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToInboundsOutbounds}>Inbouds/Outbounds</span>}
+                            </li>
+                            <li className="nav-item highlight smallBox23">
+                                {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span> :
+                                <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span>}
+                            </li>
                     </ul>
                     {clicked[2] ? <CustomerTransactions account = {account}/> : <Outlet/>}
                 </div>

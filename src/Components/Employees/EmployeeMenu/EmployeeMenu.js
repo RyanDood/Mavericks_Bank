@@ -4,7 +4,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 function EmployeeMenu(){
 
-    var [clicked,setClicked] = useState([false,false]);
+    var [clicked,setClicked] = useState([false,false,false]);
     var navigate = useNavigate();
 
     var removeSession = () => {
@@ -15,12 +15,18 @@ function EmployeeMenu(){
     }
 
     function navigateToAccounts(){
-        setClicked([true,false]);
+        setClicked([true,false,false]);
         navigate("/employeeMenu/accounts/openRequests");
     }
 
     function navigateToLoans(){
-        setClicked([false,true]);
+        setClicked([false,true,false]);
+        navigate("/employeeMenu/loans");
+    }
+
+    function navigateToProfile(){
+        setClicked([false,false,true]);
+        navigate("/employeeMenu/employeeProfile");
     }
 
     return (
@@ -46,6 +52,14 @@ function EmployeeMenu(){
                                 <li className="nav-item highlight">
                                     {clicked[1] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToLoans}>Loans</span> :
                                     <span className="nav-link textDecoWhite pointer" onClick={navigateToLoans}>Loans</span>}
+                                </li>
+                            </div>
+                            <hr className="navBarLine"></hr>
+                            <div className="flexRow3">
+                                <div className="loan change-my-color3"></div>
+                                <li className="nav-item highlight">
+                                    {clicked[2] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToProfile}>Profile</span> :
+                                    <span className="nav-link textDecoWhite pointer" onClick={navigateToProfile}>Profile</span>}
                                 </li>
                             </div>
                             <hr className="navBarLine"></hr>

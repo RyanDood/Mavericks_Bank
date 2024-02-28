@@ -2,43 +2,99 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import '../../../style.css';
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateAccountID } from "../../../../accountSlice";
+import { updateAccountNumber } from "../../../../accountNumberSlice";
+import Account from "../../../Accounts/Account/Account";
+import { updateDate } from "../../../../dateSlice";
 
 function ViewCustomerAccount(){
 
-    var accountID = 1;
+    var fetchedAccountNumber = useSelector((state) => state.accountNumber);
+    var [accountNumber,setAccountNumber]= useState(fetchedAccountNumber);
     var [errorMessage,setErrorMessage] = useState("");
+    var [error,setError] = useState(false);
     var [account,setAccount] = useState({});
+    var [accounts,setAccounts] = useState([]);
+    var [searched,setSearched] = useState(false);
 
-    useEffect(() => {
-        getAccount();
-    },[]);
+    var dispatch = useDispatch();
+    var navigate = useNavigate();
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
-    async function getAccount(){
-        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
+    useEffect(() => {
+        dispatch(
+            updateDate({
+                "fromDate": "",
+                "toDate": ""
+            })
+        )
+        search();
+    },[])
+
+    function search(){
+        if(accountNumber === ""){
+            setSearched(false);
+            getAllAccounts();
+            updateAccountNo();
+        }
+        else{
+            setSearched(true);
+            getAccount();
+            updateAccountNo();
+        }
+    }
+
+    function clear(){
+        setSearched(false);
+        getAllAccounts();
+        setAccountNumber("");
+        dispatch(
+            updateAccountNumber("")
+        );
+    }
+
+    async function getAllAccounts(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAllAccounts',httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setAccounts(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    async function getAccount(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAccountByAccountNumber?accountNumber=' + accountNumber,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setError(false);
             setAccount(response.data);
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
             setErrorMessage(error.response.data);
         })
     }
-
-    var dispatch = useDispatch();
-    var navigate = useNavigate();
 
     function updateAccountId(){
         navigate("/employeeMenu/viewDetails");
         dispatch(
             updateAccountID(account.accountID)
+        );
+        updateAccountNo();
+    }
+
+
+    function updateAccountNo(){
+        dispatch(
+            updateAccountNumber(accountNumber)
         );
     }
 
@@ -55,10 +111,24 @@ function ViewCustomerAccount(){
                     <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
                 </li>
             </ul>
-            {errorMessage === "Account ID " + accountID + " not found" ?
+            <div className="widthBox2">
+                <div className="marginRegisterCustomer flexRow2">
+                    <input className="form-control enterDiv6" required placeholder='Account Number' type="email" value={accountNumber} onChange={(eventargs) => setAccountNumber(eventargs.target.value)}></input>
+                    {searched ? 
+                    <span className="pointer" onClick={clear}>
+                        <div className="cancel change-my-color2"></div>
+                    </span>:
+                    <span className="pointer" onClick={search}>
+                        <div className="search change-my-color"></div>
+                    </span>}
+                </div>
+            </div>
+            {searched ? 
+            <div>
+                {error ?
                 <div className="smallBox48">
                     <div className="errorImage2 change-my-color2"></div>
-                    <div className="clickRegisterText">Account ID {accountID} not found</div>
+                    <div className="clickRegisterText">{errorMessage}</div>
                 </div> : 
                 <div className="heigthBox2">
                     <div className="scrolling">
@@ -76,6 +146,14 @@ function ViewCustomerAccount(){
                         </div>
                     </div>
                 </div>}
+            </div> : 
+            <div className="heigthBox2">
+            <div className="scrolling">
+                {accounts.map(account => 
+                    <Account key = {account.accountID} account={account}/>
+                )}
+            </div>
+            </div>}
         </div>
     );  
 }

@@ -34,6 +34,10 @@ import ViewCustomerRequest from './Components/Employees/Accounts/ViewCustomerReq
 import ViewCustomerAccountDetails from './Components/Employees/Accounts/ViewCustomerAccountDetails/ViewCustomerAccountDetails';
 import AccountTransaction from './Components/Employees/Accounts/ViewCustomerAccountDetails/AccountTransactions/AccountTransactions';
 import CustomerTransactions from './Components/Employees/Accounts/ViewCustomerAccountDetails/CustomerTransactions/CustomerTransactions';
+import InboudsOutbounds from './Components/Employees/Accounts/ViewCustomerAccountDetails/InboundsOutbounds/InboudsOutbounds';
+import Loans from './Components/Employees/Loans/Loans';
+import LoanApplicationDetails from './Components/Employees/Loans/LoanApplicationDetails/LoanApplicationDetails';
+import EmployeeProfile from './Components/Employees/EmployeeProfile/EmployeeProfile';
 
 function App() {
   return (
@@ -78,8 +82,13 @@ function App() {
                 <Route path="viewDetails" element={<ViewCustomerAccountDetails/>}>
                     <Route index element={<AccountTransaction/>}/>
                     <Route path="accountTransactions" element={<AccountTransaction/>}/>
+                    <Route path="inboudsOutbounds" element={<InboudsOutbounds/>}/>
                     <Route path="customerTransactions" element={<CustomerTransactions/>}/>
                 </Route>
+                <Route path="viewTransaction" element={<ViewTransaction/>}/>
+                <Route path="loans" element={<Loans/>}/>
+                <Route path="viewLoan" element={<LoanApplicationDetails/>}/>
+                <Route path="employeeProfile" element={<EmployeeProfile/>}/>
             </Route>
             <Route path="*" element={<InvalidPage/>}/>
         </Routes>

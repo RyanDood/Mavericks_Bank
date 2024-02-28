@@ -9,7 +9,7 @@ function DashBoard() {
 
     var [accounts,setAccounts] = useState([]);
     var [accountID,setAccountID] = useState("");
-    var [report,setReport] = useState([]);
+    var [report,setReport] = useState({});
     var [fromDate,setFromDate] = useState("");
     var [toDate,setToDate] = useState("");
     var [availedLoans,setAvailedLoans] = useState([]);

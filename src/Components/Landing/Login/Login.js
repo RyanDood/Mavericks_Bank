@@ -25,7 +25,7 @@ function Landing(){
                                     getCustomerID();
                                 }
                                 else if(response.data.userType === "Employee"){
-                                    navigate("/employeeMenu/accounts");
+                                    getEmployeeID();
                                 }
                             })
                             .catch(function (error) {
@@ -62,6 +62,23 @@ function Landing(){
             console.log(response.data);
             sessionStorage.setItem("id",response.data.customerID);
             navigate("/menu/dashboard");
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    async function getEmployeeID(){
+        const email = sessionStorage.getItem('email');
+        const token = sessionStorage.getItem('token');
+        const httpHeader = { 
+            headers: {'Authorization': 'Bearer ' + token}
+        };
+        await axios.get('http://localhost:5224/api/BankEmployees/GetEmployeeByEmail?email=' + email,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            sessionStorage.setItem("id",response.data.employeeID);
+            navigate("/employeeMenu/accounts");
         })
         .catch(function (error) {
             console.log(error);
