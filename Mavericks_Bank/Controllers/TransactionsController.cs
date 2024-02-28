@@ -149,7 +149,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [Route("GetTransaction")]
         [HttpGet]
         public async Task<ActionResult<Transactions>> GetTransaction(int transactionID)

@@ -39,6 +39,22 @@ namespace Mavericks_Bank.Controllers
         }
 
         [Authorize]
+        [Route("GetAllSpecificBranches")]
+        [HttpGet]
+        public async Task<ActionResult<List<Branches>>> GetAllSpecificBranches(int bankID)
+        {
+            try
+            {
+                return await _branchesService.GetAllSpecificBranches(bankID);
+            }
+            catch (NoBranchesFoundException e)
+            {
+                _loggerBranchesController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Authorize]
         [Route("GetBranch")]
         [HttpGet]
         public async Task<ActionResult<Branches>> GetBranch(int branchID)

@@ -311,7 +311,7 @@ namespace Mavericks_Bank.Services
         {
             var allTransactions = await GetAllTransactions();
             await _accountservice.GetAccount(accountID);
-            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID).OrderByDescending(transaction => transaction.TransactionID).Take(3).ToList();
+            var allAccountTransactions = allTransactions.Where(transaction => transaction.AccountID == accountID).OrderByDescending(transaction => transaction.TransactionID).Take(10).ToList();
             if (allAccountTransactions.Count == 0)
             {
                 throw new NoTransactionsFoundException($"No Transaction History Found for Account Number {accountID}");

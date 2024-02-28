@@ -50,6 +50,17 @@ namespace Mavericks_Bank.Services
             return foundedBankEmployee;
         }
 
+        public async Task<BankEmployees> GetEmployeeByEmail(string email)
+        {
+            var allEmployees = await GetAllBankEmployees();
+            var foundedEmployee = allEmployees.FirstOrDefault(employee => employee.Email == email);
+            if( foundedEmployee == null)
+            {
+                throw new NoBankEmployeesFoundException($"Employee with {email} not found");
+            }
+            return foundedEmployee;
+        }
+
         public async Task<BankEmployees> UpdateBankEmployeeName(UpdateBankEmployeeNameDTO updateBankEmployeeNameDTO)
         {
             var foundedBankEmployee = await GetBankEmployee(updateBankEmployeeNameDTO.EmployeeID);

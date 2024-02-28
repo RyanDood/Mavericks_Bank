@@ -50,6 +50,17 @@ namespace Mavericks_Bank.Services
             return foundedCustomer;
         }
 
+        public async Task<Customers> GetCustomerByEmail(string email)
+        {
+            var allCustomers = await GetAllCustomers();
+            var foundedCustomer = allCustomers.FirstOrDefault(customer => customer.Email == email);
+            if(foundedCustomer == null)
+            {
+                throw new NoCustomersFoundException($"Customer with email ID {email} not found");
+            }
+            return foundedCustomer;
+        }
+
         public async Task<Customers> UpdateCustomerDetails(UpdateCustomerDTO updateCustomerDTO)
         {
             var foundedCustomer = await GetCustomer(updateCustomerDTO.CustomerID);

@@ -113,6 +113,22 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Employee")]
+        [Route("GetAccountByAccountNumber")]
+        [HttpGet]
+        public async Task<ActionResult<Accounts>> GetAccountByAccountNumber(long accountNumber)
+        {
+            try
+            {
+                return await _accountsService.GetAccountByAccountNumber(accountNumber);
+            }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerAccountsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Authorize]
         [Route("AddAccount")]
         [HttpPost]

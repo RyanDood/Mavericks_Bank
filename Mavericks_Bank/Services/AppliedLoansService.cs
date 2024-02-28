@@ -130,11 +130,12 @@ namespace Mavericks_Bank.Services
             {
                 var allAccounts = await _accountsService.GetAllAccounts();
                 var foundedSavingsAccount = allAccounts.FirstOrDefault(account => account.CustomerID == foundAppliedLoan.CustomerID && account.AccountType == "Savings" && account.Status == "Open Account Request Approved");
-
-                var updatedBalance = foundedSavingsAccount.Balance + foundAppliedLoan.Amount;
-                await _accountsService.UpdateAccountBalance(foundedSavingsAccount.AccountID, updatedBalance);
+                if(foundedSavingsAccount != null)
+                {
+                    var updatedBalance = foundedSavingsAccount.Balance + foundAppliedLoan.Amount;
+                    await _accountsService.UpdateAccountBalance(foundedSavingsAccount.AccountID, updatedBalance);
+                }
             }
-
             return updatedAppliedLoan;
         }
     }

@@ -134,5 +134,16 @@ namespace Mavericks_Bank.Services
             var updatedAccount = await _accountsRepository.Update(foundedAccount);
             return updatedAccount;
         }
+
+        public async Task<Accounts> GetAccountByAccountNumber(long accountNumber)
+        {
+            var allAccounts = await GetAllAccounts();
+            var foundedAccount = allAccounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
+            if(foundedAccount == null)
+            {
+                throw new NoAccountsFoundException($"Account Number {accountNumber} not found");
+            }
+            return foundedAccount;
+        }
     }
 }

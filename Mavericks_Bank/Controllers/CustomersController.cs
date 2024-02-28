@@ -37,7 +37,7 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Employee")]
+        [Authorize]
         [Route("GetCustomer")]
         [HttpGet]
         public async Task<ActionResult<Customers>> GetCustomer(int customerID)
@@ -45,6 +45,22 @@ namespace Mavericks_Bank.Controllers
             try
             {
                 return await _customersService.GetCustomer(customerID);
+            }
+            catch (NoCustomersFoundException e)
+            {
+                _loggerCustomersController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Authorize]
+        [Route("GetCustomerByEmail")]
+        [HttpGet]
+        public async Task<ActionResult<Customers>> GetCustomerByEmail(string email)
+        {
+            try
+            {
+                return await _customersService.GetCustomerByEmail(email);
             }
             catch (NoCustomersFoundException e)
             {

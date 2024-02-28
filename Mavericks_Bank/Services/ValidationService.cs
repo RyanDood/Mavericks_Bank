@@ -60,7 +60,7 @@ namespace Mavericks_Bank.Services
             {
                 loginValidationDTO.Password = "";
                 loginValidationDTO.UserType = foundedValidation.UserType;
-                loginValidationDTO.Token = await _tokenService.GenerateToken(loginValidationDTO);
+                loginValidationDTO.Token = _tokenService.GenerateToken(loginValidationDTO);
                 _loggerValidationService.LogInformation($"Successfully Logged in {loginValidationDTO.Email}");
                 return loginValidationDTO;
             }

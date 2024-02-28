@@ -18,7 +18,7 @@ namespace Mavericks_Bank.Services
             symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         }
 
-        public async Task<string> GenerateToken(LoginValidationDTO loginValidationDTO)
+        public string GenerateToken(LoginValidationDTO loginValidationDTO)
         {
             var credential = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 

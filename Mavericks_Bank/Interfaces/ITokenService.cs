@@ -4,6 +4,6 @@ namespace Mavericks_Bank.Interfaces
 {
     public interface ITokenService
     {
-        public Task<string> GenerateToken(LoginValidationDTO loginValidationDTO);
+        public string GenerateToken(LoginValidationDTO loginValidationDTO);
     }
 }

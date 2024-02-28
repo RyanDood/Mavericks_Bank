@@ -54,6 +54,17 @@ namespace Mavericks_Bank.Services
             return allBranches;
         }
 
+        public async Task<List<Branches>> GetAllSpecificBranches(int bankID)
+        {
+            var allBranches = await GetAllBranches();
+            var specificBranches = allBranches.Where(branch => branch.BankID == bankID).ToList();
+            if(specificBranches.Count == 0)
+            {
+                throw new NoBranchesFoundException($"No Specific Branches Data Found");
+            }
+            return specificBranches;
+        }
+
         public async Task<Branches> GetBranch(int branchID)
         {
             var foundBranch = await _branchesRepository.Get(branchID);

@@ -42,7 +42,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<Beneficiaries?> Get(int key)
         {
-            var foundedBeneficiary = await _mavericksBankContext.Beneficiaries.Include(beneficiary => beneficiary.Branches).ThenInclude(branches => branches!.Banks).FirstOrDefaultAsync(beneficiary => beneficiary.BeneficiaryID == key);
+            var foundedBeneficiary = await _mavericksBankContext.Beneficiaries.Include(beneficiary => beneficiary.Branches).ThenInclude(branches => branches!.Banks).Include(beneficiary => beneficiary.Customers).FirstOrDefaultAsync(beneficiary => beneficiary.BeneficiaryID == key);
             if (foundedBeneficiary == null)
             {
                 return null;
@@ -56,7 +56,7 @@ namespace Mavericks_Bank.Repositories
 
         public async Task<List<Beneficiaries>?> GetAll()
         {
-            var allBeneficiaries = await _mavericksBankContext.Beneficiaries.Include(beneficiary => beneficiary.Branches).ThenInclude(branches => branches!.Banks).ToListAsync();
+            var allBeneficiaries = await _mavericksBankContext.Beneficiaries.Include(beneficiary => beneficiary.Branches).ThenInclude(branches => branches!.Banks).Include(beneficiary => beneficiary.Customers).ToListAsync();
             if (allBeneficiaries.Count == 0)
             {
                 return null;
