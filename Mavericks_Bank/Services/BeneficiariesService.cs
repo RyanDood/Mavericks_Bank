@@ -52,7 +52,7 @@ namespace Mavericks_Bank.Services
         {
             await _customersService.GetCustomer(customerID);
             var allBeneficiaries = await GetAllBeneficiaries();
-            var allCustomerBeneficiaries = allBeneficiaries.Where(beneficiary => beneficiary.CustomerID ==  customerID).ToList();
+            var allCustomerBeneficiaries = allBeneficiaries.Where(beneficiary => beneficiary.CustomerID ==  customerID && beneficiary.Status == null).ToList();
             if( allCustomerBeneficiaries.Count == 0)
             {
                 throw new NoBeneficiariesFoundException($"No Beneficiaries found for Customer ID {customerID}");
@@ -68,6 +68,14 @@ namespace Mavericks_Bank.Services
                 throw new NoBeneficiariesFoundException($"Beneficiary ID {beneficiaryID} not found");
             }
             return foundBeneficiary;
+        }
+
+        public async Task<Beneficiaries> UpdateDeleteBeneficiary(int beneficiaryID)
+        {
+            var foundBeneficiary = await GetBeneficiary(beneficiaryID);
+            foundBeneficiary.Status = "Deleted";
+            var updateBeneficiary = await _beneficiariesRepository.Update(foundBeneficiary);
+            return updateBeneficiary;
         }
     }
 }

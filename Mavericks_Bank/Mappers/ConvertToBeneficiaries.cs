@@ -12,6 +12,7 @@ namespace Mavericks_Bank.Mappers
             beneficiary = new Beneficiaries();
             beneficiary.AccountNumber = addTransactionTransferBeneficiaryDTO.BeneficiaryAccountNumber;
             beneficiary.Name = addTransactionTransferBeneficiaryDTO.BeneficiaryName;
+            beneficiary.Status = null;
             beneficiary.BranchID = addTransactionTransferBeneficiaryDTO.BranchID;
             beneficiary.CustomerID = addTransactionTransferBeneficiaryDTO .CustomerID;
         }

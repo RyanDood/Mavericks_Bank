@@ -4,6 +4,7 @@ using Mavericks_Bank.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mavericks_Bank.Migrations
 {
     [DbContext(typeof(MavericksBankContext))]
-    partial class MavericksBankContextModelSnapshot : ModelSnapshot
+    [Migration("20240229141938_init3")]
+    partial class init3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,9 +346,6 @@ namespace Mavericks_Bank.Migrations
                     b.Property<byte[]>("Password")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserType")
                         .IsRequired()

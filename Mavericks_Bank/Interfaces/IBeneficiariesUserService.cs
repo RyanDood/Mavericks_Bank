@@ -6,6 +6,7 @@ namespace Mavericks_Bank.Interfaces
     {
         public Task<List<Beneficiaries>> GetAllCustomerBeneficiaries(int customerID);
         public Task<Beneficiaries> AddBeneficiary(Beneficiaries beneficiary);
+        public Task<Beneficiaries> UpdateDeleteBeneficiary(int beneficiaryID);
         public Task<Beneficiaries> DeleteBeneficiary(int beneficiaryID);
     }
 }

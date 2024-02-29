@@ -129,5 +129,21 @@ namespace Mavericks_Bank.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [Route("UpdateValidationStatus")]
+        [HttpPut]
+        public async Task<ActionResult<UpdatedValidationDTO>> UpdateValidationStatus(string email)
+        {
+            try
+            {
+                return await _validationService.UpdateValidationStatus(email);
+            }
+            catch (NoValidationFoundException e)
+            {
+                _loggerValidationController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
     }
 }

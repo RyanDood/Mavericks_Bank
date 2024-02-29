@@ -9,6 +9,7 @@ namespace Mavericks_Bank.Models
         public int BeneficiaryID { get; set; }
         public long AccountNumber { get; set; }
         public string Name { get; set; }
+        public string? Status { get; set; } = null;
         public int BranchID { get; set; }
         [ForeignKey("BranchID")]
         public Branches? Branches { get; set; }
@@ -21,11 +22,12 @@ namespace Mavericks_Bank.Models
 
         }
 
-        public Beneficiaries(int beneficiaryID, long accountNumber, string name, int branchID, int customerID)
+        public Beneficiaries(int beneficiaryID, long accountNumber, string name, string? status, int branchID, int customerID)
         {
             BeneficiaryID = beneficiaryID;
             AccountNumber = accountNumber;
             Name = name;
+            Status = status;
             BranchID = branchID;
             CustomerID = customerID;
         }

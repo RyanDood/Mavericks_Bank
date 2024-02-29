@@ -54,19 +54,26 @@ namespace Mavericks_Bank.Services
                 throw new NoValidationFoundException($"Email ID {loginValidationDTO.Email} not Found");
             }
 
-            var convertedPassword = ConvertToEncryptedPassword(loginValidationDTO.Password,foundedValidation.Key);
-            var passwordMatch = IsPasswordMatches(convertedPassword, foundedValidation.Password);
-            if (passwordMatch)
+            if(foundedValidation.Status == null)
             {
-                loginValidationDTO.Password = "";
-                loginValidationDTO.UserType = foundedValidation.UserType;
-                loginValidationDTO.Token = _tokenService.GenerateToken(loginValidationDTO);
-                _loggerValidationService.LogInformation($"Successfully Logged in {loginValidationDTO.Email}");
-                return loginValidationDTO;
+                var convertedPassword = ConvertToEncryptedPassword(loginValidationDTO.Password, foundedValidation.Key);
+                var passwordMatch = IsPasswordMatches(convertedPassword, foundedValidation.Password);
+                if (passwordMatch)
+                {
+                    loginValidationDTO.Password = "";
+                    loginValidationDTO.UserType = foundedValidation.UserType;
+                    loginValidationDTO.Token = _tokenService.GenerateToken(loginValidationDTO);
+                    _loggerValidationService.LogInformation($"Successfully Logged in {loginValidationDTO.Email}");
+                    return loginValidationDTO;
+                }
+                else
+                {
+                    throw new NoValidationFoundException($"Incorrect Password");
+                }
             }
             else
             {
-                throw new NoValidationFoundException($"Incorrect Password");
+                throw new NoValidationFoundException($"Email Account {foundedValidation.Email} was deactivated");
             }
         }
 
@@ -238,6 +245,25 @@ namespace Mavericks_Bank.Services
         {
             var updatedValidation = await _validationRepository.Update(foundedValidation);
             _loggerValidationService.LogInformation($"Successfully Updated Customer Password {updatedValidation.Email}");
+        }
+
+        public async Task<UpdatedValidationDTO> UpdateValidationStatus(string email)
+        {
+            var allValidations = await GetAllValidations();
+            var foundedValidation = allValidations.FirstOrDefault(validation =>  validation.Email == email);
+            if(foundedValidation == null)
+            {
+                throw new NoValidationFoundException($"Validation email {email} not found");
+            }
+            foundedValidation.Status = "Deleted";
+            var updateValidation = await _validationRepository.Update(foundedValidation);
+            UpdatedValidationDTO updatedValidationDTO = new UpdatedValidationDTO 
+            { 
+                Email = updateValidation.Email,
+                UserType = updateValidation.UserType,
+                Status = updateValidation.Status
+            };
+            return updatedValidationDTO;
         }
     }
 }

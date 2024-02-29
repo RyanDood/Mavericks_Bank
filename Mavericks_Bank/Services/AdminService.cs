@@ -39,6 +39,17 @@ namespace Mavericks_Bank.Services
             return foundedAdmin;
         }
 
+        public async Task<Admin> GetAdminByEmail(string email)
+        {
+            var allAdmins = await GetAllAdmins();
+            var foundedAdmin = allAdmins.FirstOrDefault(admin => admin.Email == email);
+            if(foundedAdmin == null)
+            {
+                throw new NoAdminFoundException($"Admin email {email} not found");
+            }
+            return foundedAdmin;
+        }
+
         public async Task<List<Admin>> GetAllAdmins()
         {
             var allAdmins = await _adminRepository.GetAll();

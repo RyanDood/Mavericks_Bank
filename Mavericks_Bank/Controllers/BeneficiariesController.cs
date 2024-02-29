@@ -92,6 +92,22 @@ namespace Mavericks_Bank.Controllers
         }
 
         [Authorize]
+        [Route("UpdateDeleteBeneficiary")]
+        [HttpPut]
+        public async Task<ActionResult<Beneficiaries>> UpdateDeleteBeneficiary(int beneficiaryID)
+        {
+            try
+            {
+                return await _beneficiariesService.UpdateDeleteBeneficiary(beneficiaryID);
+            }
+            catch (NoBeneficiariesFoundException e)
+            {
+                _loggerBeneficiariesController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
+        [Authorize]
         [Route("DeleteBeneficiary")]
         [HttpDelete]
         public async Task<ActionResult<Beneficiaries>> DeleteBeneficiary(int beneficiaryID)

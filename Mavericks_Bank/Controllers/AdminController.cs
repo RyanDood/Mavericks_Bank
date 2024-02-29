@@ -53,6 +53,21 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
+        [Route("GetAdminByEmail")]
+        [HttpGet]
+        public async Task<ActionResult<Admin>> GetAdminByEmail(string email)
+        {
+            try
+            {
+                return await _adminService.GetAdminByEmail(email);
+            }
+            catch (NoAdminFoundException e)
+            {
+                _loggerAdminController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
+        }
+
         [Authorize(Roles = "Admin")]
         [Route("UpdateAdminName")]
         [HttpPut]

@@ -14,6 +14,7 @@ namespace Mavericks_Bank.Mappers
             validation = new Validation();
             validation.Email = registerValidationCustomersDTO.Email;
             validation.UserType = "Customer";
+            validation.Status = null;
             GenerateEncryptedPassword(registerValidationCustomersDTO.Password);
         }
 
@@ -22,6 +23,7 @@ namespace Mavericks_Bank.Mappers
             validation = new Validation();
             validation.Email = registerValidationBankEmployees.Email;
             validation.UserType = "Employee";
+            validation.Status = null;
             GenerateEncryptedPassword(registerValidationBankEmployees.Password);
         }
 
@@ -30,6 +32,7 @@ namespace Mavericks_Bank.Mappers
             validation = new Validation();
             validation.Email = registerValidationAdminDTO.Email;
             validation.UserType = "Admin";
+            validation.Status = null;
             GenerateEncryptedPassword(registerValidationAdminDTO.Password);
         }
 
