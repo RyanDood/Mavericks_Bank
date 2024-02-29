@@ -49,7 +49,12 @@ function ViewTransaction(){
 
     async function getTransaction(){
       if(transactionID === 0){
-        navigate("/menu/customerTransactions")
+        if(email.includes("@maverick.in")){
+          navigate("/employeeMenu/viewDetails/accountTransactions");
+        }
+        else{
+          navigate("/menu/customerTransactions")
+        }
       }
       else{
         await axios.get('http://localhost:5224/api/Transactions/GetTransaction?transactionID=' + transactionID,httpHeader).then(function (response) {
@@ -63,12 +68,7 @@ function ViewTransaction(){
     }
 
     function navigateBack(){
-      if(email.includes("@maverick.in")){
-        navigate("/employeeMenu/viewDetails/accountTransactions");
-      }
-      else{
-        navigate("/menu/customerTransactions");
-      }
+      navigate(-1);
     }
 
     return (

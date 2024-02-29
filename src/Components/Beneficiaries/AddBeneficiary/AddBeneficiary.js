@@ -122,7 +122,7 @@ function AddBeneficiary(){
                         <select className="form-control enterDiv3" value = {branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
                             <option value="">Select</option>
                             {allBranches.map(branch => 
-                                <option key={branch.branchID} value={branch.branchID}>{branch.branchName}</option>
+                                <option key={branch.branchID} value={branch.branchID}>{branch.ifscNumber} -- {branch.branchName}</option>
                             )}
                         </select>
                     </div>

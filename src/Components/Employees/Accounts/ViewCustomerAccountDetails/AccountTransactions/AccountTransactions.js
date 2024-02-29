@@ -22,6 +22,7 @@ function AccountTransaction(){
         }]
     );
     var [getTransactions,setGetTransactions] = useState(false);
+    var [statement,setStatement] = useState("")
 
     useEffect(() => {
         if(fromDate !== "" && toDate !== ""){
@@ -46,6 +47,19 @@ function AccountTransaction(){
             setGetTransactions(true);
             console.log(response.data);
             setTransactions(response.data);
+            getAccountStatement();
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+
+    }
+
+    async function getAccountStatement(){
+        await axios.get('http://localhost:5224/api/Transactions/GetAccountStatement?accountID=' + accountID +'&fromDate=' + fromDate +'&toDate=' + toDate,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            setStatement(response.data);
         })
         .catch(function (error) {
             console.log(error);
@@ -71,6 +85,21 @@ function AccountTransaction(){
                 <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
                     <span>Filter Transaction</span>
                 </span>
+                <div className="flexRow2">
+                    <div className="smallBox32">
+                        <span className="clickRegisterText">Balance</span>
+                        <span className="clickRegisterText3">{statement.balance}</span>
+                    </div>
+                    <div className="smallBox32">
+                        <span className="clickRegisterText">Deposits</span>
+                        <span className="clickRegisterText3">{statement.totalDeposit}</span>
+                    </div>
+                    <div className="smallBox32">
+                        <span className="clickRegisterText">Withdrawal</span>
+                        <span className="clickRegisterText3">{statement.totalWithdrawal}</span>
+                    </div>
+                </div>
+                <hr className="hrS"></hr>
                 {transactions.map(transaction => 
                     <Transaction key={transaction.transactionID} transaction = {transaction}/>
                 )}

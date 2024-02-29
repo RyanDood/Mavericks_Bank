@@ -1,18 +1,41 @@
 import axios from 'axios';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateBeneficiaryID } from '../../../beneficiarySlice';
 
 function Beneficiary(props){
+
+    var dispatch = useDispatch();
+    var beneficiaryID = useSelector((state) => state.beneficiaryID);
+
+    var beneficiary = {
+        "beneficiaryID": 0,
+        "accountNumber": 0,
+        "name": "string",
+        "status": "string",
+        "branchID": 0,
+        "customerID": 0
+    }
+
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
     async function deleteBeneficiary(){
-        // await axios.delete('http://localhost:5224/api/Beneficiaries/DeleteBeneficiary?beneficiaryID=' + props.beneficiary.beneficiaryID,httpHeader).then(function (response) {
-        //     console.log(response.data);
-        // })
-        // .catch(function (error) {
-        //     console.log(error);
-        // }) 
+        await axios.put('http://localhost:5224/api/Beneficiaries/UpdateDeleteBeneficiary?beneficiaryID=' + beneficiaryID,beneficiary,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        }) 
+    }
+
+    function updateBeneficiaryid(){
+        dispatch(
+            updateBeneficiaryID(props.beneficiary.beneficiaryID)
+        )
     }
 
     return (
@@ -20,7 +43,7 @@ function Beneficiary(props){
             <div className="whiteOutlineBoxMargin">
                 <div className="smallBox23">
                     <span className="clickRegisterText">{props.beneficiary.name}</span>
-                    <span className="pointer" data-bs-toggle="modal" data-bs-target="#modal1">
+                    <span className="pointer" data-bs-toggle="modal" data-bs-target="#modal1" onClick={updateBeneficiaryid}>
                         <div className="delete change-my-color2"></div>
                     </span>
                 </div>

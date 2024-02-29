@@ -5,6 +5,10 @@ import accountReducer from "./accountSlice";
 import statementReducer from "./statementSlice";
 import accountNumberReducer from "./accountNumberSlice";
 import dateReducer from "./dateSlice";
+import customerReducer from "./customerSlice";
+import employeeReducer from "./employeeSlice";
+import emailReducer from "./emailSlice";
+import beneficiaryReducer from "./beneficiarySlice";
 
 const store = configureStore({
     reducer: {
@@ -13,7 +17,11 @@ const store = configureStore({
         accountID: accountReducer,
         statement: statementReducer,
         accountNumber: accountNumberReducer,
-        date: dateReducer
+        date: dateReducer,
+        customerID: customerReducer,
+        employeeID: employeeReducer,
+        email: emailReducer,
+        beneficiaryID: beneficiaryReducer
     },
 });
 

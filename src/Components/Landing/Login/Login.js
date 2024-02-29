@@ -27,6 +27,9 @@ function Landing(){
                                 else if(response.data.userType === "Employee"){
                                     getEmployeeID();
                                 }
+                                else if(response.data.userType === "Admin"){
+                                    getAdminID();
+                                }
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -78,7 +81,24 @@ function Landing(){
         .then(function (response) {
             console.log(response.data);
             sessionStorage.setItem("id",response.data.employeeID);
-            navigate("/employeeMenu/accounts");
+            navigate("/employeeMenu/allCustomers");
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    }
+
+    async function getAdminID(){
+        const email = sessionStorage.getItem('email');
+        const token = sessionStorage.getItem('token');
+        const httpHeader = { 
+            headers: {'Authorization': 'Bearer ' + token}
+        };
+        await axios.get('http://localhost:5224/api/Admin/GetAdminByEmail?email=' + email,httpHeader)
+        .then(function (response) {
+            console.log(response.data);
+            sessionStorage.setItem("id",response.data.adminID);
+            navigate("/adminMenu/allCustomers");
         })
         .catch(function (error) {
             console.log(error);

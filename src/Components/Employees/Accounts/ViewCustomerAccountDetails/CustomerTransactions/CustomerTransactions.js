@@ -3,23 +3,30 @@ import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Transaction from '../../../../Transactions/Transaction/Transaction';
+import { useSelector } from 'react-redux';
 
-function CustomerTransactions(props){
+function CustomerTransactions(){
     var [transactions,setTransactions] = useState([]);
     var [error,setError] = useState(false);
+    var navigate = useNavigate();
 
-    const customerID = sessionStorage.getItem('id');
+    var customerID = useSelector((state) => state.customerID);
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
         headers: {'Authorization': 'Bearer ' + token}
     };
 
     useEffect(() => {
-        allTransactions();
+        if(customerID === 0){
+            navigate("/employeeMenu/allCustomers");
+        }
+        else{
+            allTransactions();
+        }
     },[])
 
     async function allTransactions(){
-        await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + props.account.customerID,httpHeader).then(function (response) {
+        await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setTransactions(response.data);
         })
@@ -38,7 +45,7 @@ function CustomerTransactions(props){
                     <div className="errorImage2 change-my-color2"></div>
                     <div className="clickRegisterText">No Transaction History Found</div>
                 </div> : 
-                <div className="heigthBox scrolling">
+                <div className="heigthBox2 scrolling">
                     {transactions.map(transaction =>
                         <Transaction key={transaction.transactionID} transaction={transaction}/> 
                     )}

@@ -137,8 +137,8 @@ function LoanApplicationDetails(){
                             <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCreditWorthiness}>Check CreditWorthiness</span>}
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCustomerAppliedLoans}>Customer Applied Loans</span> :
-                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCustomerAppliedLoans}>Customer Applied Loans</span>}
+                            {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCustomerAppliedLoans}>Applied Loans</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCustomerAppliedLoans}>Applied Loans</span>}
                         </li>
             </ul>
             {clicked[0] ? <ApplicantDetails loan = {loan}/> : null}

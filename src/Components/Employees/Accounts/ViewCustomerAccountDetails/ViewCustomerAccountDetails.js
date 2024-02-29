@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import '../../../style.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import CustomerTransactions from './CustomerTransactions/CustomerTransactions';
+import CustomerDetails from '../ViewCustomerRequest/CustomerDetails/CustomerDetails';
 
 function ViewCustomerAccountDetails(){
 
@@ -65,7 +65,7 @@ function ViewCustomerAccountDetails(){
         navigate("/employeeMenu/viewDetails/inboudsOutbounds");
     }
 
-    function navigateToCustomerTransactions(){
+    function navigateToCustomerDetails(){
         setClicked([false,false,true]);
     }
 
@@ -92,11 +92,11 @@ function ViewCustomerAccountDetails(){
                                 <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToInboundsOutbounds}>Inbouds/Outbounds</span>}
                             </li>
                             <li className="nav-item highlight smallBox23">
-                                {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span> :
-                                <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToCustomerTransactions}>Customer Transactions</span>}
+                                {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={navigateToCustomerDetails}>Customer Details</span> :
+                                <span className="nav-link textDecoWhite pointer smallBox23" onClick={navigateToCustomerDetails}>Customer Details</span>}
                             </li>
                     </ul>
-                    {clicked[2] ? <CustomerTransactions account = {account}/> : <Outlet/>}
+                    {clicked[2] ? <CustomerDetails account = {account}/> : <Outlet/>}
                 </div>
             </div>
     );

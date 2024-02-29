@@ -38,14 +38,21 @@ import InboudsOutbounds from './Components/Employees/Accounts/ViewCustomerAccoun
 import Loans from './Components/Employees/Loans/Loans';
 import LoanApplicationDetails from './Components/Employees/Loans/LoanApplicationDetails/LoanApplicationDetails';
 import EmployeeProfile from './Components/Employees/EmployeeProfile/EmployeeProfile';
+import AdminMenu from './Components/Admin/AdminMenu/AdminMenu';
+import CreateCustomer from './Components/Admin/Customers/CreateCustomer/CreateCustomer';
+import ViewCustomer from './Components/Admin/Customers/ViewCustomer/ViewCustomer';
+import AllCustomers from './Components/Admin/Customers/AllCustomers/AllCustomers';
+import AdminProfile from './Components/Admin/AdminProfile/AdminProfile';
+import AllEmployees from './Components/Admin/Employees/AllEmployees/AllEmployees';
+import CreateEmployee from './Components/Admin/Employees/CreateEmployee/CreateEmployee';
+import ViewEmployee from './Components/Admin/Employees/ViewEmployee/ViewEmployee';
+import ViewCustomerDetails from './Components/Employees/Customers/ViewCustomerDetails/ViewCustomerDetails';
 
 function App() {
   return (
     <BrowserRouter>
         <Routes>
-            <Route element={<LoginRoute/>}>
-                <Route path="/" element={<Landing/>}/>
-            </Route>
+            <Route path="/" element={<LoginRoute/>}/>
             <Route path="forgotPassword" element={<ForgotPassword/>}/>
             <Route path="registerCustomer" element={<RegisterCustomer/>}/>
             <Route path="menu" element={<Menu/>}>
@@ -73,7 +80,7 @@ function App() {
             </Route>
             <Route path="employeeMenu" element={<EmployeeMenu/>}>
                 <Route path="accounts" element={<Accounts/>}>
-                    <Route index element={<OpenRequests/>}/>
+                    <Route index element={<ViewCustomerAccount/>}/>
                     <Route path="openRequests" element={<OpenRequests/>}/>
                     <Route path="closeRequests" element={<CloseRequests/>}/>
                     <Route path="viewCustomerAccount" element={<ViewCustomerAccount/>}/>
@@ -88,7 +95,18 @@ function App() {
                 <Route path="viewTransaction" element={<ViewTransaction/>}/>
                 <Route path="loans" element={<Loans/>}/>
                 <Route path="viewLoan" element={<LoanApplicationDetails/>}/>
+                <Route path="allCustomers" element={<AllCustomers/>}/>
+                <Route path="viewCustomerDetails" element={<ViewCustomerDetails/>}/>
                 <Route path="employeeProfile" element={<EmployeeProfile/>}/>
+            </Route>
+            <Route path="adminMenu" element={<AdminMenu/>}>
+                <Route path="allCustomers" element={<AllCustomers/>}/>
+                <Route path="createCustomer" element={<CreateCustomer/>}/>
+                <Route path="viewCustomer" element={<ViewCustomer/>}/>
+                <Route path="allEmployees" element={<AllEmployees/>}/>
+                <Route path="createEmployee" element={<CreateEmployee/>}/>
+                <Route path="viewEmployee" element={<ViewEmployee/>}/>
+                <Route path="adminProfile" element={<AdminProfile/>}/>
             </Route>
             <Route path="*" element={<InvalidPage/>}/>
         </Routes>

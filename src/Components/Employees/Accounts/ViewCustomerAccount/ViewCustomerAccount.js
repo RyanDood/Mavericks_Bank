@@ -101,26 +101,27 @@ function ViewCustomerAccount(){
     return (
         <div>
             <ul className="smallBox22 nav">
+            <li className="nav-item highlight smallBox23">
+                    <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
+                </li>
                 <li className="nav-item highlight smallBox23">
                     <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/openRequests">Open Account Requests</Link>
                 </li>
                 <li className="nav-item highlight smallBox23">
                     <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/closeRequests">Close Account Requests</Link>
                 </li>
-                <li className="nav-item highlight smallBox23">
-                    <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
-                </li>
             </ul>
             <div className="widthBox2">
                 <div className="marginRegisterCustomer flexRow2">
-                    <input className="form-control enterDiv6" required placeholder='Account Number' type="email" value={accountNumber} onChange={(eventargs) => setAccountNumber(eventargs.target.value)}></input>
+                    <input className="form-control enterDiv6" required placeholder='Account Number' type="number" value={accountNumber} onChange={(eventargs) => setAccountNumber(eventargs.target.value)}></input>
                     {searched ? 
                     <span className="pointer" onClick={clear}>
                         <div className="cancel change-my-color2"></div>
                     </span>:
+                    null}
                     <span className="pointer" onClick={search}>
                         <div className="search change-my-color"></div>
-                    </span>}
+                    </span>
                 </div>
             </div>
             {searched ? 

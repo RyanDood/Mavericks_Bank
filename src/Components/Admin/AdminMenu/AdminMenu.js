@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateEmail } from '../../../emailSlice';
 
-function EmployeeMenu(){
+function AdminMenu(){
 
-    var [clicked,setClicked] = useState([false,false,false,false]);
+    var [clicked,setClicked] = useState([false,false,false]);
+    var dispatch = useDispatch();
     var navigate = useNavigate();
 
     var removeSession = () => {
@@ -15,35 +18,36 @@ function EmployeeMenu(){
     }
 
     function navigateToCustomers(){
-        setClicked([true,false,false,false]);
-        navigate("/employeeMenu/allCustomers");
+        dispatch(
+            updateEmail("")
+        )
+        setClicked([true,false,false]);
+        navigate("/adminMenu/allCustomers");
     }
 
-    function navigateToAccounts(){
-        setClicked([false,true,false,false]);
-        navigate("/employeeMenu/accounts/viewCustomerAccount");
-    }
-
-    function navigateToLoans(){
-        setClicked([false,false,true,false]);
-        navigate("/employeeMenu/loans");
+    function navigateToEmployees(){
+        dispatch(
+            updateEmail("")
+        )
+        setClicked([false,true,false]);
+        navigate("/adminMenu/allEmployees");
     }
 
     function navigateToProfile(){
-        setClicked([false,false,false,true]);
-        navigate("/employeeMenu/employeeProfile");
+        setClicked([false,false,true]);
+        navigate("/adminMenu/adminProfile");
     }
 
     return (
         <div className="container">
             <div className="row">
                 <div className="smallBox50 col-md-3">
-                    <div className="smallBox56">
+                    <div className="smallBox51">
                         <div className="flexRow4">
                             <div className="logoImage change-my-color3"></div>
                             <span className="logo">mavericks</span>
                         </div>
-                        <ul className="smallBox57 nav">
+                        <ul className="smallBox52 nav">
                             <div className="flexRow3">
                                 <div className="beneficiary change-my-color3"></div>
                                 <li className="nav-item highlight">
@@ -55,23 +59,15 @@ function EmployeeMenu(){
                             <div className="flexRow3">
                                 <div className="account change-my-color3"></div>
                                 <li className="nav-item highlight">
-                                    {clicked[1] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToAccounts}>Accounts</span> :
-                                    <span className="nav-link textDecoWhite pointer" onClick={navigateToAccounts}>Accounts</span>}
-                                </li>
-                            </div>
-                            <hr className="navBarLine"></hr>
-                            <div className="flexRow3">
-                                <div className="loan change-my-color3"></div>
-                                <li className="nav-item highlight">
-                                    {clicked[2] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToLoans}>Loans</span> :
-                                    <span className="nav-link textDecoWhite pointer" onClick={navigateToLoans}>Loans</span>}
+                                    {clicked[1] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToEmployees}>Employees</span> :
+                                    <span className="nav-link textDecoWhite pointer" onClick={navigateToEmployees}>Employees</span>}
                                 </li>
                             </div>
                             <hr className="navBarLine"></hr>
                             <div className="flexRow3">
                                 <div className="profile change-my-color3"></div>
                                 <li className="nav-item highlight">
-                                    {clicked[3] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToProfile}>Profile</span> :
+                                    {clicked[2] ? <span className="nav-link textDecoGreen pointer" onClick={navigateToProfile}>Profile</span> :
                                     <span className="nav-link textDecoWhite pointer" onClick={navigateToProfile}>Profile</span>}
                                 </li>
                             </div>
@@ -108,4 +104,4 @@ function EmployeeMenu(){
     );
 }
 
-export default EmployeeMenu;
+export default AdminMenu;

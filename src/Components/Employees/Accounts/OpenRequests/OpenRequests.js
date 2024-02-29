@@ -35,13 +35,13 @@ function OpenRequests(){
         <div>
             <ul className="smallBox22 nav">
                 <li className="nav-item highlight smallBox23">
+                    <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
+                </li>
+                <li className="nav-item highlight smallBox23">
                     <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/openRequests">Open Account Requests</Link>
                 </li>
                 <li className="nav-item highlight smallBox23">
                     <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/closeRequests">Close Account Requests</Link>
-                </li>
-                <li className="nav-item highlight smallBox23">
-                    <Link className="nav-link textDecoWhite smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
                 </li>
             </ul>
             {errorMessage === "No Open Account Request Pending Accounts Available" ?
@@ -49,7 +49,7 @@ function OpenRequests(){
                     <div className="errorImage2 change-my-color2"></div>
                     <div className="clickRegisterText">No Open Account Request Pending Accounts Available</div>
                 </div> : 
-            <div className="heigthBox2">
+            <div className="heigthBox3">
                 <div className="scrolling">
                         {accounts.map(account => 
                             <Request key = {account.accountID} account={account}/>
