@@ -71,7 +71,7 @@ function AccountStatement() {
                 </div>
                 <hr className="hrS"></hr>
                 <span className="clickRegisterText10">Total Transactions</span>
-                <div className="scrolling">
+                <div className="scrolling phoneBox">
                             {transactions.map(transaction =>
                             <Transaction key={transaction.transactionID} transaction = {transaction}/> 
                             )

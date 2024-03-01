@@ -176,17 +176,17 @@ function TransferMoney(){
                         </li>
                     </ul>
                     <div className="smallBox19"> 
-                        <div>
+                        <div className='phoneMargin2'>
                             <span className="clickRegisterText">Amount</span>
                             <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
                         </div>
-                        <div>
+                        <div className='phoneMargin2'>
                             <span className="clickRegisterText">Description</span>
                             <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setDescription(eventargs.target.value)}></input>
                         </div>
                     </div>
                     {addBeneficiary ? 
-                        <div>
+                        <div className='smallBox46'>
                             <div className='margin3'>
                                 <span className="clickRegisterText">From</span>
                                 <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
@@ -197,18 +197,18 @@ function TransferMoney(){
                                 </select>
                             </div>
                             <div className="smallBox19">
-                                <div>
+                                <div className='phoneMargin2'>
                                     <span className="clickRegisterText">Account Holder Name</span>
                                     <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setBeneficiaryName(eventargs.target.value)}></input>
                                 </div>
-                                <div>
+                                <div className='phoneMargin2'>
                                     <span className="clickRegisterText">Holder Account Number</span>
                                     <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setBeneficiaryAccountNumber(eventargs.target.value)}></input>
                                 </div>
                             </div>
                         </div> : 
                         <div className="smallBox19">
-                            <div>
+                            <div className='phoneMargin2'>
                                 <span className="clickRegisterText">From</span>
                                 <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
                                     <option value="">Select</option>
@@ -217,7 +217,7 @@ function TransferMoney(){
                                     )}
                                 </select>
                             </div>
-                            <div>
+                            <div className='phoneMargin2'>
                                 <span className="clickRegisterText">To</span>
                                 <select className="form-control enterDiv2" value = {beneficiaryID} onChange={(eventargs) => setBeneficiaryID(eventargs.target.value)}>
                                     <option value="">Select</option>
@@ -229,7 +229,7 @@ function TransferMoney(){
                         </div>
                         }
                     {addBeneficiary ? <div className="smallBox19">
-                        <div>
+                        <div className='phoneMargin2'>
                             <span className="clickRegisterText">Bank Name</span>
                             <select className="form-control enterDiv2" value = {bankID} onChange={changeBank}>
                                 <option value="">Select</option>
@@ -238,7 +238,7 @@ function TransferMoney(){
                                 )}
                             </select>
                         </div>
-                        <div>
+                        <div className='phoneMargin2'>
                             <span className="clickRegisterText">Branch Name with IFSC</span>
                             <select className="form-control enterDiv2" value = {branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
                                 <option value="">Select</option>
@@ -249,14 +249,14 @@ function TransferMoney(){
                         </div>
                     </div> : null}
                     <div className='smallBox46'>
-                        <a className="btn btn-outline-success smallBox44" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                        <a className="btn btn-outline-success smallBox44 phoneMargin2" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                             <span>Transfer</span>
                         </a>
                         {addBeneficiary ? 
-                        <a className="btn btn-outline-danger smallBox45" onClick={() => setAddBeneficiary(false)}>
+                        <a className="btn btn-outline-danger smallBox45  phoneMargin2" onClick={() => setAddBeneficiary(false)}>
                             <span>Cancel</span>
                         </a> : 
-                        <a className="btn btn-outline-success smallBox45" onClick={() => setAddBeneficiary(true)}>
+                        <a className="btn btn-outline-success smallBox45  phoneMargin2" onClick={() => setAddBeneficiary(true)}>
                             <span>Add Beneficiary</span>
                         </a>}
                     </div>

@@ -114,47 +114,55 @@ function DashBoard() {
                     <span className="clickRegisterText5">Hello {customer.name},</span>
                 </div>
                 <hr className="hrS"></hr>
-                <div className="flexRow2">
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Profile Strength</span>
-                        <span className="clickRegisterText3">100%</span>
+                <div className="flexRow6">
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Profile Strength</span>
+                            <span className="clickRegisterText3">100%</span>
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Total Accounts</span>
+                            <span className="clickRegisterText3">{accounts.length}</span>
+                        </div>
                     </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Total Accounts</span>
-                        <span className="clickRegisterText3">{accounts.length}</span>
-                    </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Active Loans</span>
-                        <span className="clickRegisterText3">{availedLoans.length}</span>
-                    </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Beneficiaries</span>
-                        <span className="clickRegisterText3">{beneficiaries.length}</span>
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Active Loans</span>
+                            <span className="clickRegisterText3">{availedLoans.length}</span>
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Beneficiaries</span>
+                            <span className="clickRegisterText3">{beneficiaries.length}</span>
+                        </div>
                     </div>
                 </div>
-                <div className="flexRow2">
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Credit Status</span>
-                        {report.creditWorthiness === "Yes" ? <span className="clickRegisterText3">Good</span> :
-                        <span className="clickRegisterText3">Bad</span>}
+                <div className="flexRow6">
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Credit Status</span>
+                            {report.creditWorthiness === "Yes" ? <span className="clickRegisterText3">Good</span> :
+                            <span className="clickRegisterText3">Bad</span>}
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Inbounds</span>
+                            <span className="clickRegisterText3">{report.inboundTransactions}</span>
+                        </div>
                     </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Inbounds</span>
-                        <span className="clickRegisterText3">{report.inboundTransactions}</span>
-                    </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Outbounds</span>
-                        <span className="clickRegisterText3">{report.outboundTransactions}</span>
-                    </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Credit Score</span>
-                        <span className="clickRegisterText3">{report.ratio}</span>
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Outbounds</span>
+                            <span className="clickRegisterText3">{report.outboundTransactions}</span>
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Credit Score</span>
+                            <span className="clickRegisterText3">{report.ratio}</span>
+                        </div>
                     </div>
                 </div>
                 <hr className="hrS"></hr>
                 <span className="clickRegisterText10">Generate Account Statement</span>
                 <div>
-                    <div className="smallBox19">
+                    <div className="smallBox19 phoneMargin2">
                         <div className="margin1">
                             <span className="clickRegisterText">From</span>
                             <input className="form-control enterDiv2" type="date" onChange={(eventargs) => setFromDate(eventargs.target.value)}></input>
@@ -165,7 +173,7 @@ function DashBoard() {
                         </div>
                     </div>
                     <div className="smallBox25">
-                        <div>
+                        <div className='phoneMargin'>
                             <span className="clickRegisterText">Select Account</span>
                             <select className="form-control enterDiv2" value={accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
                                 <option value="">Select</option>

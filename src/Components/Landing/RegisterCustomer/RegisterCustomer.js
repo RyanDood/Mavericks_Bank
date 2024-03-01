@@ -100,7 +100,7 @@ function RegisterCustomer(){
 
     return (
         <div className="container">
-            <div className="row">
+            <div className="orginalRow">
                 <div className="smallBox1 col-sm-5">
                     <div className="topcorner2 flexRow">
                         <div className="logoImage change-my-color3"></div>
@@ -124,9 +124,9 @@ function RegisterCustomer(){
                         <div className="smallBox10">
                             <div className="smallBox14">
                                 <div  className="smallBox13">
-                                    <a href="index.html">
+                                    <Link to="/">
                                         <div className="back change-my-color"></div>
-                                    </a>
+                                    </Link>
                                 </div>
                                 <span className="welcomeText2">1 step away!</span>
                                 <div className="flexRow">

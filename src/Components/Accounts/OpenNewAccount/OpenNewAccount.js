@@ -144,7 +144,7 @@ function OpenNewAccount(){
 
     return (
         <div className="smallBox17 col-md-9">
-            <div className="smallBox40">
+            <div className="smallBox59">
                 <ul className="smallBox22 nav">
                     <li className="nav-item highlight smallBox23">
                         <Link className="nav-link textDecoWhite smallBox23" to="/menu/customerAccounts">All Accounts</Link>
@@ -154,7 +154,7 @@ function OpenNewAccount(){
                     </li>
                 </ul>
                 <div className="scrolling">
-                    <div>
+                    <div className='phoneMargin2'>
                         <div className="smallBox19"> 
                             <div className="margin1">
                                 <span className="clickRegisterText">Name</span>
@@ -201,7 +201,7 @@ function OpenNewAccount(){
                         </div>
                     </div>
                     <div className="smallBox25">
-                        <div>
+                        <div className='phoneMargin'>
                             <span className="clickRegisterText">Account Type</span>
                             <select className="form-control enterDiv2" value={accountType} onChange={(eventargs) => setAccountType(eventargs.target.value)}>
                                 <option value="">Select</option>
@@ -222,7 +222,7 @@ function OpenNewAccount(){
                         </div>
                     </div>
                 </div>
-                <a className="btn btn-outline-success smallBox42" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                <a className="btn btn-outline-success smallBox42 phoneMargin" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                     <span>Create Account</span>
                 </a>
             </div>

@@ -107,7 +107,7 @@ function Landing(){
 
     return(
         <div className="container">
-            <div className="row">
+            <div className="orginalRow">
                 <div className="smallBox1 col-sm-5">
                     <div className="topcorner2 flexRow">
                         <div className="logoImage change-my-color3"></div>
@@ -139,9 +139,9 @@ function Landing(){
                             <Link className="clickRegisterText" to="/forgotPassword">Forgot Password?</Link>
                         </div>
                         <div className="smallBox8">
-                            <a className="btn btn-outline-success smallBox9 noDisplay" href="register.html">
+                            <Link className="btn btn-outline-success smallBox9 noDisplay" to="/registerCustomer">
                                 <span>Register</span>
-                            </a>
+                            </Link>
                             <div className="pad">
                                 <a onClick = {loginUser} className="btn btn-outline-success smallBox9">
                                     <span>Login</span>

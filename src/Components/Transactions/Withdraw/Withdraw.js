@@ -79,7 +79,7 @@ function Withdraw(){
                     </li>
                 </ul>
                 <div className="smallBox30"> 
-                    <div>
+                    <div className='phoneMargin2'>
                         <span className="clickRegisterText">Amount</span>
                         <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
                     </div>

@@ -80,32 +80,20 @@
 }
 
 
-.smallBox40{
-    height: 550px;
-    display: flex;
-    flex-direction: column;
-}
-
 .smallBox58{
     height: 170px;
     display: flex;
     flex-direction: column;
 }
 
-.smallBox41{
-    height: 550px;
-    width: 610px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.smallBox42{
-    margin-top: 40px;
-    width: 155px;
-    height: 50px;
+.clickRegisterText10{
+    color: rgb(255, 255, 255);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+    margin-bottom: 25px;
 }
-
 
 .smallBox22{
     display: flex;
@@ -123,6 +111,10 @@
 
 .widthBox3{
     width: 540px;
+}
+
+.width50{
+    width: 50%;
 }
 
 .smallBox23{
@@ -144,14 +136,7 @@
     width: 262px;
 }
 
-.smallBox25 {
-    width: 577px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: end;
-    margin-bottom: 10px;
-}
+
 
 .smallBox53 {
     display: flex;
@@ -177,22 +162,6 @@
     margin-top: 10px;
 }
 
-.smallBox46{
-    width: 310px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.smallBox47 {
-    width: 560px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-}
-
 .smallBox27 {
     height: 550px;
     display: flex;
@@ -204,20 +173,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.smallBox29 {
-    height: 550px;
-    display: flex;
-    flex-direction: column;
-}
-
-.smallBox30 {
-    width: 577px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .smallBox31 {
@@ -270,6 +225,12 @@
     font-size: 16px;
 }
 
+.orginalRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
 .flexRow3 {
     display: flex;
@@ -277,17 +238,7 @@
     align-items: center;
 }
 
-.whiteOutlineBox1{
-    width: 593px;
-    height: 130px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 20px;
-}
+
 
 .whiteOutlineBox6{
     width: 539px;
@@ -323,42 +274,6 @@
     flex-direction: column;
     justify-content: center;
     margin-bottom: 20px;
-}
-
-.whiteOutlineBox2{
-    width: 560px;
-    height: 65px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.whiteOutlineBox3{
-    width: 560px;
-    height: 190px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.whiteOutlineBox4{
-    width: 560px;
-    height: 235px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 30px;
 }
 
 .whiteOutlineBoxMargin{
@@ -415,27 +330,7 @@
     color: white;
 }
 
-.enterDiv3 {
-    width: 400px;
-    height: 44px;
-    font-size: 14px;
-    font-family: Nunito;
-    font-weight: normal;
-    background-color: rgb(67,65,65);
-    border: 1px solid rgb(120 120 120);
-    color: white;
-}
 
-.enterDiv4 {
-    width: 400px;
-    height: 100px;
-    font-size: 14px;
-    font-family: Nunito;
-    font-weight: normal;
-    background-color: rgb(67,65,65);
-    border: 1px solid rgb(120 120 120);
-    color: white;
-}
 
 .delete {
     width: 20px;
@@ -467,10 +362,21 @@
     margin-right: 15px;
 }
 
+.row{
+    flex-wrap: wrap;
+}
+
 .rightArrow {
     width: 22px;
     height: 22px;
     background: url(arrow-right.svg);
+    overflow: hidden;
+}
+
+.menu {
+    width: 22px;
+    height: 22px;
+    background: url(menu.svg);
     overflow: hidden;
 }
 
@@ -551,30 +457,6 @@
     overflow: hidden;
 }
 
-.upMargin{
-    width: 555px;
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.upMargin2 {
-    width: 555px;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.upMargin3 {
-    width: 555px;
-    margin-bottom: 35px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 .closeAccount{
     width: 115px;
     display: flex;
@@ -589,6 +471,8 @@
     justify-content: center;
     align-items: center;
 }
+
+
 
 .transactiondetails{
     display: flex;
@@ -611,12 +495,6 @@ hr{
 }
 
 .hrS{
-    color: white;
-    margin-bottom: 25px;
-}
-
-.hr3{
-    width: 400px;
     color: white;
     margin-bottom: 25px;
 }
@@ -716,6 +594,7 @@ hr{
     margin-bottom: 25px;
 }
 
+
 .topcorner{
     position: absolute;
     top: 40px;
@@ -753,7 +632,11 @@ hr{
         max-width: 100%;
     }
 
-    
+    .flexColumn2{
+        display: flex;
+        flex-direction: row;
+    }
+
     .smallBox1{
         background: rgb(73,73,73);
         min-height: 100vh;
@@ -798,14 +681,6 @@ hr{
         margin-bottom: 6px;
     }
 
-    .clickRegisterText10{
-        color: rgb(255, 255, 255);
-        font-family: Nunito;
-        font-weight: 300;
-        font-size: 14px;
-        margin-bottom: 25px;
-    }
-
     .clickRegisterText7{
         color: rgb(255, 255, 255);
         font-family: Nunito;
@@ -837,6 +712,8 @@ hr{
         align-items: center;
     }
     
+
+
     .change-my-color {
         filter: invert(77%) sepia(8%) saturate(5067%) hue-rotate(83deg) brightness(91%) contrast(68%);
     }
@@ -999,7 +876,14 @@ hr{
     .smallBox1{
         display: none;
     }
-    
+
+    .flexColumn2{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .smallBox4{
         min-height: 100vh;
         display: flex;
@@ -1016,6 +900,8 @@ hr{
         margin-bottom: 25px;
     }
 
+
+
     .welcomeText{
         display: none;
     }
@@ -1024,14 +910,14 @@ hr{
         color: rgb(255, 255, 255);
         font-family: Nunito;
         font-weight: 600;
-        font-size: 24px;
+        font-size: 22px;
     }
     
     .welcomeText3{
         color: rgb(255, 255, 255);
         font-family: Nunito;
         font-weight: 600;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .clickRegisterText{
@@ -1125,7 +1011,7 @@ hr{
     }
     
     .smallBox9{
-        width: 120px;
+        width: 105px;
     }
     
     .smallBox10{
@@ -1184,6 +1070,10 @@ hr{
 }
 
 @media screen and (min-width: 825px){
+    .wrapper{
+        display: none;
+    }
+
     .smallBox15{
         background: rgb(73,73,73);
         min-height: 100vh;
@@ -1199,6 +1089,23 @@ hr{
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .flexRow6{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .smallBox25 {
+        width: 577px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 10px;
     }
 
     .smallBox13{
@@ -1236,9 +1143,292 @@ hr{
         display: flex;
         flex-direction: row;
     }
+
+    .flexRow5{
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .smallBox40{
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .smallBox59{
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .whiteOutlineBox2{
+        width: 560px;
+        height: 65px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .whiteOutlineBox1{
+        width: 593px;
+        height: 170px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    
+    .whiteOutlineBox3{
+        width: 560px;
+        height: 190px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox4{
+        width: 560px;
+        height: 305px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .smallBox42{
+        margin-top: 40px;
+        width: 155px;
+        height: 50px;
+    }
+
+    .upMargin3 {
+        width: 555px;
+        margin-bottom: 35px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .smallBox41{
+        height: 550px;
+        width: 610px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .enterDiv3 {
+        width: 400px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .enterDiv4 {
+        width: 400px;
+        height: 100px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .upMargin{
+        width: 555px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .upMargin2 {
+        width: 555px;
+        margin-bottom: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    
+    .hr3{
+        width: 400px;
+        color: white;
+        margin-bottom: 25px;
+    }
+
+    .smallBox46{
+        width: 310px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .smallBox29 {
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    
+    .smallBox30 {
+        width: 577px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .smallBox47 {
+        width: 560px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+    }
 }
 
 @media screen and (max-width: 825px){
+
+    .row{
+        display: none;
+    }
+
+    #sidebar {
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: -250px;
+        height: 100vh;
+        z-index: 999;
+        background: rgb(73,73,73);
+        color: #fff;
+        transition: all 0.3s;
+        overflow-y: scroll;
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    
+    .flexRow6{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        
+    .flexRow5{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+
+    #sidebar.active {
+        left: 0;
+    }
+
+    .smallBox25 {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    #dismiss {
+        position: absolute;
+        top: -45px;
+        right: -20px;
+        cursor: pointer;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 998;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+    }
+    .overlay.active {
+        display: block;
+        opacity: 1;
+    }
+
+    #sidebar .sidebar-header {
+        padding: 20px;
+        background: rgb(73,73,73);
+    }
+
+    #sidebar ul.components {
+        padding: 20px 0;
+        border-bottom: 1px solid rgb(73,73,73);
+    }
+
+    #sidebar ul p {
+        color: #fff;
+        padding: 10px;
+    }
+
+    #sidebar ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+    }
+
+    #sidebar ul li a:hover {
+        color: rgb(73,73,73);
+        background: #fff;
+    }
+
+    #sidebar ul li.active>a,
+    a[aria-expanded="true"] {
+        color: #fff;
+        background: rgb(73,73,73);
+    }
+
+    a[data-toggle="collapse"] {
+        position: relative;
+    }
+
+    #content {
+        width: 100%;
+        padding: 20px;
+        transition: all 0.3s;
+    }
+
     .smallBox15{
         display: none;
     }
@@ -1256,15 +1446,13 @@ hr{
 
     .smallBox17 {
         width: 100%;
-        min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        margin-top: 30px;
     }
 
     .smallBox18 {
-        margin-top: 80px;
         margin-bottom: 55px;
         display: flex;
         flex-direction: column;
@@ -1276,11 +1464,186 @@ hr{
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 30px;
     }
 
     .margin1{
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+
+    .phoneMargin{
+        margin-bottom: 45px;
+    }
+
+    .phoneMargin2{
+        margin-bottom: 25px;
+    }
+
+    .phoneBox{
+        height: 400px;
+    }
+
+    .phoneBox2{
+        height: 243px;
+    }
+
+    .smallBox40{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .smallBox59{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .whiteOutlineBox2{
+        width: 305px;
+        height: 65px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .whiteOutlineBox1{
+        width: 305px;
+        height: 170px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox3{
+        width: 305px;
+        height: 190px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox4{
+        width: 305px;
+        height: 305px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+
+    .smallBox42{
+        margin-top: 40px;
+        width: 155px;
+        height: 40px;
+    }
+
+    .upMargin3 {
+        margin-bottom: 35px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .smallBox41{
+        height: 550px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .enterDiv3 {
+        width: 265px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .clickRegisterText{
+        color: rgb(255, 255, 255);
+        font-family: Nunito;
+        font-weight: 300;
+        font-size: 14px;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+
+    .enterDiv4 {
+        width: 265px;
+        height: 100px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .upMargin{
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .upMargin2 {
+        margin-bottom: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    
+    .hr3{
+        color: white;
+        margin-bottom: 25px;
+    }
+
+    .smallBox46{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smallBox29 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    
+    .smallBox30 {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    
+    .smallBox47 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
     }
 }

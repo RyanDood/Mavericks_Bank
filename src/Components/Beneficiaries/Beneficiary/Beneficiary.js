@@ -47,7 +47,8 @@ function Beneficiary(props){
                         <div className="delete change-my-color2"></div>
                     </span>
                 </div>
-                <span className="clickRegisterText">{props.beneficiary.branches.banks.bankName} - Acc No {props.beneficiary.accountNumber}</span>
+                <span className="clickRegisterText">Acc No {props.beneficiary.accountNumber}</span>
+                <span className="clickRegisterText">{props.beneficiary.branches.banks.bankName}</span>
                 <span className="clickRegisterText">IFSC: {props.beneficiary.branches.ifscNumber}</span>
             </div>
             <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">

@@ -37,7 +37,7 @@ function LastMonthTransaction() {
     }
 
     return (
-        <div className="scrolling">
+        <div className="scrolling phoneBox2">
             {transactions.map(transaction => 
                 <Transaction key={transaction.transactionID} transaction = {transaction}/> 
             )}

@@ -60,8 +60,9 @@ function AvailedLoans(){
                                 </div>
                                 <span className="clickRegisterText">Interest: {availedLoan.loans.interest}</span>
                                 <span className="clickRegisterText">Tenure: {availedLoan.loans.tenure} yrs</span>
-                                <span className="clickRegisterText">{availedLoan.loans.loanType} - Applied on {availedLoan.appliedDate}</span>
-                                <span className="clickRegisterText">Purpose - {availedLoan.purpose}</span>
+                                <span className="clickRegisterText">Loan Type: {availedLoan.loans.loanType}</span>
+                                <span className="clickRegisterText">Purpose: {availedLoan.purpose}</span>
+                                <span className="clickRegisterText">Applied Date: {availedLoan.appliedDate}</span>
                             </div>
                         </div>
                     )}
