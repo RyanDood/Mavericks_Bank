@@ -161,7 +161,7 @@ function DashBoard() {
                 </div>
                 <hr className="hrS"></hr>
                 <span className="clickRegisterText10">Generate Account Statement</span>
-                <div>
+                <div className='phoneMargin2'>
                     <div className="smallBox19 phoneMargin2">
                         <div className="margin1">
                             <span className="clickRegisterText">From</span>

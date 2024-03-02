@@ -15,7 +15,7 @@ function LoanApplication(props){
     }
 
     return (
-        <div className="whiteOutlineBox1">
+        <div className="whiteOutlineBox8">
             <div className="whiteOutlineBoxMargin">
                 <span className="clickRegisterText">Loan Amount: {props.loan.amount}</span>
                 <div className="smallBox23">

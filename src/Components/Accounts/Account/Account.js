@@ -25,7 +25,7 @@ function Account(props){
     }
 
     return (
-        <div className="whiteOutlineBox1">
+        <div className="whiteOutlineBox8">
             <div className="whiteOutlineBoxMargin">
                 <span className="clickRegisterText">Account No: {props.account.accountNumber}</span>
                 <div className="smallBox23">

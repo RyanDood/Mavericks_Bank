@@ -133,8 +133,8 @@ function LoanApplicationDetails(){
                             <span className="nav-link textDecoWhite pointer smallBox23" onClick={setApplicantDetails}>Applicant Details</span>}
                         </li>
                         <li className="nav-item highlight smallBox23">
-                            {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCreditWorthiness}>Check CreditWorthiness</span> :
-                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCreditWorthiness}>Check CreditWorthiness</span>}
+                            {clicked[1] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCreditWorthiness}>CreditWorthiness</span> :
+                            <span className="nav-link textDecoWhite pointer smallBox23" onClick={setCreditWorthiness}>CreditWorthiness</span>}
                         </li>
                         <li className="nav-item highlight smallBox23">
                             {clicked[2] ? <span className="nav-link textDecoGreen pointer smallBox23" onClick={setCustomerAppliedLoans}>Applied Loans</span> :

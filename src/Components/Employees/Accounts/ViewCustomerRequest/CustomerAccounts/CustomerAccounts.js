@@ -67,7 +67,7 @@ function CustomerAccounts(props) {
     }
 
     return (
-        <div className="scrolling">
+        <div className="scrolling phoneBox">
             {accounts.map(account => 
                 <div key={account.accountID} className="whiteOutlineBox6">
                     <div className="whiteOutlineBoxMargin">

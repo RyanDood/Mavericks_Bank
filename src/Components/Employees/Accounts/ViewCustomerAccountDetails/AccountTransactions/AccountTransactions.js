@@ -81,7 +81,7 @@ function AccountTransaction(){
     return (
         <div className="heigthBox">
             {getTransactions === true ?
-            <div className="scrolling">
+            <div className="scrolling phoneBox">
                 <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
                     <span>Filter Transaction</span>
                 </span>

@@ -8,6 +8,8 @@ function Landing(){
 
     var [email,setEmail]= useState("");
     var [password,setPassword]= useState("");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     var navigate = useNavigate();
 
     var loginValidation = {
@@ -17,41 +19,25 @@ function Landing(){
         "token": ""
     }
 
-    var login = async() => await axios.post('http://localhost:5224/api/Validation/Login',loginValidation).then(function (response) {
-                                console.log(response.data);
-                                sessionStorage.setItem("email",response.data.email);
-                                sessionStorage.setItem("token",response.data.token);
-                                if(response.data.userType === "Customer"){
-                                    getCustomerID();
-                                }
-                                else if(response.data.userType === "Employee"){
-                                    getEmployeeID();
-                                }
-                                else if(response.data.userType === "Admin"){
-                                    getAdminID();
-                                }
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
-
-    var loginUser = () => {
-        if(email === "" || password === ""){
-            console.log("Please fill in all fields");
-        }
-        else{
-            if(email.includes("@") && email.includes(".") && email.length > 5){
-                if(password.length >= 8 && password.length <= 15){
-                    login();
-                }
-                else{
-                    console.log("Password length should be between 8-15 characters");
-                }
+    async function loginUser(){
+        await axios.post('http://localhost:5224/api/Validation/Login',loginValidation)
+        .then(function (response) {
+            console.log(response.data);
+            sessionStorage.setItem("email",response.data.email);
+            sessionStorage.setItem("token",response.data.token);
+            if(response.data.userType === "Customer"){
+                getCustomerID();
             }
-            else{
-                console.log("Invalid Email");
+            else if(response.data.userType === "Employee"){
+                getEmployeeID();
             }
-        }
+            else if(response.data.userType === "Admin"){
+                getAdminID();
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     async function getCustomerID(){
@@ -105,6 +91,59 @@ function Landing(){
         })
     }
 
+    function checkEmailValidation(eventargs){
+        var email = eventargs.target.value;
+        setEmail(email)
+        if(email !== ""){
+            if(email.includes("@") && email.includes(".")){
+                if(email.length > 5){
+                    setError(false);
+                    if(password !== ""){
+                        document.getElementById("loginButton").classList.remove("disabled");
+                    }
+                }
+                else{
+                    document.getElementById("loginButton").classList.add("disabled");
+                    setError(true);
+                    setErrorMessage("Email Length should be greater than 5 characters");
+                }
+            }
+            else{
+                document.getElementById("loginButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Invalid Email");
+            }
+        }
+        else{
+            document.getElementById("loginButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Email cannot be empty");
+        }
+    }
+
+    function checkPasswordValidation(eventargs){
+        var password = eventargs.target.value;
+        setPassword(password);
+        if(password !== ""){
+            if(password.length >= 8 && password.length <= 15){
+                setError(false);
+                if(email !== ""){
+                    document.getElementById("loginButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("loginButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Password length should be between 8-15 characters");
+            }
+        }
+        else{
+            document.getElementById("loginButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Password cannot be empty");
+        }
+    }
+
     return(
         <div className="container">
             <div className="orginalRow">
@@ -128,22 +167,23 @@ function Landing(){
                             <span className="welcomeText3">Sign In</span>
                             <div>
                                 <span className="clickRegisterText">Email</span>
-                                <input className="form-control enterDiv" type="email" value={email} onChange={(eventargs) => setEmail(eventargs.target.value)}></input>
+                                <input className="form-control enterDiv" type="email" value={email} onChange={checkEmailValidation}></input>
                             </div>
                             <div>
                                 <span className="clickRegisterText">Password</span>
-                                <input className="form-control enterDiv" type="password" value={password} onChange={(eventargs) => setPassword(eventargs.target.value)}></input>
+                                <input className="form-control enterDiv" type="password" value={password} onChange={checkPasswordValidation}></input>
                             </div>
                         </div>
                         <div className="smallBox6">
                             <Link className="clickRegisterText" to="/forgotPassword">Forgot Password?</Link>
                         </div>
+                        {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
                         <div className="smallBox8">
                             <Link className="btn btn-outline-success smallBox9 noDisplay" to="/registerCustomer">
                                 <span>Register</span>
                             </Link>
                             <div className="pad">
-                                <a onClick = {loginUser} className="btn btn-outline-success smallBox9">
+                                <a id="loginButton" onClick = {loginUser} className="btn btn-outline-success smallBox9 disabled">
                                     <span>Login</span>
                                 </a>
                             </div>

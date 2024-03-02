@@ -148,7 +148,7 @@ function CreateCustomer() {
                         </div>
                     </div>
                 </div>
-                <div className="smallBox55">
+                <div className="smallBox55 phoneMargin2">
                     <a onClick={registerCustomer} className="btn btn-outline-success smallBox9">
                         <span>Create</span>
                     </a>

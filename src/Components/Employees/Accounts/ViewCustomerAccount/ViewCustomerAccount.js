@@ -100,7 +100,7 @@ function ViewCustomerAccount(){
 
     return (
         <div>
-            <ul className="smallBox22 nav">
+            <ul className="smallBox60 nav">
             <li className="nav-item highlight smallBox23">
                     <Link className="nav-link textDecoGreen smallBox23" to="/employeeMenu/accounts/viewCustomerAccount">View Account</Link>
                 </li>
@@ -113,7 +113,7 @@ function ViewCustomerAccount(){
             </ul>
             <div className="widthBox2">
                 <div className="marginRegisterCustomer flexRow2">
-                    <input className="form-control enterDiv6" required placeholder='Account Number' type="number" value={accountNumber} onChange={(eventargs) => setAccountNumber(eventargs.target.value)}></input>
+                    <input className="form-control enterDiv8" required placeholder='Account Number' type="number" value={accountNumber} onChange={(eventargs) => setAccountNumber(eventargs.target.value)}></input>
                     {searched ? 
                     <span className="pointer" onClick={clear}>
                         <div className="cancel change-my-color2"></div>
@@ -133,7 +133,7 @@ function ViewCustomerAccount(){
                 </div> : 
                 <div className="heigthBox2">
                     <div className="scrolling">
-                        <div className="whiteOutlineBox1">
+                        <div className="whiteOutlineBox8">
                             <div className="whiteOutlineBoxMargin">
                                 <span className="clickRegisterText">Account No: {account.accountNumber}</span>
                                 <div className="smallBox23">

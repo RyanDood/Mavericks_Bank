@@ -2,7 +2,7 @@ import '../../../../style.css';
 
 function ApplicantDetails(props){
     return (
-        <div className='smallBox40 scrolling margin4'>
+        <div className='smallBox40 scrolling margin4 phoneBox'>
             <span className="clickRegisterText7">Applied Amount: {props.loan.amount}</span>
             <span className="clickRegisterText7">Purpose: {props.loan.purpose}</span>
             <span className="clickRegisterText7">Name: {props.loan.customers.name}</span>

@@ -101,17 +101,8 @@
     margin-bottom: 35px;
 }
 
-.widthBox{
-    width: 547px;
-}
 
-.widthBox2{
-    width: 593px;
-}
 
-.widthBox3{
-    width: 540px;
-}
 
 .width50{
     width: 50%;
@@ -123,13 +114,7 @@
     justify-content: space-between;
 }
 
-.smallBox48{
-    width: 560px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top:150px
-}
+
 
 .smallBox24 {
     height: 44px;
@@ -202,6 +187,20 @@
     justify-content: space-between;
 }
 
+.smallBox61{
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.smallBox62{
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .smallBox51{
     height: 365px;
     display: flex;
@@ -239,42 +238,6 @@
 }
 
 
-
-.whiteOutlineBox6{
-    width: 539px;
-    height: 200px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.whiteOutlineBox5{
-    width: 593px;
-    height: 100px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.whiteOutlineBox7{
-    width: 530px;
-    height: 100px;
-    background: rgb(73,73,73);
-    border: 1px solid rgb(120 120 120);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 20px;
-}
 
 .whiteOutlineBoxMargin{
     height: 100%;
@@ -360,10 +323,6 @@
     background: url(error.svg);
     overflow: hidden;
     margin-right: 15px;
-}
-
-.row{
-    flex-wrap: wrap;
 }
 
 .rightArrow {
@@ -472,7 +431,12 @@
     align-items: center;
 }
 
-
+.flexColumn4{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
 
 .transactiondetails{
     display: flex;
@@ -572,6 +536,17 @@ hr{
     margin-bottom: 6px;
 }
 
+.margin6{
+    margin-top: 35px;
+}
+
+.errorText{
+    color: rgb(238 86 86);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+}
+
 .clickRegisterText5{
     color: white;
     font-family: Nunito;
@@ -626,6 +601,7 @@ hr{
 @media screen and (min-width: 576px) {
     body {
         background: rgb(67,65,65);
+        /* background: rgb(32,32,65); */
     }
     
     .container {
@@ -755,16 +731,7 @@ hr{
         color: white;
     }
 
-    .enterDiv7 {
-        width: 475px;
-        height: 44px;
-        font-size: 14px;
-        font-family: Nunito;
-        font-weight: normal;
-        background-color: rgb(67,65,65);
-        border: 1px solid rgb(120 120 120);
-        color: white;
-    }
+
     
     .smallBox6{
         display: flex;
@@ -968,17 +935,6 @@ hr{
         color: white;
     }
 
-    .enterDiv7 {
-        width: 475px;
-        height: 44px;
-        font-size: 14px;
-        font-family: Nunito;
-        font-weight: normal;
-        background-color: rgb(67,65,65);
-        border: 1px solid rgb(120 120 120);
-        color: white;
-    }
-    
     .smallBox6{
         display: flex;
         flex-direction: row;
@@ -1189,6 +1145,18 @@ hr{
         margin-bottom: 20px;
     }
 
+    .whiteOutlineBox8{
+        width: 593px;
+        height: 130px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
     
     .whiteOutlineBox3{
         width: 560px;
@@ -1311,29 +1279,149 @@ hr{
         align-items: center;
         margin-top: 30px;
     }
+
+    .widthBox2{
+        width: 593px;
+    }
+
+    .enterDiv8 {
+        width: 530px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .smallBox60{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 35px;
+    }
+
+    .widthBox{
+        width: 547px;
+    }
+
+    .smallBox48{
+        width: 560px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top:150px
+    }
+
+    .whiteOutlineBox5{
+        width: 593px;
+        height: 100px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox6{
+        width: 539px;
+        height: 200px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox7{
+        width: 530px;
+        height: 100px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .widthBox3{
+        width: 540px;
+    }
+    
+    .enterDiv7 {
+        width: 475px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .mobileMenu{
+        display: none;
+    }
 }
 
 @media screen and (max-width: 825px){
-
-    .row{
-        display: none;
-    }
-
-    #sidebar {
-        width: 250px;
+    .sidebar {
+        height: 100%;
+        width: 0;
         position: fixed;
+        z-index: 1;
         top: 0;
-        left: -250px;
-        height: 100vh;
-        z-index: 999;
-        background: rgb(73,73,73);
-        color: #fff;
-        transition: all 0.3s;
-        overflow-y: scroll;
-        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-    }
+        left: 0;
+        background-color: rgb(67,65,65);
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+      }
+      
+      .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+      
+      .sidebar a:hover {
+        color: #f1f1f1;
+      }
+      
+      .sidebar .closebtn {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+      }
+      
+      .openbtn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color:rgb(67,65,65);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+      }
+      
+      .openbtn:hover {
+        background-color: #444;
+      }
+      
+      #main {
+        transition: margin-left .5s;
+        padding: 16px;
+      }
 
-    
     .flexRow6{
         display: flex;
         flex-direction: column;
@@ -1347,86 +1435,6 @@ hr{
         justify-content: space-evenly;
         align-items: center;
         margin-bottom: 25px;
-    }
-
-
-    #sidebar.active {
-        left: 0;
-    }
-
-    .smallBox25 {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    #dismiss {
-        position: absolute;
-        top: -45px;
-        right: -20px;
-        cursor: pointer;
-        -webkit-transition: all 0.3s;
-        -o-transition: all 0.3s;
-        transition: all 0.3s;
-    }
-
-    .overlay {
-        display: none;
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 998;
-        opacity: 0;
-        transition: all 0.5s ease-in-out;
-    }
-    .overlay.active {
-        display: block;
-        opacity: 1;
-    }
-
-    #sidebar .sidebar-header {
-        padding: 20px;
-        background: rgb(73,73,73);
-    }
-
-    #sidebar ul.components {
-        padding: 20px 0;
-        border-bottom: 1px solid rgb(73,73,73);
-    }
-
-    #sidebar ul p {
-        color: #fff;
-        padding: 10px;
-    }
-
-    #sidebar ul li a {
-        padding: 10px;
-        font-size: 1.1em;
-        display: block;
-    }
-
-    #sidebar ul li a:hover {
-        color: rgb(73,73,73);
-        background: #fff;
-    }
-
-    #sidebar ul li.active>a,
-    a[aria-expanded="true"] {
-        color: #fff;
-        background: rgb(73,73,73);
-    }
-
-    a[data-toggle="collapse"] {
-        position: relative;
-    }
-
-    #content {
-        width: 100%;
-        padding: 20px;
-        transition: all 0.3s;
     }
 
     .smallBox15{
@@ -1487,6 +1495,10 @@ hr{
         height: 243px;
     }
 
+    .phoneBox3{
+        height: 490px;
+    }
+
     .smallBox40{
         display: flex;
         flex-direction: column;
@@ -1513,6 +1525,18 @@ hr{
     .whiteOutlineBox1{
         width: 305px;
         height: 170px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox8{
+        width: 305px;
+        height: 130px;
         background: rgb(73,73,73);
         border: 1px solid rgb(120 120 120);
         border-radius: 10px;
@@ -1645,5 +1669,78 @@ hr{
         justify-content: space-between;
         align-items: center;
         margin-top: 30px;
+    }
+
+    .enterDiv8 {
+        width: 305px;
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
+    }
+
+    .smallBox60{
+        width: 305px;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 35px;
+    }
+
+    .smallBox48{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top:150px
+    }
+
+    .whiteOutlineBox5{
+        height: 100px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox6{
+        height: 200px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .whiteOutlineBox7{
+        width: 305px;
+        height: 100px;
+        background: rgb(73,73,73);
+        border: 1px solid rgb(120 120 120);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .widthBox3{
+        width: 305px;
+    }
+
+    .enterDiv7 {
+        height: 44px;
+        font-size: 14px;
+        font-family: Nunito;
+        font-weight: normal;
+        background-color: rgb(67,65,65);
+        border: 1px solid rgb(120 120 120);
+        color: white;
     }
 }

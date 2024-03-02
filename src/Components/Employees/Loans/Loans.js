@@ -43,7 +43,7 @@ function Loans(){
                     <div className="errorImage2 change-my-color2"></div>
                     <div className="clickRegisterText">{errorMessage}</div>
                 </div> :
-                <div className="scrolling">
+                <div className="scrolling phoneBox3">
                     {loans.map(loan => 
                         <LoanApplication key={loan.loanApplicationID} loan = {loan}/>
                     )}
