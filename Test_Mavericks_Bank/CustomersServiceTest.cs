@@ -23,7 +23,7 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
@@ -45,12 +45,12 @@ namespace Test_Mavericks_Bank
             var allCustomers = await customersService.GetAllCustomers();
 
             //assert
-            Assert.AreNotEqual(0, allCustomers.Count);
+            Assert.That(allCustomers.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(2)]
         [TestCase(4)]
-        public async Task GetCustomerNotFoundExceptionTest(int customerID)
+        public void GetCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -67,7 +67,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(2)]
         [TestCase("ryan38@gmail.com")]
-        public async Task GetCustomerByEmailNotFoundExceptionTest(string email)
+        public void GetCustomerByEmailNotFoundExceptionTest(string email)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -99,7 +99,7 @@ namespace Test_Mavericks_Bank
             var foundCustomer = await customersService.GetCustomer(customerID);
 
             //assert
-            Assert.AreEqual(1, foundCustomer.CustomerID);
+            Assert.That(foundCustomer.CustomerID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
@@ -119,11 +119,11 @@ namespace Test_Mavericks_Bank
             var foundCustomer = await customersService.GetCustomerByEmail(email);
 
             //assert
-            Assert.AreEqual(email, foundCustomer.Email);
+            Assert.That(foundCustomer.Email, Is.EqualTo(email));
         }
 
         [Test, Order(4)]
-        public async Task UpdateCustomerNotFoundExceptionTest()
+        public void UpdateCustomerNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -182,12 +182,12 @@ namespace Test_Mavericks_Bank
             var updatedCustomer = await customersService.UpdateCustomerDetails(updateCustomerDTO);
 
             //assert
-            Assert.AreEqual(1, updatedCustomer.CustomerID);
+            Assert.That(updatedCustomer.CustomerID, Is.EqualTo(1));
         }
 
         [Test, Order(6)]
         [TestCase(4)]
-        public async Task DeleteCustomerNotFoundExceptionTest(int customerID)
+        public void DeleteCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -219,7 +219,7 @@ namespace Test_Mavericks_Bank
             var deletedCustomer = await customersService.DeleteCustomer(customerID);
 
             //assert
-            Assert.AreEqual(1, deletedCustomer.CustomerID);
+            Assert.That(deletedCustomer.CustomerID, Is.EqualTo(1));
         }
     }
 }

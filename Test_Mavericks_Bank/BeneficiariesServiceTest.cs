@@ -22,14 +22,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllBeneficiariesNotFoundExceptionTest()
+        public void GetAllBeneficiariesNotFoundExceptionTest()
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -97,11 +97,11 @@ namespace Test_Mavericks_Bank
             await beneficiariesService.AddBeneficiary(beneficiary3);
 
             //assert
-            Assert.AreEqual(1, addedBeneficiary.BeneficiaryID);
+            Assert.That(addedBeneficiary.BeneficiaryID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
-        public async Task AddBeneficiaryAlreadyExistsExceptionTest()
+        public void AddBeneficiaryAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -149,12 +149,12 @@ namespace Test_Mavericks_Bank
             var allBeneficiaries = await beneficiariesService.GetAllBeneficiaries();
 
             //assert
-            Assert.AreNotEqual(0, allBeneficiaries.Count);
+            Assert.That(allBeneficiaries.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(5)]
         [TestCase(1)]
-        public async Task GetAllCustomerBeneficiariesCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerBeneficiariesCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -175,7 +175,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(6)]
         [TestCase(3)]
-        public async Task GetAllCustomerBeneficiariesNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerBeneficiariesNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -215,12 +215,12 @@ namespace Test_Mavericks_Bank
             var allCustomerBeneficiaries = await beneficiariesService.GetAllCustomerBeneficiaries(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerBeneficiaries.Count);
+            Assert.That(allCustomerBeneficiaries.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(8)]
         [TestCase(4)]
-        public async Task GetBeneficiaryNotFoundExceptionTest(int beneficiaryID)
+        public void GetBeneficiaryNotFoundExceptionTest(int beneficiaryID)
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -260,12 +260,12 @@ namespace Test_Mavericks_Bank
             var foundedBeneficiary = await beneficiariesService.GetBeneficiary(beneficiaryID);
 
             //assert
-            Assert.AreEqual(1, foundedBeneficiary.BeneficiaryID);
+            Assert.That(foundedBeneficiary.BeneficiaryID, Is.EqualTo(1));
         }
 
         [Test, Order(10)]
         [TestCase(4)]
-        public async Task DeleteBeneficiaryNotFoundExceptionTest(int beneficiaryID)
+        public void DeleteBeneficiaryNotFoundExceptionTest(int beneficiaryID)
         {
             //arrange
             var mockBeneficiariesRepositoryLogger = new Mock<ILogger<BeneficiariesRepository>>();
@@ -305,7 +305,7 @@ namespace Test_Mavericks_Bank
             var deletedBeneficiary = await beneficiariesService.DeleteBeneficiary(beneficiaryID);
 
             //assert
-            Assert.AreEqual(1, deletedBeneficiary.BeneficiaryID);
+            Assert.That(deletedBeneficiary.BeneficiaryID, Is.EqualTo(1));
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
@@ -45,12 +45,12 @@ namespace Test_Mavericks_Bank
             var allBankEmployees = await bankEmployeesService.GetAllBankEmployees();
 
             //assert
-            Assert.AreNotEqual(0, allBankEmployees.Count);
+            Assert.That(allBankEmployees.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(2)]
         [TestCase(2)]
-        public async Task GetBankEmployeesNotFoundExceptionTest(int employeeID)
+        public void GetBankEmployeesNotFoundExceptionTest(int employeeID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -67,7 +67,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(2)]
         [TestCase("tharun2@maverick.in")]
-        public async Task GetBankEmployeesByEmailNotFoundExceptionTest(string email)
+        public void GetBankEmployeesByEmailNotFoundExceptionTest(string email)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -99,7 +99,7 @@ namespace Test_Mavericks_Bank
             var foundedEmployee = await bankEmployeesService.GetBankEmployee(employeeID);
 
             //assert
-            Assert.AreEqual(1, foundedEmployee.EmployeeID);
+            Assert.That(foundedEmployee.EmployeeID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
@@ -119,11 +119,11 @@ namespace Test_Mavericks_Bank
             var foundedEmployee = await bankEmployeesService.GetEmployeeByEmail(email);
 
             //assert
-            Assert.AreEqual(email, foundedEmployee.Email);
+            Assert.That(foundedEmployee.Email, Is.EqualTo(email));
         }
 
         [Test, Order(4)]
-        public async Task UpdateBankEmployeeNotFoundExceptionTest()
+        public void UpdateBankEmployeeNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -166,12 +166,12 @@ namespace Test_Mavericks_Bank
             var updatedEmployee = await bankEmployeesService.UpdateBankEmployeeName(updateBankEmployeeNameDTO);
 
             //assert
-            Assert.AreEqual(1, updatedEmployee.EmployeeID);
+            Assert.That(updatedEmployee.EmployeeID, Is.EqualTo(1));
         }
 
         [Test, Order(6)]
         [TestCase(2)]
-        public async Task DeleteBankEmployeesNotFoundExceptionTest(int employeeID)
+        public void DeleteBankEmployeesNotFoundExceptionTest(int employeeID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -203,7 +203,7 @@ namespace Test_Mavericks_Bank
             var deletedEmployee = await bankEmployeesService.DeleteBankEmployee(employeeID);
 
             //assert
-            Assert.AreEqual(1, deletedEmployee.EmployeeID);
+            Assert.That(deletedEmployee.EmployeeID, Is.EqualTo(1));
         }
     }
 }

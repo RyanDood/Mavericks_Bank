@@ -22,14 +22,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllAppliedLoansNotFoundExceptionTest()
+        public void GetAllAppliedLoansNotFoundExceptionTest()
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -57,7 +57,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(2)]
-        public async Task AddAppliedLoansAmountExceedsExceptionTest()
+        public void AddAppliedLoansAmountExceedsExceptionTest()
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -93,7 +93,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(3)]
-        public async Task AddAppliedLoansNoSavingsAccountExceptionTest()
+        public void AddAppliedLoansNoSavingsAccountExceptionTest()
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -129,7 +129,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(4)]
-        public async Task AddAppliedLoansSavingsAccountNotApprovedExceptionTest()
+        public void AddAppliedLoansSavingsAccountNotApprovedExceptionTest()
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -203,7 +203,7 @@ namespace Test_Mavericks_Bank
             var addedAppliedLoan = await appliedLoansService.AddAppliedLoan(applyLoanDTO);
 
             //assert
-            Assert.AreEqual(1, addedAppliedLoan.LoanApplicationID);
+            Assert.That(addedAppliedLoan.LoanApplicationID, Is.EqualTo(1));
         }
 
         [Test, Order(6)]
@@ -235,12 +235,12 @@ namespace Test_Mavericks_Bank
 
             //assert
 
-            Assert.AreNotEqual(0, allAppliedLoans.Count);
+            Assert.That(allAppliedLoans.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(7)]
         [TestCase(1)]
-        public async Task GetAllCustomerAppliedLoansCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAppliedLoansCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -269,7 +269,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(8)]
         [TestCase(3)]
-        public async Task GetAllCustomerAppliedLoansNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAppliedLoansNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -325,12 +325,12 @@ namespace Test_Mavericks_Bank
             var allCustomerAppliedLoans = await appliedLoansService.GetAllCustomerAppliedLoans(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerAppliedLoans.Count);
+            Assert.That(allCustomerAppliedLoans.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(10)]
         [TestCase(1)]
-        public async Task GetAllCustomerAvailedLoansCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAvailedLoansCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -359,7 +359,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(11)]
         [TestCase(2)]
-        public async Task GetAllCustomerAvailedLoansNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAvailedLoansNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -388,7 +388,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(12)]
         [TestCase(2,"Approved")]
-        public async Task UpdateAppliedLoanNotFoundExceptionTest(int loanID,string status)
+        public void UpdateAppliedLoanNotFoundExceptionTest(int loanID,string status)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -444,7 +444,7 @@ namespace Test_Mavericks_Bank
             var updatedAppliedLoan = await appliedLoansService.UpdateAppliedLoanStatus(loanID, status);
 
             //assert
-            Assert.AreEqual(status, updatedAppliedLoan.Status);
+            Assert.That(updatedAppliedLoan.Status, Is.EqualTo(status));
         }
 
 
@@ -477,12 +477,12 @@ namespace Test_Mavericks_Bank
             var allCustomerAvailedLoans = await appliedLoansService.GetAllCustomerAvailedLoans(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerAvailedLoans.Count);
+            Assert.That(allCustomerAvailedLoans.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(15)]
         [TestCase("Rejected")]
-        public async Task GetAllAppliedLoansStatusNotFoundExceptionTest(string status)
+        public void GetAllAppliedLoansStatusNotFoundExceptionTest(string status)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -538,12 +538,12 @@ namespace Test_Mavericks_Bank
             var allAppliedLoansStatus = await appliedLoansService.GetAllAppliedLoansStatus(status);
 
             //assert
-            Assert.AreNotEqual(0, allAppliedLoansStatus.Count);
+            Assert.That(allAppliedLoansStatus.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(17)]
         [TestCase(2)]
-        public async Task GetAppliedLoanNotFoundExceptionTest(int loanApplicationID)
+        public void GetAppliedLoanNotFoundExceptionTest(int loanApplicationID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -599,12 +599,12 @@ namespace Test_Mavericks_Bank
             var foundAppliedLoan = await appliedLoansService.GetAppliedLoan(loanApplicationID);
 
             //assert
-            Assert.AreEqual(loanApplicationID, foundAppliedLoan.LoanApplicationID);
+            Assert.That(foundAppliedLoan.LoanApplicationID, Is.EqualTo(loanApplicationID));
         }
 
         [Test, Order(19)]
         [TestCase(2)]
-        public async Task DeleteAppliedLoanNotFoundExceptionTest(int loanApplicationID)
+        public void DeleteAppliedLoanNotFoundExceptionTest(int loanApplicationID)
         {
             //arrange
             var mockAppliedLoansLogger = new Mock<ILogger<AppliedLoansRepository>>();
@@ -660,7 +660,7 @@ namespace Test_Mavericks_Bank
             var deleteAppliedLoan = await appliedLoansService.DeleteAppliedLoan(loanApplicationID);
 
             //assert
-            Assert.AreEqual(loanApplicationID, deleteAppliedLoan.LoanApplicationID);
+            Assert.That(deleteAppliedLoan.LoanApplicationID, Is.EqualTo(loanApplicationID));
         }
     }
 }

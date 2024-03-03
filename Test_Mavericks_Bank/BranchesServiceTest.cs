@@ -22,14 +22,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllBranchesNotFoundExceptionTest()
+        public void GetAllBranchesNotFoundExceptionTest()
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -80,11 +80,11 @@ namespace Test_Mavericks_Bank
             await branchesService.AddBranch(branch3);
 
             //assert
-            Assert.AreEqual(1, addedBranch.BranchID);
+            Assert.That(addedBranch.BranchID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
-        public async Task AddBranchIFSCAlreadyExistsExceptionTest()
+        public void AddBranchIFSCAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -105,7 +105,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(4)]
-        public async Task AddBranchNameAlreadyExistsExceptionTest()
+        public void AddBranchNameAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -138,12 +138,12 @@ namespace Test_Mavericks_Bank
             var allBranches = await branchesService.GetAllBranches();
 
             //assert
-            Assert.AreNotEqual(0, allBranches.Count);
+            Assert.That(allBranches.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(6)]
         [TestCase(4)]
-        public async Task GetBranchesNotFoundExceptionTest(int branchID)
+        public void GetBranchesNotFoundExceptionTest(int branchID)
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -169,11 +169,11 @@ namespace Test_Mavericks_Bank
             var foundBranch = await branchesService.GetBranch(branchID);
 
             //assert
-            Assert.AreEqual(1, foundBranch.BranchID);
+            Assert.That(foundBranch.BranchID, Is.EqualTo(1));
         }
 
         [Test, Order(8)]
-        public async Task UpdateBranchNotFoundExceptionTest()
+        public void UpdateBranchNotFoundExceptionTest()
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -192,7 +192,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(9)]
-        public async Task UpdateBranchNameAlreadyExistsExceptionTest()
+        public void UpdateBranchNameAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -229,12 +229,12 @@ namespace Test_Mavericks_Bank
             var updatedBranch = await branchesService.UpdateBranchName(updateBranchNameDTO);
 
             //assert
-            Assert.AreEqual(1, updatedBranch.BranchID);
+            Assert.That(updatedBranch.BranchID, Is.EqualTo(1));
         }
 
         [Test, Order(11)]
         [TestCase(4)]
-        public async Task DeleteBranchesNotFoundExceptionTest(int branchID)
+        public void DeleteBranchesNotFoundExceptionTest(int branchID)
         {
             //arrange
             var mockBranchesRepositoryLogger = new Mock<ILogger<BranchesRepository>>();
@@ -260,7 +260,7 @@ namespace Test_Mavericks_Bank
             var deletedBranch = await branchesService.DeleteBranch(branchID);
 
             //assert
-            Assert.AreEqual(1, deletedBranch.BranchID);
+            Assert.That(deletedBranch.BranchID, Is.EqualTo(1));
         }
     }
 }

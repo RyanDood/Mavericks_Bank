@@ -24,14 +24,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllBanksNotFoundExceptionTest()
+        public void GetAllBanksNotFoundExceptionTest()
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -76,11 +76,11 @@ namespace Test_Mavericks_Bank
             await banksService.AddBank(bank3);
 
             //assert
-            Assert.AreEqual(1, addedBank.BankID);
+            Assert.That(addedBank.BankID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
-        public async Task AddBankNameAlreadyExistsExceptionTest()
+        public void AddBankNameAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -111,12 +111,12 @@ namespace Test_Mavericks_Bank
             var allBanks = await banksService.GetAllBanks();
 
             //assert
-            Assert.AreNotEqual(0, allBanks.Count);
+            Assert.That(allBanks.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(5)]
         [TestCase(4)]
-        public async Task GetBankNotFoundExceptionTest(int bankID)
+        public void GetBankNotFoundExceptionTest(int bankID)
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -142,11 +142,11 @@ namespace Test_Mavericks_Bank
             var foundBank = await banksService.GetBank(bankID);
 
             //assert
-            Assert.AreEqual(1, foundBank.BankID);
+            Assert.That(foundBank.BankID, Is.EqualTo(1));
         }
 
         [Test, Order(7)]
-        public async Task UpdateBankNotFoundExceptionTest()
+        public void UpdateBankNotFoundExceptionTest()
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -165,7 +165,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(8)]
-        public async Task UpdateBankNameAlreadyExistsExceptionTest()
+        public void UpdateBankNameAlreadyExistsExceptionTest()
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -202,12 +202,12 @@ namespace Test_Mavericks_Bank
             var updatedBank = await banksService.UpdateBankName(updateBankNameDTO);
 
             //assert
-            Assert.AreEqual(1, updatedBank.BankID);
+            Assert.That(updatedBank.BankID, Is.EqualTo(1));
         }
 
         [Test, Order(10)]
         [TestCase(4)]
-        public async Task DeleteBankNotFoundExceptionTest(int bankID)
+        public void DeleteBankNotFoundExceptionTest(int bankID)
         {
             //arrange
             var mockBanksRepositoryLogger = new Mock<ILogger<BanksRepository>>();
@@ -233,7 +233,7 @@ namespace Test_Mavericks_Bank
             var deletedBank = await banksService.DeleteBank(bankID);
 
             //assert
-            Assert.AreEqual(1, deletedBank.BankID);
+            Assert.That(deletedBank.BankID, Is.EqualTo(1));
         }
     }
 }

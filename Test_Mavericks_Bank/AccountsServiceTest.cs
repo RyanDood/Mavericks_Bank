@@ -24,14 +24,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllAccountsNotFoundExceptionTest()
+        public void GetAllAccountsNotFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -93,11 +93,11 @@ namespace Test_Mavericks_Bank
             await accountsService.AddAccount(addNewAccountDTO3);
 
             //assert
-            Assert.AreEqual(1, addedAccount.AccountID);
+            Assert.That(addedAccount.AccountID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
-        public async Task AddAccountAlreadyExistsExceptionTest()
+        public void AddAccountAlreadyExistsExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -143,13 +143,13 @@ namespace Test_Mavericks_Bank
             var allAccounts = await accountsService.GetAllAccounts();
 
             //assert
-            Assert.AreNotEqual(0, allAccounts.Count);
+            Assert.That(allAccounts.Count, Is.Not.EqualTo(0));
         }
 
 
         [Test, Order(5)]
         [TestCase(1)]
-        public async Task GetAllCustomerAccountsCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAccountsCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -170,7 +170,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(6)]
         [TestCase(3)]
-        public async Task GetAllCustomerAccountsNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerAccountsNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -210,13 +210,13 @@ namespace Test_Mavericks_Bank
             var allCustomerAccounts = await accountsService.GetAllCustomerAccounts(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerAccounts.Count);
+            Assert.That(allCustomerAccounts.Count, Is.Not.EqualTo(0));
         }
 
 
         [Test, Order(8)]
         [TestCase(4, "Open Account Request Approved")]
-        public async Task UpdateAccountNotFoundExceptionTest(int accountID, string status)
+        public void UpdateAccountNotFoundExceptionTest(int accountID, string status)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -256,13 +256,13 @@ namespace Test_Mavericks_Bank
             var updatedAccount = await accountsService.UpdateAccountStatus(accountID, status);
 
             //assert
-            Assert.AreEqual("Open Account Request Approved", updatedAccount.Status);
+            Assert.That(updatedAccount.Status, Is.EqualTo("Open Account Request Approved"));
         }
 
 
         [Test, Order(10)]
         [TestCase(1)]
-        public async Task GetAllCustomerApprovedAccountsCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerApprovedAccountsCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -283,7 +283,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(11)]
         [TestCase(3)]
-        public async Task GetAllCustomerApprovedAccountsNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerApprovedAccountsNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -323,12 +323,12 @@ namespace Test_Mavericks_Bank
             var allCustomerApprovedAccounts = await accountsService.GetAllCustomerApprovedAccounts(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerApprovedAccounts.Count);
+            Assert.That(allCustomerApprovedAccounts.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(13)]
         [TestCase("Open Account Request Rejected")]
-        public async Task GetAllAccountsStatusAccountsNotFoundExceptionTest(string status)
+        public void GetAllAccountsStatusAccountsNotFoundExceptionTest(string status)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -368,12 +368,12 @@ namespace Test_Mavericks_Bank
             var allAccountsStatus = await accountsService.GetAllAccountsStatus(status);
 
             //assert
-            Assert.AreNotEqual(0, allAccountsStatus.Count);
+            Assert.That(allAccountsStatus.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(15)]
         [TestCase(4)]
-        public async Task GetAccountNotFoundExceptionTest(int accountID)
+        public void GetAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -413,13 +413,13 @@ namespace Test_Mavericks_Bank
             var foundedAccount = await accountsService.GetAccount(accountID);
 
             //assert
-            Assert.AreEqual(1, foundedAccount.AccountID);
+            Assert.That(foundedAccount.AccountID, Is.EqualTo(1));
         }
 
 
         [Test, Order(17)]
         [TestCase(4)]
-        public async Task CloseAccountNotFoundExceptionTest(int accountID)
+        public void CloseAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -460,12 +460,12 @@ namespace Test_Mavericks_Bank
             var closedAccount = await accountsService.CloseAccount(accountID);
 
             //assert
-            Assert.AreEqual("Close Account Request Pending", closedAccount.Status);
+            Assert.That(closedAccount.Status, Is.EqualTo("Close Account Request Pending"));
         }
 
         [Test, Order(19)]
         [TestCase(4)]
-        public async Task DeleteAccountNotFoundExceptionTest(int accountID)
+        public void DeleteAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -505,7 +505,7 @@ namespace Test_Mavericks_Bank
             var deletedAccount = await accountsService.DeleteAccount(accountID);
 
             //assert
-            Assert.AreEqual(1, deletedAccount.AccountID);
+            Assert.That(deletedAccount.AccountID, Is.EqualTo(1));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
@@ -44,12 +44,12 @@ namespace Test_Mavericks_Bank
             var allAdmins = await adminService.GetAllAdmins();
 
             //assert
-            Assert.AreNotEqual(0, allAdmins.Count);
+            Assert.That(allAdmins.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(2)]
         [TestCase(2)]
-        public async Task GetAdminNotFoundExceptionTest(int adminID)
+        public void GetAdminNotFoundExceptionTest(int adminID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -66,7 +66,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(2)]
         [TestCase("black2@gmail.com")]
-        public async Task GetAdminByEmailNotFoundExceptionTest(string email)
+        public void GetAdminByEmailNotFoundExceptionTest(string email)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -98,7 +98,7 @@ namespace Test_Mavericks_Bank
             var foundedAdmin = await adminService.GetAdmin(adminID);
 
             //assert
-            Assert.AreEqual(1, foundedAdmin.AdminID);
+            Assert.That(foundedAdmin.AdminID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
@@ -118,11 +118,11 @@ namespace Test_Mavericks_Bank
             var foundedAdmin = await adminService.GetAdminByEmail(email);
 
             //assert
-            Assert.AreEqual(email, foundedAdmin.Email);
+            Assert.That(foundedAdmin.Email, Is.EqualTo(email));
         }
 
         [Test, Order(4)]
-        public async Task UpdateAdminNotFoundExceptionTest()
+        public void UpdateAdminNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -165,12 +165,12 @@ namespace Test_Mavericks_Bank
             var updatedAdmin = await adminService.UpdateAdminName(updateAdminNameDTO);
 
             //assert
-            Assert.AreEqual(1, updatedAdmin.AdminID);
+            Assert.That(updatedAdmin.AdminID, Is.EqualTo(1));
         }
 
         [Test, Order(6)]
         [TestCase(2)]
-        public async Task DeleteAdminNotFoundExceptionTest(int adminID)
+        public void DeleteAdminNotFoundExceptionTest(int adminID)
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -202,7 +202,7 @@ namespace Test_Mavericks_Bank
             var foundedAdmin = await adminService.DeleteAdmin(adminID);
 
             //assert
-            Assert.AreEqual(1, foundedAdmin.AdminID);
+            Assert.That(foundedAdmin.AdminID, Is.EqualTo(1));
         }
     }
 }

@@ -21,14 +21,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllLoansNotFoundExceptionTest()
+        public void GetAllLoansNotFoundExceptionTest()
         {
             //arrange
             var mockLoansRepositoryLogger = new Mock<ILogger<LoansRepository>>();
@@ -82,7 +82,7 @@ namespace Test_Mavericks_Bank
             await loansService.AddLoan(loan3);
 
             //assert
-            Assert.AreEqual(1, addedLoan.LoanID);
+            Assert.That(addedLoan.LoanID, Is.EqualTo(1));
         }
 
         [Test, Order(3)]
@@ -98,12 +98,12 @@ namespace Test_Mavericks_Bank
             var allLoans = await loansService.GetAllLoans();
 
             //assert
-            Assert.AreNotEqual(0, allLoans.Count);
+            Assert.That(allLoans.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(4)]
         [TestCase(4)]
-        public async Task GetLoanNotFoundExceptionTest(int loanID)
+        public void GetLoanNotFoundExceptionTest(int loanID)
         {
             //arrange
             var mockLoansRepositoryLogger = new Mock<ILogger<LoansRepository>>();
@@ -129,11 +129,11 @@ namespace Test_Mavericks_Bank
             var foundLoan = await loansService.GetLoan(loanID);
 
             //assert
-            Assert.AreEqual(loanID, foundLoan.LoanID);
+            Assert.That(foundLoan.LoanID, Is.EqualTo(loanID));
         }
 
         [Test, Order(6)]
-        public async Task UpdateLoansNotFoundExceptionTest()
+        public void UpdateLoansNotFoundExceptionTest()
         {
             //arrange
             var mockLoansRepositoryLogger = new Mock<ILogger<LoansRepository>>();
@@ -176,12 +176,12 @@ namespace Test_Mavericks_Bank
             var updatedLoan = await loansService.UpdateLoanDetails(loan);
 
             //assert
-            Assert.AreEqual(1500000, updatedLoan.LoanAmount);
+            Assert.That(updatedLoan.LoanAmount, Is.EqualTo(1500000));
         }
 
         [Test, Order(8)]
         [TestCase(4)]
-        public async Task DeleteLoanNotFoundExceptionTest(int loanID)
+        public void DeleteLoanNotFoundExceptionTest(int loanID)
         {
             //arrange
             var mockLoansRepositoryLogger = new Mock<ILogger<LoansRepository>>();
@@ -207,7 +207,7 @@ namespace Test_Mavericks_Bank
             var deletedLoan = await loansService.DeleteLoan(loanID);
 
             //assert
-            Assert.AreEqual(loanID, deletedLoan.LoanID);
+            Assert.That(deletedLoan.LoanID, Is.EqualTo(loanID));
         }
     }
 }

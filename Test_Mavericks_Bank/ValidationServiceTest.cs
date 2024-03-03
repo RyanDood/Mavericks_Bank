@@ -21,14 +21,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
         
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllCustomersNotFoundExceptionTest()
+        public void GetAllCustomersNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -44,7 +44,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(2)]
-        public async Task GetAllBankEmployeesNotFoundExceptionTest()
+        public void GetAllBankEmployeesNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -60,7 +60,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(3)]
-        public async Task GetAllAdminNotFoundExceptionTest()
+        public void GetAllAdminNotFoundExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -139,11 +139,11 @@ namespace Test_Mavericks_Bank
             await validationService.RegisterCustomers(registerValidationCustomersDTO3);
 
             //assert
-            Assert.AreEqual("ryan@gmail.com", loginValidationDTO.Email);
+            Assert.That(loginValidationDTO.Email, Is.EqualTo("ryan@gmail.com"));
         }
 
         [Test, Order(5)]
-        public async Task RegisterCustomersEmailExistsExceptionTest()
+        public void RegisterCustomersEmailExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -177,7 +177,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(6)]
-        public async Task RegisterCustomersAccountExistsExceptionTest()
+        public void RegisterCustomersAccountExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -238,11 +238,11 @@ namespace Test_Mavericks_Bank
             LoginValidationDTO loginValidationDTO = await validationService.RegisterBankEmployees(registerValidationBankEmployees);
 
             //assert
-            Assert.AreEqual("tharun@maverick.in", loginValidationDTO.Email);
+            Assert.That(loginValidationDTO.Email, Is.EqualTo("tharun@maverick.in"));
         }
 
         [Test, Order(8)]
-        public async Task RegisterBankEmployeesEmailExistsExceptionTest()
+        public void RegisterBankEmployeesEmailExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -295,11 +295,11 @@ namespace Test_Mavericks_Bank
             LoginValidationDTO loginValidationDTO = await validationService.RegisterAdmin(registerValidationAdminDTO);
 
             //assert
-            Assert.AreEqual("black@gmail.com", loginValidationDTO.Email);
+            Assert.That(loginValidationDTO.Email, Is.EqualTo("black@gmail.com"));
         }
 
         [Test, Order(10)]
-        public async Task RegisterAdminEmailExistsExceptionTest()
+        public void RegisterAdminEmailExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -326,7 +326,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test,Order(11)]
-        public async Task LoginEmailNotExistsExceptionTest()
+        public void LoginEmailNotExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -348,7 +348,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(12)]
-        public async Task LoginIncorrectPasswordExceptionTest()
+        public void LoginIncorrectPasswordExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -391,11 +391,11 @@ namespace Test_Mavericks_Bank
             var loginValidation = await validationService.Login(validationDTO);
 
             //assert
-            Assert.AreEqual("ryan@gmail.com", loginValidation.Email);
+            Assert.That(loginValidation.Email, Is.EqualTo("ryan@gmail.com"));
         }
 
         [Test, Order(14)]
-        public async Task ForgotPasswordEmailNotExistsExceptionTest()
+        public void ForgotPasswordEmailNotExistsExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -417,7 +417,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(15)]
-        public async Task ForgotPasswordExistsPasswordExceptionTest()
+        public void ForgotPasswordExistsPasswordExceptionTest()
         {
             //arrange
             var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
@@ -460,7 +460,7 @@ namespace Test_Mavericks_Bank
             var loginValidation = await validationService.ForgotPassword(validationDTO);
 
             //assert
-            Assert.AreEqual("ryan@gmail.com", loginValidation.Email);
+            Assert.That(loginValidation.Email, Is.EqualTo("ryan@gmail.com"));
         }
     }
 }

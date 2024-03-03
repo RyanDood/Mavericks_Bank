@@ -22,14 +22,14 @@ namespace Test_Mavericks_Bank
         MavericksBankContext mavericksBankContext;
 
         [SetUp]
-        public async Task Setup()
+        public void Setup()
         {
             var options = new DbContextOptionsBuilder<MavericksBankContext>().UseInMemoryDatabase("MavericksBankDatabase").Options;
             mavericksBankContext = new MavericksBankContext(options);
         }
 
         [Test, Order(1)]
-        public async Task GetAllTransactionsNotFoundExceptionTest()
+        public void GetAllTransactionsNotFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -57,7 +57,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(2)]
-        public async Task AddTransactionDepositNoAccountsFoundExceptionTest()
+        public void AddTransactionDepositNoAccountsFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -92,7 +92,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(3)]
-        public async Task AddTransactionDepositInvalidAccountExceptionTest()
+        public void AddTransactionDepositInvalidAccountExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -161,7 +161,7 @@ namespace Test_Mavericks_Bank
             var addedDeposit = await transactionsService.AddTransactionDeposit(addTransactionDepositDTO);
 
             //assert
-            Assert.AreEqual(1, addedDeposit.TransactionID);
+            Assert.That(addedDeposit.TransactionID, Is.EqualTo(1));
         }
 
         [Test, Order(5)]
@@ -192,11 +192,11 @@ namespace Test_Mavericks_Bank
             var allAccounts = await transactionsService.GetAllTransactions();
 
             //assert
-            Assert.AreNotEqual(0, allAccounts.Count);
+            Assert.That(allAccounts.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(6)]
-        public async Task AddTransactionWithdrawalNoAccountsFoundExceptionTest()
+        public void AddTransactionWithdrawalNoAccountsFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -231,7 +231,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(7)]
-        public async Task AddTransactionWithdrawalInvalidAccountExceptionTest()
+        public void AddTransactionWithdrawalInvalidAccountExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -266,7 +266,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(8)]
-        public async Task AddTransactionWithdrawalAmountExceedsBalanceExceptionTest()
+        public void AddTransactionWithdrawalAmountExceedsBalanceExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -335,11 +335,11 @@ namespace Test_Mavericks_Bank
             var addedWithdrawal = await transactionsService.AddTransactionWithdrawal(addTransactionWithdrawalDTO);
 
             //assert
-            Assert.AreEqual(3, addedWithdrawal.TransactionID);
+            Assert.That(addedWithdrawal.TransactionID, Is.EqualTo(3));
         }
 
         [Test, Order(10)]
-        public async Task AddTransactionTransferNoAccountsFoundExceptionTest()
+        public void AddTransactionTransferNoAccountsFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -375,7 +375,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(11)]
-        public async Task AddTransactionTransferInvalidAccountExceptionTest()
+        public void AddTransactionTransferInvalidAccountExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -411,7 +411,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(12)]
-        public async Task AddTransactionTransferNoBeneficiariesFoundExceptionTest()
+        public void AddTransactionTransferNoBeneficiariesFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -447,7 +447,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(13)]
-        public async Task AddTransactionTransferAmountExceedsBalanceExceptionTest()
+        public void AddTransactionTransferAmountExceedsBalanceExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -518,11 +518,11 @@ namespace Test_Mavericks_Bank
             var addedTransfer = await transactionsService.AddTransactionTransfer(addTransactionTransferDTO);
 
             //assert
-            Assert.AreEqual(5, addedTransfer.TransactionID);
+            Assert.That(addedTransfer.TransactionID, Is.EqualTo(5));
         }
 
         [Test, Order(15)]
-        public async Task AddTransactionTransferBeneficiaryNoAccountsFoundExceptionTest()
+        public void AddTransactionTransferBeneficiaryNoAccountsFoundExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -561,7 +561,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(16)]
-        public async Task AddTransactionTransferBeneficiaryInvalidAccountExceptionTest()
+        public void AddTransactionTransferBeneficiaryInvalidAccountExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -600,7 +600,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(17)]
-        public async Task AddTransactionTransferBeneficiaryAlreadyExistsExceptionTest()
+        public void AddTransactionTransferBeneficiaryAlreadyExistsExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -639,7 +639,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(18)]
-        public async Task AddTransactionTransferBeneficiaryAmountExceedsBalanceExceptionTest()
+        public void AddTransactionTransferBeneficiaryAmountExceedsBalanceExceptionTest()
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -716,12 +716,12 @@ namespace Test_Mavericks_Bank
             var addedTransferBeneficiary = await transactionsService.AddTransactionTransferBeneficiary(addTransactionTransferBeneficiaryDTO);
 
             //assert
-            Assert.AreEqual(7, addedTransferBeneficiary.TransactionID);
+            Assert.That(addedTransferBeneficiary.TransactionID, Is.EqualTo(7));
         }
 
         [Test, Order(20)]
         [TestCase(4)]
-        public async Task GetAllAccountTransactionsAccountNotFoundExceptionTest(int accountID)
+        public void GetAllAccountTransactionsAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -750,7 +750,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(21)]
         [TestCase(3)]
-        public async Task GetAllAccountTransactionsNotFoundExceptionTest(int accountID)
+        public void GetAllAccountTransactionsNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -806,12 +806,12 @@ namespace Test_Mavericks_Bank
             var allAccountTransactions = await transactionsService.GetAllAccountTransactions(accountID);
 
             //assert
-            Assert.AreNotEqual(0, allAccountTransactions.Count);
+            Assert.That(allAccountTransactions.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(23)]
         [TestCase(4)]
-        public async Task GetAllCustomerTransactionsCustomerNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerTransactionsCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -840,7 +840,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(24)]
         [TestCase(3)]
-        public async Task GetAllCustomerTransactionsNotFoundExceptionTest(int customerID)
+        public void GetAllCustomerTransactionsNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -896,12 +896,12 @@ namespace Test_Mavericks_Bank
             var allCustomerTransactions = await transactionsService.GetAllCustomerTransactions(customerID);
 
             //assert
-            Assert.AreNotEqual(0, allCustomerTransactions.Count);
+            Assert.That(allCustomerTransactions.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(26)]
         [TestCase(4)]
-        public async Task GetAccountInboundAndOutbooundTransactionsAccountNotFoundExceptionTest(int accountID)
+        public void GetAccountInboundAndOutbooundTransactionsAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -930,7 +930,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(27)]
         [TestCase(3)]
-        public async Task GetAccountInboundAndOutbooundTransactionsNotFoundExceptionTest(int accountID)
+        public void GetAccountInboundAndOutbooundTransactionsNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -991,7 +991,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(29)]
         [TestCase(4)]
-        public async Task GetCustomerInboundAndOutbooundTransactionsCustomerNotFoundExceptionTest(int customerID)
+        public void GetCustomerInboundAndOutbooundTransactionsCustomerNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1020,7 +1020,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(30)]
         [TestCase(3)]
-        public async Task GetCustomerInboundAndOutbooundTransactionsNotFoundExceptionTest(int customerID)
+        public void GetCustomerInboundAndOutbooundTransactionsNotFoundExceptionTest(int customerID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1081,7 +1081,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(32)]
         [TestCase(4)]
-        public async Task GetLastTenAccountTransactionsAccountNotFoundExceptionTest(int accountID)
+        public void GetLastTenAccountTransactionsAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1110,7 +1110,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(33)]
         [TestCase(3)]
-        public async Task GetLastTenAccountTransactionsNotFoundExceptionTest(int accountID)
+        public void GetLastTenAccountTransactionsNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1166,12 +1166,12 @@ namespace Test_Mavericks_Bank
             var recentTenTransactions = await transactionsService.GetLastTenAccountTransactions(accountID);
 
             //assert
-            Assert.AreNotEqual(0, recentTenTransactions.Count);
+            Assert.That(recentTenTransactions.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(35)]
         [TestCase(4)]
-        public async Task GetLastMonthAccountTransactionsAccountNotFoundExceptionTest(int accountID)
+        public void GetLastMonthAccountTransactionsAccountNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1200,7 +1200,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(36)]
         [TestCase(3)]
-        public async Task GetLastMonthAccountTransactionsNotFoundExceptionTest(int accountID)
+        public void GetLastMonthAccountTransactionsNotFoundExceptionTest(int accountID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1229,7 +1229,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(37)]
         [TestCase(4,"2024-02-01","2024-02-25")]
-        public async Task GetTransactionsBetweenTwoDatesAccountNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
+        public void GetTransactionsBetweenTwoDatesAccountNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1258,7 +1258,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(38)]
         [TestCase(3, "2024-02-01", "2024-02-25")]
-        public async Task GetTransactionsBetweenTwoDatesNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
+        public void GetTransactionsBetweenTwoDatesNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1314,12 +1314,12 @@ namespace Test_Mavericks_Bank
             var transactionsBetweenDates = await transactionsService.GetTransactionsBetweenTwoDates(accountID, fromDate, toDate);
 
             //assert
-            Assert.AreNotEqual(0, transactionsBetweenDates.Count);
+            Assert.That(transactionsBetweenDates.Count, Is.Not.EqualTo(0));
         }
 
         [Test, Order(40)]
         [TestCase(4, "2024-02-01", "2024-02-25")]
-        public async Task GetAccountStatementAccountNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
+        public void GetAccountStatementAccountNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1348,7 +1348,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(41)]
         [TestCase(3, "2024-02-01", "2024-02-25")]
-        public async Task GetAccountStatementNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
+        public void GetAccountStatementNotFoundExceptionTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1409,7 +1409,7 @@ namespace Test_Mavericks_Bank
 
         [Test, Order(43)]
         [TestCase(20)]
-        public async Task GetTransactionNotFoundExceptionTest(int transactionID)
+        public void GetTransactionNotFoundExceptionTest(int transactionID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1465,12 +1465,12 @@ namespace Test_Mavericks_Bank
             var foundedTransaction = await transactionsService.GetTransaction(transactionID);
 
             //assert
-            Assert.AreEqual(1, foundedTransaction.TransactionID);
+            Assert.That(foundedTransaction.TransactionID, Is.EqualTo(1));
         }
 
         [Test, Order(45)]
         [TestCase(20,"Success")]
-        public async Task UpdateTransactionNotFoundExceptionTest(int transactionID,string status)
+        public void UpdateTransactionNotFoundExceptionTest(int transactionID,string status)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1526,12 +1526,12 @@ namespace Test_Mavericks_Bank
             var updatedTransaction = await transactionsService.UpdateTransactionStatus(transactionID, status);
 
             //assert
-            Assert.AreEqual(status, updatedTransaction.Status);
+            Assert.That(updatedTransaction.Status, Is.EqualTo(status));
         }
 
         [Test, Order(47)]
         [TestCase(20)]
-        public async Task DeleteTransactionNotFoundExceptionTest(int transactionID)
+        public void DeleteTransactionNotFoundExceptionTest(int transactionID)
         {
             //arrange
             var mockAccountsRepositoryLogger = new Mock<ILogger<AccountsRepository>>();
@@ -1587,7 +1587,7 @@ namespace Test_Mavericks_Bank
             var deletedTransaction = await transactionsService.DeleteTransaction(transactionID);
 
             //assert
-            Assert.AreEqual(1, deletedTransaction.TransactionID);
+            Assert.That(deletedTransaction.TransactionID, Is.EqualTo(1));
         }
     }
 }
