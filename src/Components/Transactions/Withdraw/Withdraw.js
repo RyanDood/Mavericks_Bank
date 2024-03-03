@@ -9,6 +9,8 @@ function Withdraw(){
     var [accountID,setAccountID] = useState("");
     var [amount,setAmount] = useState("");
     var [description,setDescription] = useState("");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
@@ -39,25 +41,84 @@ function Withdraw(){
 
     async function withdrawMoney(){
         if(amount === "" || accountID === ""){
-            console.log("Please fill in all the fields");
+            alert("Please fill in all the fields");
         }
         else{
             if(amount > 0){
                 if(description.length < 20){
                     await axios.post('http://localhost:5224/api/Transactions/Withdrawal',newWithdrawal,httpHeader).then(function (response) {
                         console.log(response.data);
+                        setError(false);
                     })
                     .catch(function (error) {
                         console.log(error);
+                        setError(true);
+                        setErrorMessage(error.response.data);
                     })
                 }
                 else{
-                    console.log("Description is too long");
+                    alert("Description is too long");
                 }
             }
             else{
-                console.log("Please enter a valid amount to deposit");
+                alert("Please enter a valid amount to deposit");
             }
+        }
+        
+    }
+
+    function amountValidation(eventargs){
+        var amount = eventargs.target.value;
+        setAmount(amount);
+        if(amount !== ""){
+            if(amount > 0){
+                setError(false);
+                if(amount !== "" && accountID !== ""){
+                    document.getElementById("withdraw").classList.remove("disabled");
+                }
+            }
+            else{
+                setError(true);
+                setErrorMessage("Invalid Amount Entered");
+                document.getElementById("withdraw").classList.add("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Enter an Amount");
+            document.getElementById("withdraw").classList.add("disabled");
+        }
+    }
+
+    function descriptionValidation(eventargs){
+        var description = eventargs.target.value;
+        setDescription(description);
+        if(description.length < 35){
+            setError(false);
+            if(amount !== "" && accountID !== ""){
+                document.getElementById("withdraw").classList.remove("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Description too long");
+            document.getElementById("withdraw").classList.add("disabled");
+        }
+    }
+
+    function sourceAccountValidation(eventargs){
+        var accountID = eventargs.target.value;
+        setAccountID(accountID);
+        if(accountID !== ""){
+            setError(false);
+            if(amount !== "" && accountID !== ""){
+                document.getElementById("withdraw").classList.remove("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Select an Account");
+            document.getElementById("withdraw").classList.add("disabled");
         }
     }
 
@@ -81,17 +142,17 @@ function Withdraw(){
                 <div className="smallBox30"> 
                     <div className='phoneMargin2'>
                         <span className="clickRegisterText">Amount</span>
-                        <input className="form-control enterDiv2" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv2" type="number" onChange={amountValidation}></input>
                     </div>
                     <div>
                         <span className="clickRegisterText">Description</span>
-                        <input className="form-control enterDiv2" type="text" onChange={(eventargs) => setDescription(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv2" type="text" onChange={descriptionValidation}></input>
                     </div>
                 </div>
                 <div className="smallBox47"> 
                     <div>
                         <span className="clickRegisterText">From (Account Number)</span>
-                        <select className="form-control enterDiv2" value = {accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                        <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
                             <option value="">Select</option>
                             {accounts.map(account => 
                                 <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
@@ -99,7 +160,8 @@ function Withdraw(){
                         </select>
                     </div>
                 </div>
-                <a className="btn btn-outline-success smallBox31" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                <a id="withdraw" className="btn btn-outline-success smallBox31 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                     <span>Withdraw</span>
                 </a>
             </div>

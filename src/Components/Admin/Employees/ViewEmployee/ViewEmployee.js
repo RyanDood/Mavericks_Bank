@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 function ViewEmployee(){
 
     var [oldData,setOldData] = useState({})
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+    var navigate = useNavigate();
 
     var [profile,setProfile] = useState(
         {
@@ -27,7 +30,12 @@ function ViewEmployee(){
     };
 
     useEffect(() => {
-        getEmployeeDetails();
+        if(employeeID == 0){
+            navigate("/adminMenu/allEmployees");
+        }
+        else{
+            getEmployeeDetails();
+        }
     },[])
 
     async function getEmployeeDetails(){
@@ -44,11 +52,11 @@ function ViewEmployee(){
 
     async function updateEmployeeDetails() {
         if (updateEmployee.name === "") {
-            console.log("Please fill all fields");
+            alert("Please fill all fields");
         } 
         else {
             if (areEqual(oldData, profile)) {
-                console.log("No changes made");
+                alert("No changes made");
             } 
             else {
                 if (updateEmployee.name.length > 2 && updateEmployee.name.length < 100) {
@@ -61,7 +69,7 @@ function ViewEmployee(){
                     })
                 } 
                 else{
-                    console.log("Name should be between 3 and 100 characters long");
+                    alert("Name should be between 3 and 100 characters long");
                 }
             } 
         }    
@@ -79,6 +87,27 @@ function ViewEmployee(){
 
     function areEqual(a, b) {
         return JSON.stringify(a) === JSON.stringify(b);
+    }
+
+    function nameValidation(eventargs){
+        var name = eventargs.target.value;
+        setProfile({...profile,name:name});
+        if(name !== ""){
+            if(name.length > 2 && name.length < 100){
+                setError(false);
+                document.getElementById("update").classList.remove("disabled");
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Name should be between 2 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Name cannot be empty");
+        }
     }
 
     return (
@@ -99,7 +128,7 @@ function ViewEmployee(){
                     <div className="smallBox19"> 
                         <div className="margin1">
                             <span className="clickRegisterText">Name</span>
-                            <input className="form-control enterDiv2" type="text" value={profile.name} onChange={(eventargs) => setProfile({...profile,name:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="text" value={profile.name} onChange={nameValidation}></input>
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">Email</span>
@@ -107,7 +136,8 @@ function ViewEmployee(){
                         </div>
                     </div>
                 </div>
-                <a className="btn btn-outline-success smallBox9 margin1" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                <a id="update" className="btn btn-outline-success smallBox9 margin1 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                     <span>Update</span>
                 </a>
             </div>

@@ -10,6 +10,8 @@ function ApplyLoan(){
     const customerID = sessionStorage.getItem('id');
     var [amount,setAmount] = useState("");
     var [purpose,setPurpose] = useState("");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     var [loan,setloan] = useState(
         {
@@ -57,7 +59,7 @@ function ApplyLoan(){
 
     async function applyForLoan(){
         if(amount === "" || purpose === ""){
-            console.log("Please fill in all the details");
+            alert("Please fill in all the details");
         }
         else{
             if(amount > 0){
@@ -65,18 +67,67 @@ function ApplyLoan(){
                     await axios.post('http://localhost:5224/api/AppliedLoans/AddAppliedLoan', newLoan, httpHeader)
                     .then(function (response) {
                         console.log(response.data);
+                        setError(false);
                     })
                     .catch(function (error) {
                         console.log(error);
+                        setError(true);
+                        setErrorMessage(error.response.data);
                     })
                 }
                 else{
-                    console.log("Purpose field should be between 4 and 100 characters long");
+                    alert("Purpose field should be between 4 and 100 characters long");
                 }
             }
             else{
-                console.log("Please enter a valid amount");
+                alert("Please enter a valid amount");
             }
+        }
+    }
+
+    function amountValidation(eventargs){
+        var amount = eventargs.target.value;
+        setAmount(amount);
+        if(amount !== ""){
+            if(amount > 0){
+                setError(false);
+                if(amount !== "" && purpose !== ""){
+                    document.getElementById("applyLoan").classList.remove("disabled");
+                }
+            }
+            else{
+                setError(true);
+                setErrorMessage("Invalid Amount Entered");
+                document.getElementById("applyLoan").classList.add("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Enter an Amount");
+            document.getElementById("applyLoan").classList.add("disabled");
+        }
+    }
+
+    function purposeValidation(eventargs){
+        var purpose = eventargs.target.value;
+        setPurpose(purpose);
+        if(purpose !== ""){
+            if(purpose.length > 3 && purpose.length < 100){
+                setError(false);
+                if(amount !== "" && purpose !== ""){
+                    document.getElementById("applyLoan").classList.remove("disabled");
+                }
+            }
+            else{
+                setError(true);
+                setErrorMessage("Purpose field should be between 4 and 100 characters long");
+                document.getElementById("applyLoan").classList.add("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Enter a Purpose");
+            document.getElementById("applyLoan").classList.add("disabled");
         }
     }
 
@@ -94,13 +145,14 @@ function ApplyLoan(){
                     <span className="clickRegisterText">Loan Type: {loan.loanType}</span>
                     <div>
                         <span className="clickRegisterText">Your Amount</span>
-                        <input className="form-control enterDiv3" type="number" onChange={(eventargs) => setAmount(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv3" type="number" onChange={amountValidation}></input>
                     </div>
                     <div>
                         <span className="clickRegisterText">Purpose</span>
-                        <textarea className="form-control enterDiv4" type="text" onChange={(eventargs) => setPurpose(eventargs.target.value)}></textarea>
+                        <textarea className="form-control enterDiv4" type="text" onChange={purposeValidation}></textarea>
                     </div>
-                    <a className="btn btn-outline-success smallBox9" href="applyLoan.html" data-bs-toggle="modal" data-bs-target="#modal1">
+                    {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                    <a id="applyLoan" className="btn btn-outline-success smallBox9 disabled" href="applyLoan.html" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Apply</span>
                     </a>
                 </div>

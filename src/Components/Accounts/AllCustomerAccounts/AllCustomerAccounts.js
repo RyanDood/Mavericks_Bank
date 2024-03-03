@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link, useNavigate } from 'react-router-dom';
 import Account from '../Account/Account';
+import { useDispatch } from 'react-redux';
+import { updateDate } from '../../../dateSlice';
 
 function AllCustomerAccounts(){
 
@@ -14,6 +16,7 @@ function AllCustomerAccounts(){
             "balance": "",
         }]
     );
+    var dispatch = useDispatch();
 
     const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
@@ -22,6 +25,12 @@ function AllCustomerAccounts(){
     };
 
     useEffect(() => {
+        dispatch(
+            updateDate({
+                "fromDate": "",
+                "toDate": ""
+            })
+        )
         allAccounts();
     },[]);
 

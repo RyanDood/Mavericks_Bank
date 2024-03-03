@@ -23,6 +23,7 @@ function Landing(){
         await axios.post('http://localhost:5224/api/Validation/Login',loginValidation)
         .then(function (response) {
             console.log(response.data);
+            setError(false);
             sessionStorage.setItem("email",response.data.email);
             sessionStorage.setItem("token",response.data.token);
             if(response.data.userType === "Customer"){
@@ -37,6 +38,8 @@ function Landing(){
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
         })
     }
 

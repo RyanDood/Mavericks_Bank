@@ -2,11 +2,11 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import '../../style.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 function ViewAccount(){
 
-    var [clicked,setClicked] = useState([true,false,false]);
+    var [clicked,setClicked] = useState([false,false,false]);
     var accountID = useSelector((state) => state.accountID);
     var navigate = useNavigate();
     

@@ -536,6 +536,13 @@ hr{
     margin-bottom: 6px;
 }
 
+.smallBox54{
+    height: 435px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .margin6{
     margin-top: 35px;
 }
@@ -780,12 +787,6 @@ hr{
         align-items: center;
     }
 
-    .smallBox54{
-        height: 435px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
 
     .smallBox35{
         height: 330px;
@@ -1256,6 +1257,13 @@ hr{
         justify-content: space-between;
     }
 
+    .smallBox63{
+        width: 310px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
     .smallBox29 {
         height: 550px;
         display: flex;
@@ -1642,6 +1650,20 @@ hr{
     }
 
     .smallBox46{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .smallBox63{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .phoneColumn{
         display: flex;
         flex-direction: column;
         justify-content: center;

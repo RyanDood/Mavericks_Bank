@@ -11,6 +11,8 @@ function AddBeneficiary(){
     var [branchID,setBranchID] = useState("");
     var [beneficiaryAccountNumber,setBeneficiaryAccountNumber] = useState("");
     var [beneficiaryName,setBeneficiaryName] = useState("");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     const customerID = sessionStorage.getItem('id');
 
     const token = sessionStorage.getItem('token');
@@ -65,27 +67,109 @@ function AddBeneficiary(){
 
     async function addBeneficiary(){
         if(beneficiaryAccountNumber === "" || beneficiaryName === "" || bankID === "" || branchID === ""){
-            console.log("Please fill all the fields");
+            alert("Please fill all the fields");
         }
         else{
-            if(beneficiaryAccountNumber.length > 9 && beneficiaryAccountNumber.length < 17){
-                if(beneficiaryName.length > 2 && beneficiaryName.length < 51){
+            if(beneficiaryAccountNumber.length > 9 && beneficiaryAccountNumber.length < 14){
+                if(beneficiaryName.length > 2 && beneficiaryName.length < 100){
                     await axios.post('http://localhost:5224/api/Beneficiaries/AddBeneficiary', newBeneficiary, httpHeader)
                     .then(function (response) {
                         console.log(response.data);
+                        setError(false);
                     })
                     .catch(function (error) {
                         console.log(error);
+                        setError(true);
+                        setErrorMessage(error.response.data);
                     })
                 }
                 else{
-                    console.log("Beneficiary Name should be between 3 and 50 characters long");
+                    alert("Beneficiary Name should be between 3 and 100 characters long");
                 
                 }
             }
             else{
-                console.log("Account number should be between 9 and 17 digits long")
+                alert("Account number should be between 9 and 14 digits long")
             }
+        }
+    }
+
+    function beneficiaryNameValidation(eventargs){
+        var beneficiaryName = eventargs.target.value;
+        setBeneficiaryName(beneficiaryName);
+        if(beneficiaryName !== ""){
+            if(beneficiaryName.length > 2 && beneficiaryName.length < 100){
+                setError(false);
+                if(beneficiaryAccountNumber !== "" && beneficiaryName !== "" && bankID !== "" && branchID !== ""){
+                    document.getElementById("addBeneficiary").classList.remove("disabled");
+                }
+            }
+            else{
+                setError(true);
+                setErrorMessage("Beneficiary Name should be between 3 and 100 characters long");
+                document.getElementById("addBeneficiary").classList.add("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Enter Beneficiary Name");
+            document.getElementById("addBeneficiary").classList.add("disabled");
+        }
+    }
+
+    function beneficiaryAccountNumberValidation(eventargs){
+        var beneficiaryAccountNumber = eventargs.target.value;
+        setBeneficiaryAccountNumber(beneficiaryAccountNumber);
+        if(beneficiaryAccountNumber !== ""){
+            if(beneficiaryAccountNumber.length > 9 && beneficiaryAccountNumber.length < 14){
+                setError(false);
+                if(beneficiaryAccountNumber !== "" && beneficiaryName !== "" && bankID !== "" && branchID !== ""){
+                    document.getElementById("addBeneficiary").classList.remove("disabled");
+                }
+            }
+            else{
+                setError(true);
+                setErrorMessage("Account number should be between 9 and 14 digits long");
+                document.getElementById("addBeneficiary").classList.add("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Enter Beneficiary Account Number");
+            document.getElementById("addBeneficiary").classList.add("disabled");
+        }
+    }
+
+    function bankValidation(eventargs){
+        changeBank(eventargs);
+        var bankID = eventargs.target.value;
+        setBankID(bankID);
+        if(bankID !== ""){
+            setError(false);
+            if(beneficiaryAccountNumber !== "" && beneficiaryName !== "" && bankID !== "" && branchID !== ""){
+                document.getElementById("addBeneficiary").classList.remove("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Select a Bank");
+            document.getElementById("addBeneficiary").classList.add("disabled");
+        }
+    }
+
+    function branchValidation(eventargs){
+        var branchID = eventargs.target.value;
+        setBranchID(branchID);
+        if(branchID !== ""){
+            setError(false);
+            if(beneficiaryAccountNumber !== "" && beneficiaryName !== "" && bankID !== "" && branchID !== ""){
+                document.getElementById("addBeneficiary").classList.remove("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please Select a Branch");
+            document.getElementById("addBeneficiary").classList.add("disabled");
         }
     }
 
@@ -102,15 +186,15 @@ function AddBeneficiary(){
                     </ul>
                     <div>
                         <span className="clickRegisterText">Beneficiary Name</span>
-                        <input className="form-control enterDiv3" type="text" onChange={(eventargs) => setBeneficiaryName(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv3" type="text" onChange={beneficiaryNameValidation}></input>
                     </div>
                     <div>
                         <span className="clickRegisterText">Account Number</span>
-                        <input className="form-control enterDiv3" type="number" onChange={(eventargs) => setBeneficiaryAccountNumber(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv3" type="number" onChange={beneficiaryAccountNumberValidation}></input>
                     </div>
                     <div>
                         <span className="clickRegisterText">Bank Name</span>
-                        <select className="form-control enterDiv3" value = {bankID} onChange={changeBank}>
+                        <select className="form-control enterDiv3" value = {bankID} onChange={bankValidation}>
                             <option value="">Select</option>
                             {allBanks.map(bank => 
                                 <option key={bank.bankID} value={bank.bankID}>{bank.bankName}</option>
@@ -119,14 +203,15 @@ function AddBeneficiary(){
                     </div>
                     <div>
                         <span className="clickRegisterText">Branch Name with IFSC</span>
-                        <select className="form-control enterDiv3" value = {branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
+                        <select className="form-control enterDiv3" value = {branchID} onChange={branchValidation}>
                             <option value="">Select</option>
                             {allBranches.map(branch => 
                                 <option key={branch.branchID} value={branch.branchID}>{branch.ifscNumber} -- {branch.branchName}</option>
                             )}
                         </select>
                     </div>
-                    <a className="btn btn-outline-success smallBox9" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                    {error ? <div className='flexRow errorText'>{errorMessage}</div> : null}
+                    <a id="addBeneficiary" className="btn btn-outline-success smallBox9 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Add</span>
                     </a>
                 </div>

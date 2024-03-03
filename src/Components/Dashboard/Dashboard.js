@@ -15,6 +15,8 @@ function DashBoard() {
     var [availedLoans,setAvailedLoans] = useState([]);
     var [beneficiaries,setBeneficiaries] = useState([]);
     var [customer,setCustomer] = useState({});
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     var statementData = {
         "accountID": accountID,
@@ -40,15 +42,6 @@ function DashBoard() {
     },[])
 
     async function navigateToAccountStatement(){
-        if(accountID === "" || fromDate === "" || toDate === ""){
-            console.log("Please fill in all the fields");
-        }
-        else{
-            updateAccountStatement();
-        }
-    }
-
-    function updateAccountStatement(){
         dispatch(
             updateStatement(statementData)
         );
@@ -105,6 +98,44 @@ function DashBoard() {
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    function fromDateValidation(eventargs){
+        var fromDate = eventargs.target.value;
+        setFromDate(fromDate);
+        if(fromDate !== "" && toDate !== "" && accountID !== ""){
+            document.getElementById("generateButton").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("generateButton").classList.add("disabled");
+        }
+    }
+
+    function toDateValidation(eventargs){
+        var toDate = eventargs.target.value;
+        setToDate(toDate);
+        if(fromDate !== "" && toDate !== "" && accountID !== ""){
+            document.getElementById("generateButton").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("generateButton").classList.add("disabled");
+        }
+    }
+
+    function accountValidation(eventargs){
+        var accountID = eventargs.target.value;
+        setAccountID(accountID);
+        if(accountID !== ""){
+            setError(false);
+            if(accountID !== "" &&fromDate !== "" && toDate !== ""){
+                document.getElementById("generateButton").classList.remove("disabled");
+            }
+        }
+        else{
+            setError(true);
+            setErrorMessage("Please select an account");
+            document.getElementById("generateButton").classList.add("disabled");
+        }
     }
 
     return (
@@ -165,27 +196,28 @@ function DashBoard() {
                     <div className="smallBox19 phoneMargin2">
                         <div className="margin1">
                             <span className="clickRegisterText">From</span>
-                            <input className="form-control enterDiv2" type="date" onChange={(eventargs) => setFromDate(eventargs.target.value)}></input>
+                            <input className="form-control enterDiv2" type="date" onChange={fromDateValidation}></input>
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">To</span>
-                            <input className="form-control enterDiv2" type="date" onChange={(eventargs) => setToDate(eventargs.target.value)}></input>
+                            <input className="form-control enterDiv2" type="date" onChange={toDateValidation}></input>
                         </div>
                     </div>
                     <div className="smallBox25">
                         <div className='phoneMargin'>
                             <span className="clickRegisterText">Select Account</span>
-                            <select className="form-control enterDiv2" value={accountID} onChange={(eventargs) => setAccountID(eventargs.target.value)}>
+                            <select className="form-control enterDiv2" value={accountID} onChange={accountValidation}>
                                 <option value="">Select</option>
                                 {accounts.map(account =>
                                     <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
                                 )}
                             </select>
                         </div>
-                        <span className="btn btn-outline-success buttonWidth pointer" onClick={navigateToAccountStatement}>
+                        <span id="generateButton" className="btn btn-outline-success buttonWidth pointer disabled" onClick={navigateToAccountStatement}>
                             <span>Generate Report</span>
                         </span>
                     </div>
+                    {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
                 </div>
             </div>
         </div>

@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function ViewCustomer(){
 
-    var navigate = useNavigate();    
+    var navigate = useNavigate();
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");    
     var [oldData,setOldData] = useState({})
     var [profile,setProfile] = useState(
         {
@@ -70,11 +72,6 @@ function ViewCustomer(){
         })
     }
 
-    function calculateAge(eventargs){
-        var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
-        setProfile({...profile,dob:eventargs.target.value,age:age});
-    }
-
     function convertDate(data){
         const date = new Date(data.dob);
         const year = date.getFullYear();
@@ -91,11 +88,11 @@ function ViewCustomer(){
 
     async function updateCustomerDetails() {
         if (updateCustomer.name === "" || updateCustomer.phoneNumber === "" || updateCustomer.address === "") {
-            console.log("Please fill all fields");
+            alert("Please fill all fields");
         } 
         else {
             if (areEqual(oldData, profile)) {
-                console.log("No changes made");
+                alert("No changes made");
             } 
             else {
                 if (updateCustomer.name.length > 2 && updateCustomer.name.length < 100) {
@@ -113,27 +110,27 @@ function ViewCustomer(){
                                         })
                                     }
                                     else{
-                                        console.log("Address should be between 6 and 100 characters long");
+                                        alert("Address should be between 6 and 100 characters long");
                                     }
                                 }
                                 else{
-                                    console.log("PAN number should be 10 characters long");
+                                    alert("PAN number should be 10 characters long");
                                 }
                             }
                             else{
-                                console.log("Aadhaar number should be 12 digits");
+                                alert("Aadhaar number should be 12 digits");
                             }
                         }
                         else{
-                            console.log("Phone number should be 10 digits");
+                            alert("Phone number should be 10 digits");
                         }
                     }
                     else {
-                        console.log("Age should be greater than or equal to 18");
+                        alert("Age should be greater than or equal to 18");
                     }
                 } 
                 else{
-                    console.log("Name should be between 3 and 100 characters long");
+                    alert("Name should be between 3 and 100 characters long");
                 }
             } 
         }    
@@ -141,6 +138,145 @@ function ViewCustomer(){
 
     function areEqual(a, b) {
         return JSON.stringify(a) === JSON.stringify(b);
+    }
+
+    function nameValidation(eventargs){
+        var name = eventargs.target.value;
+        setProfile({...profile,name:name});
+        if(name !== ""){
+            if(name.length > 2 && name.length < 100){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                    document.getElementById("update").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Name should be between 2 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Name cannot be empty");
+        }
+    }
+
+    function dateValidation(eventargs){
+        var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
+        setProfile({...profile,dob:eventargs.target.value,age:age});
+        if(age >= 18){
+            setError(false);
+            if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                document.getElementById("update").classList.remove("disabled");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Age should be 18 and above");
+        }
+    };
+
+    function phoneValidation(eventargs){
+        var phoneNumber = eventargs.target.value;
+        setProfile({...profile,phoneNumber:eventargs.target.value});
+        if(phoneNumber !== ""){
+            if(phoneNumber.length === 10){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                    document.getElementById("update").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Phone number should be 10 digits");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Phone number cannot be empty");
+        }
+    }
+
+    function aadhaarValidation(eventargs){
+        var aadharNumber = eventargs.target.value;
+        setProfile({...profile,aadharNumber:aadharNumber});
+        if(aadharNumber !== ""){
+            if(aadharNumber.length === 12){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                    document.getElementById("update").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Aadhaar number should be 12 digits");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Aadhaar number cannot be empty");
+        }
+    }
+
+    function panValidation(eventargs){
+        var panNumber = eventargs.target.value;
+        setProfile({...profile,panNumber:panNumber});
+        if(panNumber !== ""){
+            if(panNumber.length === 10){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                    document.getElementById("update").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Pan number should be 10 characters");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Pan number cannot be empty");
+        }
+    }
+
+    function genderValidation(eventargs){
+        var gender = eventargs.target.value;
+        setProfile({...profile,gender:gender});
+        if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+            document.getElementById("update").classList.remove("disabled");
+        }
+    }
+
+    function addressValidation(eventargs){
+        var address = eventargs.target.value;
+        setProfile({...profile,address:eventargs.target.value});
+        if(address !== ""){
+            if(address.length > 5 && address.length < 100){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && updateCustomer.aadharNumber !== "" && updateCustomer.panNumber !== ""){
+                    document.getElementById("update").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("update").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Address should be between 6 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("update").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Address cannot be empty");
+        }
     }
 
     return (
@@ -161,7 +297,7 @@ function ViewCustomer(){
                     <div className="smallBox19"> 
                         <div className="margin1">
                             <span className="clickRegisterText">Name</span>
-                            <input className="form-control enterDiv2" type="text" value={profile.name} onChange={(eventargs) => setProfile({...profile,name:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="text" value={profile.name} onChange={nameValidation}></input>
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">Email</span>
@@ -171,27 +307,27 @@ function ViewCustomer(){
                     <div className="smallBox19">
                         <div className="margin1">
                             <span className="clickRegisterText">Date of Birth</span>
-                            <input className="form-control enterDiv2" type="date" value={profile.dob} onChange={calculateAge}></input>
+                            <input className="form-control enterDiv2" type="date" value={profile.dob} onChange={dateValidation}></input>
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">Phone Number</span>
-                            <input className="form-control enterDiv2" type="number" value={profile.phoneNumber} onChange={(eventargs) => setProfile({...profile,phoneNumber:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="number" value={profile.phoneNumber} onChange={phoneValidation}></input>
                         </div>
                     </div>
                     <div className="smallBox19">
                         <div className="margin1">
                             <span className="clickRegisterText">Aadhaar Number</span>
-                            <input className="form-control enterDiv2" type="number" value={profile.aadharNumber} onChange={(eventargs) => setProfile({...profile,aadharNumber:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="number" value={profile.aadharNumber} onChange={aadhaarValidation}></input>
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">PAN Number</span>
-                            <input className="form-control enterDiv2" type="text" value={profile.panNumber} onChange={(eventargs) => setProfile({...profile,panNumber:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="text" value={profile.panNumber} onChange={panValidation}></input>
                         </div>
                     </div>
                     <div className="smallBox19">
                         <div className="margin1">
                             <span className="clickRegisterText">Gender</span>
-                            <select className="form-control enterDiv2" value={profile.gender} onChange={(eventargs) => setProfile({...profile,gender:eventargs.target.value})}>
+                            <select className="form-control enterDiv2" value={profile.gender} onChange={genderValidation}>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                                 <option value="Others">Others</option>
@@ -199,11 +335,12 @@ function ViewCustomer(){
                         </div>
                         <div className="margin1">
                             <span className="clickRegisterText">Address</span>
-                            <input className="form-control enterDiv2" type="text" value={profile.address} onChange={(eventargs) => setProfile({...profile,address:eventargs.target.value})}></input>
+                            <input className="form-control enterDiv2" type="text" value={profile.address} onChange={addressValidation}></input>
                         </div>
                     </div>
                 </div>
-                <a className="btn btn-outline-success smallBox9 margin1" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                <a id="update" className="btn btn-outline-success smallBox9 margin1 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                     <span>Update</span>
                 </a>
             </div>

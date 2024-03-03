@@ -8,6 +8,8 @@ function ForgotPassword(){
     var [email,setEmail]= useState("");
     var [password,setPassword]= useState("");
     var [confirmPassword,setConfirmPassword]= useState("");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     var newPassword = {
         "email": email,
@@ -16,34 +18,98 @@ function ForgotPassword(){
         "token": ""
     }
 
-    var changePassword = async() => await axios.post('http://localhost:5224/api/Validation/ForgotPassword',newPassword).then(function (response) {
-                                        console.log(response.data);
-                                    })
-                                    .catch(function (error) {
-                                        console.log(error);
-                                    })
+    async function changeExistingPassword(){
+        await axios.post('http://localhost:5224/api/Validation/ForgotPassword',newPassword).then(function (response) {
+            console.log(response.data);
+            setError(false);
+        })
+        .catch(function (error) {
+            console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
+        })
+    }
 
-    var changeExistingPassword = () => {
-        if(email === "" || password === "" || confirmPassword === "") {
-            console.log("Please fill in all fields");
-        }
-        else{
-            if(email.includes("@") && email.includes(".com") && email.length > 5){
-                if(password.length >= 8 && password.length <= 15){
-                    if(password === confirmPassword){
-                        changePassword();
-                    }
-                    else{
-                        console.log("Passwords do not match");
+    function checkEmailValidation(eventargs){
+        var email = eventargs.target.value;
+        setEmail(email)
+        if(email !== ""){
+            if(email.includes("@") && email.includes(".")){
+                if(email.length > 5){
+                    setError(false);
+                    if(email !== "" && password !== "" && confirmPassword !== ""){
+                        document.getElementById("changeButton").classList.remove("disabled");
                     }
                 }
                 else{
-                    console.log("Password length should be between 8-15 characters");
+                    document.getElementById("changeButton").classList.add("disabled");
+                    setError(true);
+                    setErrorMessage("Email Length should be greater than 5 characters");
                 }
             }
             else{
-                console.log("Invalid email");
+                document.getElementById("changeButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Invalid Email");
             }
+        }
+        else{
+            document.getElementById("changeButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Email cannot be empty");
+        }
+    }
+
+    function checkPasswordValidation(eventargs){
+        var password = eventargs.target.value;
+        setPassword(password);
+        if(password !== ""){
+            if(password.length >= 8 && password.length <= 15){
+                setError(false);
+                if(password === confirmPassword){
+                    if(email !== "" && password !== "" && confirmPassword !== ""){
+                        document.getElementById("changeButton").classList.remove("disabled");
+                    }
+                }
+                else{
+                    document.getElementById("changeButton").classList.add("disabled");
+                    setError(true);
+                    setErrorMessage("Passwords do not match");
+                }
+            }
+            else{
+                document.getElementById("changeButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Password length should be between 8-15 characters");
+            }
+        }
+        else{
+            document.getElementById("changeButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Password cannot be empty");
+        }
+    }
+
+    function confirmPasswordValidation(eventargs){
+        var confirmPassword = eventargs.target.value;
+        setConfirmPassword(confirmPassword);
+        if(confirmPassword !== ""){
+            if(password === confirmPassword){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== ""){
+                    document.getElementById("changeButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("changeButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Passwords do not match");
+            }
+        }
+        else{
+            document.getElementById("changeButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Confirm Password cannot be empty");
         }
     }
 
@@ -87,20 +153,21 @@ function ForgotPassword(){
                             <div className="scrolling">
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Email</span>
-                                    <input className="form-control enterDiv" type="email" value={email} onChange={(eventargs) => setEmail(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="email" value={email} onChange={checkEmailValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Password</span>
-                                    <input className="form-control enterDiv" type="password" onChange={(eventargs) => setPassword(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="password" onChange={checkPasswordValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Confirm Password</span>
-                                    <input className="form-control enterDiv" type="password" onChange={(eventargs) => setConfirmPassword(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="password" onChange={confirmPasswordValidation}></input>
                                 </div>
                             </div>
                         </div>
+                        {error ? <div className='flexRow errorText'>{errorMessage}</div> : null}
                         <div className="smallBox36">
-                            <a onClick = {changeExistingPassword} className="btn btn-outline-success smallBox9">
+                            <a id="changeButton" onClick = {changeExistingPassword} className="btn btn-outline-success smallBox9 disabled">
                                 <span>Change</span>
                             </a>
                         </div>

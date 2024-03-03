@@ -16,6 +16,8 @@ function RegisterCustomer(){
     var [aadharNumber,setAadharNumber]= useState("");
     var [panNumber,setPanNumber]= useState("");
     var [gender,setGender]= useState("Male");
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     var newCustomer = {
         "email": email,
@@ -30,71 +32,231 @@ function RegisterCustomer(){
         "gender": gender
     }
 
-    var calculateAge = (eventargs) => {
+    async function registerCustomer(){
+        await axios.post('http://localhost:5224/api/Validation/RegisterCustomers',newCustomer).then(function (response) {
+            console.log(response.data);
+            setError(false);
+        })
+        .catch(function (error) {
+            console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
+        })
+    }
+
+    function checkEmailValidation(eventargs){
+        var email = eventargs.target.value;
+        setEmail(email)
+        if(email !== ""){
+            if(email.includes("@") && email.includes(".")){
+                if(email.length > 5){
+                    setError(false);
+                    if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                        document.getElementById("registerButton").classList.remove("disabled");
+                    }
+                }
+                else{
+                    document.getElementById("registerButton").classList.add("disabled");
+                    setError(true);
+                    setErrorMessage("Email Length should be greater than 5 characters");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Invalid Email");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Email cannot be empty");
+        }
+    }
+
+    function checkPasswordValidation(eventargs){
+        var password = eventargs.target.value;
+        setPassword(password);
+        if(password !== ""){
+            if(password.length >= 8 && password.length <= 15){
+                setError(false);
+                if(password === confirmPassword){
+                    if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                        document.getElementById("registerButton").classList.remove("disabled");
+                    }
+                }
+                else{
+                    document.getElementById("registerButton").classList.add("disabled");
+                    setError(true);
+                    setErrorMessage("Passwords do not match");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Password length should be between 8-15 characters");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Password cannot be empty");
+        }
+    }
+
+    function confirmPasswordValidation(eventargs){
+        var confirmPassword = eventargs.target.value;
+        setConfirmPassword(confirmPassword);
+        if(confirmPassword !== ""){
+            if(password === confirmPassword){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Passwords do not match");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Confirm Password cannot be empty");
+        }
+    }
+
+    function nameValidation(eventargs){
+        var name = eventargs.target.value;
+        setName(name);
+        if(name !== ""){
+            if(name.length > 2 && name.length < 100){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Name should be between 2 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Name cannot be empty");
+        }
+    }
+
+    function dateValidation(eventargs){
         setDob(eventargs.target.value);
         var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
         console.log(age);
         setAge(age);
-    };
-
-    var addCustomer = async() => await axios.post('http://localhost:5224/api/Validation/RegisterCustomers',newCustomer).then(function (response) {
-                                    console.log(response.data);
-                                })
-                                .catch(function (error) {
-                                    console.log(error);
-                                })
-
-    var registerCustomer = () => {
-        if(email === "" || password === "" || confirmPassword === "" || name === "" || dob === "" || phoneNumber === "" || address === "" || aadharNumber === "" || panNumber === "") {
-            console.log("Please fill in all fields");
+        if(age >= 18){
+            setError(false);
+            if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                document.getElementById("registerButton").classList.remove("disabled");
+            }
         }
         else{
-            if(email.includes("@") && email.includes(".") && email.length > 5 && email.length < 50){
-                if(password.length >= 8 && password.length <= 15){
-                    if(password === confirmPassword){
-                        if(name.length > 2 && name.length < 100){
-                            if(age >= 18){
-                                if(phoneNumber.length === 10){
-                                    if(address.length > 5 && address.length < 100){
-                                        if(aadharNumber.length === 12){
-                                            if(panNumber.length === 10){
-                                                addCustomer();
-                                            }
-                                            else{
-                                                console.log("Pan number should be 10 characters");
-                                            }
-                                        }
-                                        else{
-                                            console.log("Aadhaar number should be 12 digits");
-                                        }
-                                    }
-                                    else{
-                                        console.log("Address should be between 6 and 100 characters long");
-                                    }
-                                }
-                                else{
-                                    console.log("Phone number should be 10 digits");
-                                }
-                            }
-                            else{
-                                console.log("Age should be 18 and above");
-                            }
-                        }
-                        else{
-                            console.log("Name should be between 6 and 100 characters long");
-                        }
-                    }
-                    else{
-                        console.log("Passwords do not match");
-                    }
-                }
-                else{
-                    console.log("Password length should be between 8-15 characters");
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Age should be 18 and above");
+        }
+    };
+
+    function phoneValidation(eventargs){
+        var phoneNumber = eventargs.target.value;
+        setPhoneNumber(phoneNumber);
+        if(phoneNumber !== ""){
+            if(phoneNumber.length === 10){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
                 }
             }
             else{
-                console.log("Invalid email");
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Phone number should be 10 digits");
             }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Phone number cannot be empty");
+        }
+    }
+
+    function addressValidation(eventargs){
+        var address = eventargs.target.value;
+        setAddress(address);
+        if(address !== ""){
+            if(address.length > 5 && address.length < 100){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Address should be between 6 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Address cannot be empty");
+        }
+    }
+
+    function aadhaarValidation(eventargs){
+        var aadharNumber = eventargs.target.value;
+        setAadharNumber(aadharNumber);
+        if(aadharNumber !== ""){
+            if(aadharNumber.length === 12){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Aadhaar number should be 12 digits");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Aadhaar number cannot be empty");
+        }
+    }
+
+    function panValidation(eventargs){
+        var panNumber = eventargs.target.value;
+        setPanNumber(panNumber);
+        if(panNumber !== ""){
+            if(panNumber.length === 10){
+                setError(false);
+                if(email !== "" && password !== "" && confirmPassword !== "" && name !== "" && dob !== "" && phoneNumber !== "" && address !== "" && aadharNumber !== "" && panNumber !== ""){
+                    document.getElementById("registerButton").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("registerButton").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Pan number should be 10 characters");
+            }
+        }
+        else{
+            document.getElementById("registerButton").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Pan number cannot be empty");
         }
     }
 
@@ -138,39 +300,39 @@ function RegisterCustomer(){
                             <div className="scrolling">
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Email</span>
-                                    <input className="form-control enterDiv" type="email" value={email} onChange={(eventargs) => setEmail(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="email" value={email} onChange={checkEmailValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Password</span>
-                                    <input className="form-control enterDiv" type="password" onChange={(eventargs) => setPassword(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="password" onChange={checkPasswordValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Confirm Password</span>
-                                    <input className="form-control enterDiv" type="password" onChange={(eventargs) => setConfirmPassword(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="password" onChange={confirmPasswordValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Name</span>
-                                    <input className="form-control enterDiv" type="text" value={name} onChange={(eventargs) => setName(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="text" value={name} onChange={nameValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Date of Birth</span>
-                                    <input className="form-control enterDiv" type="date" value={dob} onChange={calculateAge}></input>
+                                    <input className="form-control enterDiv" type="date" value={dob} onChange={dateValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Phone Number</span>
-                                    <input className="form-control enterDiv" type="number"  value={phoneNumber} onChange={(eventargs) => setPhoneNumber(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="number"  value={phoneNumber} onChange={phoneValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Address</span>
-                                    <input className="form-control enterDiv" type="text" value={address} onChange={(eventargs) => setAddress(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="text" value={address} onChange={addressValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Aadhaar Number</span>
-                                    <input className="form-control enterDiv" type="number" value={aadharNumber} onChange={(eventargs) => setAadharNumber(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="number" value={aadharNumber} onChange={aadhaarValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Pan Number</span>
-                                    <input className="form-control enterDiv" type="text" value={panNumber} onChange={(eventargs) => setPanNumber(eventargs.target.value)}></input>
+                                    <input className="form-control enterDiv" type="text" value={panNumber} onChange={panValidation}></input>
                                 </div>
                                 <div className="marginRegisterCustomer">
                                     <span className="clickRegisterText">Gender</span>
@@ -182,8 +344,9 @@ function RegisterCustomer(){
                                 </div>
                             </div>
                         </div>
+                        {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
                         <div className="smallBox8">
-                            <a onClick = {registerCustomer} className="btn btn-outline-success smallBox9">
+                            <a id="registerButton" onClick = {registerCustomer} className="btn btn-outline-success smallBox9 disabled">
                                 <span>Register</span>
                             </a>
                         </div>

@@ -10,6 +10,8 @@ function AccountTransaction(){
 
     var dispatch = useDispatch();
 
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     var accountID = useSelector((state) => state.accountID);
     var date = useSelector((state) => state.date);
     var [fromDate,setFromDate] = useState(date.fromDate);
@@ -44,13 +46,17 @@ function AccountTransaction(){
         )
         await axios.get('http://localhost:5224/api/Transactions/GetTransactionsBetweenTwoDates?accountID=' + accountID +'&fromDate=' + fromDate +'&toDate=' + toDate,httpHeader)
         .then(function (response) {
-            setGetTransactions(true);
             console.log(response.data);
+            setGetTransactions(true);
+            setError(false);
             setTransactions(response.data);
             getAccountStatement();
         })
         .catch(function (error) {
             console.log(error);
+            setGetTransactions(true);
+            setError(true);
+            setErrorMessage(error.response.data);
         })
 
     }
@@ -82,27 +88,31 @@ function AccountTransaction(){
         <div className="heigthBox">
             {getTransactions === true ?
             <div className="scrolling phoneBox">
-                <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
-                    <span>Filter Transaction</span>
-                </span>
-                <div className="flexRow2">
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Balance</span>
-                        <span className="clickRegisterText3">{statement.balance}</span>
+                {error ? 
+                <div className='flexRow margin6 errorText'>{errorMessage}</div> : 
+                <div>
+                    <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
+                        <span>Filter Transaction</span>
+                    </span>
+                    <div className="flexRow2">
+                        <div className="smallBox32">
+                            <span className="clickRegisterText">Balance</span>
+                            <span className="clickRegisterText3">{statement.balance}</span>
+                        </div>
+                        <div className="smallBox32">
+                            <span className="clickRegisterText">Deposits</span>
+                            <span className="clickRegisterText3">{statement.totalDeposit}</span>
+                        </div>
+                        <div className="smallBox32">
+                            <span className="clickRegisterText">Withdrawal</span>
+                            <span className="clickRegisterText3">{statement.totalWithdrawal}</span>
+                        </div>
                     </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Deposits</span>
-                        <span className="clickRegisterText3">{statement.totalDeposit}</span>
-                    </div>
-                    <div className="smallBox32">
-                        <span className="clickRegisterText">Withdrawal</span>
-                        <span className="clickRegisterText3">{statement.totalWithdrawal}</span>
-                    </div>
-                </div>
-                <hr className="hrS"></hr>
-                {transactions.map(transaction => 
-                    <Transaction key={transaction.transactionID} transaction = {transaction}/>
-                )}
+                    <hr className="hrS"></hr>
+                    {transactions.map(transaction => 
+                            <Transaction key={transaction.transactionID} transaction = {transaction}/>
+                    )}
+                </div>}
             </div>
              :
             <div>

@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 function OpenNewAccount(){
 
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     var [accountType,setAccountType] = useState("")
     var [branchID, setBranchID] = useState("");
     var customerID = sessionStorage.getItem('id');
@@ -73,11 +75,6 @@ function OpenNewAccount(){
         })
     }
 
-    function calculateAge(eventargs){
-        var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
-        setProfile({...profile,dob:eventargs.target.value,age:age});
-    }
-
     function convertDate(data){
         const date = new Date(data.dob);
         const year = date.getFullYear();
@@ -91,44 +88,24 @@ function OpenNewAccount(){
     }
 
     async function createAccount() {
-        if (updateCustomer.name === "" || updateCustomer.phoneNumber === "" || updateCustomer.address === "" || accountType === "" || branchID === "") {
-            console.log("Please fill all fields");
-        } 
-        else {
-            if (updateCustomer.name.length > 2 && updateCustomer.name.length < 100) {
-                if (updateCustomer.age >= 18) {
-                    if (updateCustomer.phoneNumber.length === 10) {
-                        if (updateCustomer.address.length > 5  && updateCustomer.address.length < 100) {
-                            await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader)
-                            .then(function (response) {
-                                console.log(response.data);
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
-                            await axios.post('http://localhost:5224/api/Accounts/AddAccount',newAccount,httpHeader).then(function (response) {
-                                console.log(response.data);
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            })
-                        }
-                        else{
-                            console.log("Address should be between 6 and 100 characters long");
-                        }
-                    }
-                    else{
-                        console.log("Phone number should be 10 digits");
-                    }
-                }
-                else {
-                    console.log("Age should be greater than or equal to 18");
-                }
-            } 
-            else{
-                console.log("Name should be between 3 and 100 characters long");
-            }
-        }    
+        await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader).then(function (response) {
+            console.log(response.data);
+            setError(false);
+        })
+        .catch(function (error) {
+            console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
+        })
+        await axios.post('http://localhost:5224/api/Accounts/AddAccount',newAccount,httpHeader).then(function (response) {
+           console.log(response.data);
+           setError(false);
+        })
+        .catch(function (error) {
+            console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
+        })
     }
 
     async function getAllMavericksBranches(){
@@ -140,6 +117,113 @@ function OpenNewAccount(){
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    function nameValidation(eventargs){
+        var name = eventargs.target.value;
+        setProfile({...profile,name:name});
+        if(name !== ""){
+            if(name.length > 2 && name.length < 100){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && accountType !== "" && branchID !== ""){
+                    document.getElementById("createAccount").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("createAccount").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Name should be between 2 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Name cannot be empty");
+        }
+    }
+
+    function dateValidation(eventargs){
+        var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
+        setProfile({...profile,dob:eventargs.target.value,age:age});
+        if(age >= 18){
+            setError(false);
+            if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && accountType !== "" && branchID !== ""){
+                document.getElementById("createAccount").classList.remove("disabled");
+            }
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Age should be 18 and above");
+        }
+    };
+
+    function phoneValidation(eventargs){
+        var phoneNumber = eventargs.target.value;
+        setProfile({...profile,phoneNumber:eventargs.target.value});
+        if(phoneNumber !== ""){
+            if(phoneNumber.length === 10){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== "" && accountType !== "" && branchID !== ""){
+                    document.getElementById("createAccount").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("createAccount").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Phone number should be 10 digits");
+            }
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Phone number cannot be empty");
+        }
+    }
+
+    function addressValidation(eventargs){
+        var address = eventargs.target.value;
+        setProfile({...profile,address:eventargs.target.value});
+        if(address !== ""){
+            if(address.length > 5 && address.length < 100){
+                setError(false);
+                if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== ""  && accountType !== "" && branchID !== ""){
+                    document.getElementById("createAccount").classList.remove("disabled");
+                }
+            }
+            else{
+                document.getElementById("createAccount").classList.add("disabled");
+                setError(true);
+                setErrorMessage("Address should be between 6 and 100 characters long");
+            }
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+            setError(true);
+            setErrorMessage("Address cannot be empty");
+        }
+    }
+
+    function accountTypeValidation(eventargs){
+        var accountType = eventargs.target.value;
+        setAccountType(accountType)
+        if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== ""  && accountType !== "" && branchID !== ""){
+            document.getElementById("createAccount").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+        }
+    }
+
+    function branchValidation(eventargs){
+        var branchID = eventargs.target.value;
+        setBranchID(eventargs.target.value)
+        if(updateCustomer.name !== "" && updateCustomer.dob !== "" && updateCustomer.phoneNumber !== "" && updateCustomer.address !== ""  && accountType !== "" && branchID !== ""){
+            document.getElementById("createAccount").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("createAccount").classList.add("disabled");
+        }
     }
 
     return (
@@ -158,7 +242,7 @@ function OpenNewAccount(){
                         <div className="smallBox19"> 
                             <div className="margin1">
                                 <span className="clickRegisterText">Name</span>
-                                <input className="form-control enterDiv2" type="text" value={profile.name} onChange={(eventargs) => setProfile({...profile,name:eventargs.target.value})}></input>
+                                <input className="form-control enterDiv2" type="text" value={profile.name} onChange={nameValidation}></input>
                             </div>
                             <div className="margin1">
                                 <span className="clickRegisterText">Email</span>
@@ -168,11 +252,11 @@ function OpenNewAccount(){
                         <div className="smallBox19">
                             <div className="margin1">
                                 <span className="clickRegisterText">Date of Birth</span>
-                                <input className="form-control enterDiv2" type="date" value={profile.dob} onChange={calculateAge}></input>
+                                <input className="form-control enterDiv2" type="date" value={profile.dob} onChange={dateValidation}></input>
                             </div>
                             <div className="margin1">
                                 <span className="clickRegisterText">Phone Number</span>
-                                <input className="form-control enterDiv2" type="number" value={profile.phoneNumber} onChange={(eventargs) => setProfile({...profile,phoneNumber:eventargs.target.value})}></input>
+                                <input className="form-control enterDiv2" type="number" value={profile.phoneNumber} onChange={phoneValidation}></input>
                             </div>
                         </div>
                         <div className="smallBox19">
@@ -196,14 +280,14 @@ function OpenNewAccount(){
                             </div>
                             <div className="margin1">
                                 <span className="clickRegisterText">Address</span>
-                                <input className="form-control enterDiv2" type="text" value={profile.address} onChange={(eventargs) => setProfile({...profile,address:eventargs.target.value})}></input>
+                                <input className="form-control enterDiv2" type="text" value={profile.address} onChange={addressValidation}></input>
                             </div>
                         </div>
                     </div>
                     <div className="smallBox25">
                         <div className='phoneMargin'>
                             <span className="clickRegisterText">Account Type</span>
-                            <select className="form-control enterDiv2" value={accountType} onChange={(eventargs) => setAccountType(eventargs.target.value)}>
+                            <select className="form-control enterDiv2" value={accountType} onChange={accountTypeValidation}>
                                 <option value="">Select</option>
                                 <option value="Savings">Savings Account</option>
                                 <option value="Current">Current Account</option>
@@ -213,7 +297,7 @@ function OpenNewAccount(){
                         </div>
                         <div>
                             <span className="clickRegisterText">Select Branch</span>
-                            <select className="form-control enterDiv2" value={branchID} onChange={(eventargs) => setBranchID(eventargs.target.value)}>
+                            <select className="form-control enterDiv2" value={branchID} onChange={branchValidation}>
                                 <option value="">Select</option>
                                 {branches.map(branch =>
                                     <option key={branch.branchID} value={branch.branchID}>{branch.branchName}</option>
@@ -222,7 +306,8 @@ function OpenNewAccount(){
                         </div>
                     </div>
                 </div>
-                <a className="btn btn-outline-success smallBox42 phoneMargin" href="" data-bs-toggle="modal" data-bs-target="#modal1">
+                {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                <a id="createAccount" className="btn btn-outline-success smallBox42 phoneMargin disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                     <span>Create Account</span>
                 </a>
             </div>
