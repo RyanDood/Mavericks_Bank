@@ -65,6 +65,23 @@ namespace Test_Mavericks_Bank
             Assert.ThrowsAsync<NoBankEmployeesFoundException>(async () => await bankEmployeesService.GetBankEmployee(employeeID));
         }
 
+        [Test, Order(2)]
+        [TestCase("tharun2@maverick.in")]
+        public async Task GetBankEmployeesByEmailNotFoundExceptionTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
+            var mockBankEmployeesServiceLogger = new Mock<ILogger<BankEmployeesService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
+            IBankEmployeesAdminService bankEmployeesService = new BankEmployeesService(bankEmployeesRepository, validationRepository, mockBankEmployeesServiceLogger.Object);
+
+            //action and assert
+            Assert.ThrowsAsync<NoBankEmployeesFoundException>(async () => await bankEmployeesService.GetEmployeeByEmail(email));
+        }
+
         [Test, Order(3)]
         [TestCase(1)]
         public async Task GetBankEmployeesTest(int employeeID)
@@ -83,6 +100,26 @@ namespace Test_Mavericks_Bank
 
             //assert
             Assert.AreEqual(1, foundedEmployee.EmployeeID);
+        }
+
+        [Test, Order(3)]
+        [TestCase("tharun@maverick.in")]
+        public async Task GetBankEmployeeByEmailTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
+            var mockBankEmployeesServiceLogger = new Mock<ILogger<BankEmployeesService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
+            IBankEmployeesAdminService bankEmployeesService = new BankEmployeesService(bankEmployeesRepository, validationRepository, mockBankEmployeesServiceLogger.Object);
+
+            //action 
+            var foundedEmployee = await bankEmployeesService.GetEmployeeByEmail(email);
+
+            //assert
+            Assert.AreEqual(email, foundedEmployee.Email);
         }
 
         [Test, Order(4)]

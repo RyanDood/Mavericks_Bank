@@ -214,17 +214,17 @@ namespace Mavericks_Bank.Services
             return accountStatementDTO;
         }
 
-        private double TotalDeposit(List<Transactions>? allDeposits)
+        private double TotalDeposit(List<Transactions> allDeposits)
         {
             double totalDeposit = 0;
-            foreach(var deposit in allDeposits)
+            foreach (var deposit in allDeposits)
             {
                 totalDeposit = totalDeposit + deposit.Amount;
             }
             return totalDeposit;
         }
 
-        private double TotalWithdrawal(List<Transactions>? allWithdrawals)
+        private double TotalWithdrawal(List<Transactions> allWithdrawals)
         {
             double totalWithdrawal = 0;
             foreach (var withdrawal in allWithdrawals)
@@ -284,7 +284,12 @@ namespace Mavericks_Bank.Services
 
             double allCustomerDepositTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Deposit").ToList().Count();
             double allCustomerWithdrawalTransactions = allSuccessfullCustomerTransactions.Where(transaction => transaction.TransactionType == "Transfer" || transaction.TransactionType == "Withdrawal").ToList().Count();
-            double ratio = allCustomerDepositTransactions / allCustomerWithdrawalTransactions;
+            double ratio = 1;
+            if( allCustomerWithdrawalTransactions != 0)
+            {
+                ratio = allCustomerDepositTransactions / allCustomerWithdrawalTransactions;
+                ratio = Math.Round((Double)ratio, 2);
+            }
             var creditWorthy = ratio >= 1 ? "Yes" : "No";
 
             InboundAndOutboundTransactions inboundAndOutboundTransactions = new InboundAndOutboundTransactions { TotalTransactions = allSuccessfullCustomerTransactions.Count, InboundTransactions = allCustomerDepositTransactions, OutboundTransactions = allCustomerWithdrawalTransactions, Ratio = ratio, CreditWorthiness = creditWorthy };

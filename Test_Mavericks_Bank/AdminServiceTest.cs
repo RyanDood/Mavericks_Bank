@@ -64,6 +64,23 @@ namespace Test_Mavericks_Bank
             Assert.ThrowsAsync<NoAdminFoundException>(async () => await adminService.GetAdmin(adminID));
         }
 
+        [Test, Order(2)]
+        [TestCase("black2@gmail.com")]
+        public async Task GetAdminByEmailNotFoundExceptionTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
+            var mockAdminServiceServiceLogger = new Mock<ILogger<AdminService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
+            IAdminService adminService = new AdminService(adminRepository, validationRepository, mockAdminServiceServiceLogger.Object);
+
+            //action and assert
+            Assert.ThrowsAsync<NoAdminFoundException>(async () => await adminService.GetAdminByEmail(email));
+        }
+
         [Test, Order(3)]
         [TestCase(1)]
         public async Task GetAdminTest(int adminID)
@@ -82,6 +99,26 @@ namespace Test_Mavericks_Bank
 
             //assert
             Assert.AreEqual(1, foundedAdmin.AdminID);
+        }
+
+        [Test, Order(3)]
+        [TestCase("black@gmail.com")]
+        public async Task GetAdminByEmailTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
+            var mockAdminServiceServiceLogger = new Mock<ILogger<AdminService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
+            IAdminService adminService = new AdminService(adminRepository, validationRepository, mockAdminServiceServiceLogger.Object);
+
+            //action 
+            var foundedAdmin = await adminService.GetAdminByEmail(email);
+
+            //assert
+            Assert.AreEqual(email, foundedAdmin.Email);
         }
 
         [Test, Order(4)]

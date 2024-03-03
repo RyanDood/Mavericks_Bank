@@ -65,6 +65,23 @@ namespace Test_Mavericks_Bank
             Assert.ThrowsAsync<NoCustomersFoundException>(async () => await customersService.GetCustomer(customerID));
         }
 
+        [Test, Order(2)]
+        [TestCase("ryan38@gmail.com")]
+        public async Task GetCustomerByEmailNotFoundExceptionTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockCustomerRepositoryLogger = new Mock<ILogger<CustomersRepository>>();
+            var mockCustomerServiceLogger = new Mock<ILogger<CustomersService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
+            ICustomersAdminService customersService = new CustomersService(customersRepository, validationRepository, mockCustomerServiceLogger.Object);
+
+            //action and assert
+            Assert.ThrowsAsync<NoCustomersFoundException>(async () => await customersService.GetCustomerByEmail(email));
+        }
+
         [Test, Order(3)]
         [TestCase(1)]
         public async Task GetCustomerTest(int customerID)
@@ -83,6 +100,26 @@ namespace Test_Mavericks_Bank
 
             //assert
             Assert.AreEqual(1, foundCustomer.CustomerID);
+        }
+
+        [Test, Order(3)]
+        [TestCase("ryan@gmail.com")]
+        public async Task GetCustomerByEmailTest(string email)
+        {
+            //arrange
+            var mockValidationRepositoryLogger = new Mock<ILogger<ValidationRepository>>();
+            var mockCustomerRepositoryLogger = new Mock<ILogger<CustomersRepository>>();
+            var mockCustomerServiceLogger = new Mock<ILogger<CustomersService>>();
+
+            IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
+            IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
+            ICustomersAdminService customersService = new CustomersService(customersRepository, validationRepository, mockCustomerServiceLogger.Object);
+
+            //action
+            var foundCustomer = await customersService.GetCustomerByEmail(email);
+
+            //assert
+            Assert.AreEqual(email, foundCustomer.Email);
         }
 
         [Test, Order(4)]

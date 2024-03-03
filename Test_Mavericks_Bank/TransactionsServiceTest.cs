@@ -1286,7 +1286,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(39)]
-        [TestCase(2, "2024-02-01", "2024-02-25")]
+        [TestCase(2, "2024-02-01", "2024-03-25")]
         public async Task GetTransactionsBetweenTwoDatesTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
@@ -1376,7 +1376,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(42)]
-        [TestCase(2, "2024-02-01", "2024-02-25")]
+        [TestCase(2, "2024-02-01", "2024-03-25")]
         public async Task GetAccountStatementTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange

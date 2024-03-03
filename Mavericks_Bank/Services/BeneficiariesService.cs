@@ -21,11 +21,21 @@ namespace Mavericks_Bank.Services
         {
             var allBeneficiaries = await _beneficiariesRepository.GetAll();
             var foundedBeneficiary = allBeneficiaries?.FirstOrDefault(beneficiaries => beneficiaries.AccountNumber == beneficiary.AccountNumber && beneficiaries.CustomerID == beneficiary.CustomerID);
-            if(foundedBeneficiary != null)
+            if(foundedBeneficiary != null && foundedBeneficiary.Status != "Deleted")
             {
                 throw new BeneficiaryAlreadyExistsException($"Beneficiary Account Number {beneficiary.AccountNumber} already exists");
             }
-            return await _beneficiariesRepository.Add(beneficiary);
+            else if (foundedBeneficiary != null && foundedBeneficiary.Status == "Deleted")
+            {
+                foundedBeneficiary.Name = beneficiary.Name;
+                foundedBeneficiary.Status = null;
+                var updateBeneficiary = await _beneficiariesRepository.Update(foundedBeneficiary);
+                return updateBeneficiary;
+            }
+            else
+            {
+                return await _beneficiariesRepository.Add(beneficiary);
+            }
         }
 
         public async Task<Beneficiaries> DeleteBeneficiary(int beneficiaryID)
