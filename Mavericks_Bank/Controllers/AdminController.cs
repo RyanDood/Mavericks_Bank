@@ -83,21 +83,5 @@ namespace Mavericks_Bank.Controllers
                 return NotFound(e.Message);
             }
         }
-
-        //[Authorize(Roles = "Admin")]
-        //[Route("DeleteAdmin")]
-        //[HttpDelete]
-        //public async Task<ActionResult<Admin>> DeleteAdmin(int adminID)
-        //{
-        //    try
-        //    {
-        //        return await _adminService.DeleteAdmin(adminID);
-        //    }
-        //    catch (NoAdminFoundException e)
-        //    {
-        //        _loggerAdminController.LogInformation(e.Message);
-        //        return NotFound(e.Message);
-        //    }
-        //}
     }
 }

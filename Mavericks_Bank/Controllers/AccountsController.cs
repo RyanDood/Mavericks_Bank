@@ -145,22 +145,6 @@ namespace Mavericks_Bank.Controllers
             }
         }
 
-        //[Authorize(Roles = "Admin,Employee")]
-        //[Route("UpdateAccountBalance")]
-        //[HttpPut]
-        //public async Task<ActionResult<Accounts>> UpdateAccountBalance(int accountID, double balance)
-        //{
-        //    try
-        //    {
-        //        return await _accountsService.UpdateAccountBalance(accountID, balance);
-        //    }
-        //    catch (NoAccountsFoundException e)
-        //    {
-        //        _loggerAccountsController.LogInformation(e.Message);
-        //        return NotFound(e.Message);
-        //    }
-        //}
-
         [Authorize(Roles = "Admin,Employee")]
         [Route("UpdateAccountStatus")]
         [HttpPut]
