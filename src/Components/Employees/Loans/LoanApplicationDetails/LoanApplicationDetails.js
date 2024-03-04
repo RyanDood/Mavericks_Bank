@@ -67,7 +67,6 @@ function LoanApplicationDetails(){
         else{
             await axios.get('http://localhost:5224/api/AppliedLoans/GetAppliedLoan?loanApplicationID=' + loanID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setLoan(response.data);
             })
             .catch(function (error) {
@@ -79,7 +78,6 @@ function LoanApplicationDetails(){
     async function approveLoan(){
         await axios.put('http://localhost:5224/api/AppliedLoans/UpdateAppliedLoanStatus?loanApplicationID=' + loanID + '&status=Approved',loan,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setSuccessMessage("Loan Application Approved");
             showToast();
         })
@@ -91,7 +89,6 @@ function LoanApplicationDetails(){
     async function disApproveLoan(){
         await axios.put('http://localhost:5224/api/AppliedLoans/UpdateAppliedLoanStatus?loanApplicationID=' + loanID + '&status=Disapproved',loan,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setSuccessMessage("Loan Application Disapproved");
             showToast();
         })

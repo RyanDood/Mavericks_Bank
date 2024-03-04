@@ -34,7 +34,6 @@ function CreateCustomer() {
 
     var addCustomer = async () => await axios.post('http://localhost:5224/api/Validation/RegisterCustomers', newCustomer)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             showToast();
         })
@@ -46,7 +45,7 @@ function CreateCustomer() {
 
     var registerCustomer = () => {
         if (email === "" || password === "" || confirmPassword === "" || name === "" || dob === "" || phoneNumber === "" || address === "" || aadharNumber === "" || panNumber === "") {
-            console.log("Please fill in all fields");
+            alert("Please fill in all fields");
         } else {
             if (email.includes("@") && email.includes(".") && email.length > 5 && email.length < 50) {
                 if (password.length >= 8 && password.length <= 15) {
@@ -59,31 +58,31 @@ function CreateCustomer() {
                                             if (panNumber.length === 10) {
                                                 addCustomer();
                                             } else {
-                                                console.log("Pan number should be 10 characters");
+                                                alert("Pan number should be 10 characters");
                                             }
                                         } else {
-                                            console.log("Aadhaar number should be 12 digits");
+                                            alert("Aadhaar number should be 12 digits");
                                         }
                                     } else {
-                                        console.log("Address should be between 6 and 100 characters long");
+                                        alert("Address should be between 6 and 100 characters long");
                                     }
                                 } else {
-                                    console.log("Phone number should be 10 digits");
+                                    alert("Phone number should be 10 digits");
                                 }
                             } else {
-                                console.log("Age should be 18 and above");
+                                alert("Age should be 18 and above");
                             }
                         } else {
-                            console.log("Name should be between 6 and 100 characters long");
+                            alert("Name should be between 6 and 100 characters long");
                         }
                     } else {
-                        console.log("Passwords do not match");
+                        alert("Passwords do not match");
                     }
                 } else {
-                    console.log("Password length should be between 8-15 characters");
+                    alert("Password length should be between 8-15 characters");
                 }
             } else {
-                console.log("Invalid email");
+                alert("Invalid email");
             }
         }
     };
@@ -197,7 +196,6 @@ function CreateCustomer() {
     function dateValidation(eventargs){
         setDob(eventargs.target.value);
         var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
-        console.log(age);
         setAge(age);
         if(age >= 18){
             setError(false);

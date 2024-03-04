@@ -28,7 +28,6 @@ function AllLoans(){
     async function allLoans(){
         await axios.get('http://localhost:5224/api/Loans/GetAllLoans',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setloans(response.data);
         })
         .catch(function (error) {

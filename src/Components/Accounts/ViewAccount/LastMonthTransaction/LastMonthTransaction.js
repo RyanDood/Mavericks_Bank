@@ -24,7 +24,6 @@ function LastMonthTransaction() {
     async function getLastMonthTransactions(){
         await axios.get('http://localhost:5224/api/Transactions/GetLastMonthAccountTransactions?accountID=' + accountID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setTransactions(response.data);
             setError(false);
         })

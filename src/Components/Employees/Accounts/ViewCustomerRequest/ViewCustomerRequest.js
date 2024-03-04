@@ -47,7 +47,6 @@ function ViewCustomerRequest(){
         else{
             await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setAccount(response.data);
             })
             .catch(function (error) {
@@ -59,7 +58,6 @@ function ViewCustomerRequest(){
     async function appproveCloseAccount(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Close%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setSuccessMessage("Close Account Request Approved Successfully");
             showToast();
         })
@@ -71,7 +69,6 @@ function ViewCustomerRequest(){
     async function approveOpenAccount(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             if(account.status === "Open Account Request Pending"){
                 setSuccessMessage("Open Account Request Approved Successfully");
             }
@@ -88,7 +85,6 @@ function ViewCustomerRequest(){
     async function disApproveOpenAccount(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Disapproved',account,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setSuccessMessage("Open Account Request Disapproved Successfully");
             showToast();
         })

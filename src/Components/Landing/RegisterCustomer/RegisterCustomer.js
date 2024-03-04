@@ -34,7 +34,6 @@ function RegisterCustomer(){
 
     async function registerCustomer(){
         await axios.post('http://localhost:5224/api/Validation/RegisterCustomers',newCustomer).then(function (response) {
-            console.log(response.data);
             setError(false);
             showToast();
         })
@@ -154,7 +153,6 @@ function RegisterCustomer(){
     function dateValidation(eventargs){
         setDob(eventargs.target.value);
         var age = Math.floor((new Date() - new Date(eventargs.target.value).getTime()) / 3.15576e+10);
-        console.log(age);
         setAge(age);
         if(age >= 18){
             setError(false);

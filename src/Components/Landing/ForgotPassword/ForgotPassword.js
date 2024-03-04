@@ -20,7 +20,6 @@ function ForgotPassword(){
 
     async function changeExistingPassword(){
         await axios.post('http://localhost:5224/api/Validation/ForgotPassword',newPassword).then(function (response) {
-            console.log(response.data);
             setError(false);
             showToast();
         })

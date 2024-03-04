@@ -79,7 +79,6 @@ function AllCustomers(){
     async function allCustomers(){
         await axios.get('http://localhost:5224/api/Customers/GetAllCustomers',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setCustomers(response.data);
         })
         .catch(function (error) {
@@ -90,7 +89,6 @@ function AllCustomers(){
     async function getCustomer(){
         await axios.get('http://localhost:5224/api/Customers/GetCustomerByEmail?email=' + email,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             setCustomer(response.data);
         })

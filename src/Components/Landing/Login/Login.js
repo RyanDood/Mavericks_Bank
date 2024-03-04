@@ -22,7 +22,6 @@ function Landing(){
     async function loginUser(){
         await axios.post('http://localhost:5224/api/Validation/Login',loginValidation)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             sessionStorage.setItem("email",response.data.email);
             sessionStorage.setItem("token",response.data.token);
@@ -51,7 +50,6 @@ function Landing(){
         };
         await axios.get('http://localhost:5224/api/Customers/GetCustomerByEmail?email=' + email,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             sessionStorage.setItem("id",response.data.customerID);
             navigate("/menu/dashboard");
         })
@@ -68,7 +66,6 @@ function Landing(){
         };
         await axios.get('http://localhost:5224/api/BankEmployees/GetEmployeeByEmail?email=' + email,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             sessionStorage.setItem("id",response.data.employeeID);
             navigate("/employeeMenu/allCustomers");
         })
@@ -85,7 +82,6 @@ function Landing(){
         };
         await axios.get('http://localhost:5224/api/Admin/GetAdminByEmail?email=' + email,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             sessionStorage.setItem("id",response.data.adminID);
             navigate("/adminMenu/allCustomers");
         })

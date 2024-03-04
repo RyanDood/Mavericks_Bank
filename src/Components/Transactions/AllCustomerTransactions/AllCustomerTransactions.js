@@ -22,7 +22,6 @@ function AllCustomerTransactions(){
 
     async function allTransactions(){
         await axios.get('http://localhost:5224/api/Transactions/GetAllCustomerTransactions?customerID=' + customerID,httpHeader).then(function (response) {
-        console.log(response.data);
             setTransactions(response.data);
         })
         .catch(function (error) {

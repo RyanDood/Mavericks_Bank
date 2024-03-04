@@ -39,29 +39,27 @@ function ViewAccount(){
 
     
     useEffect(() => {
-        getAccount();
-    },[])
-
-    async function getAccount(){
         if(accountID === 0){
             navigate("/menu/customerAccounts");
         }
         else{
-            await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
-            .then(function (response) {
-                console.log(response.data);
-                setAccount(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+            getAccount();
         }
+    },[])
+
+    async function getAccount(){
+        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
+        .then(function (response) {
+            setAccount(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
     }
 
     async function closeAccount(){
         await axios.put('http://localhost:5224/api/Accounts/CloseAccount?accountID=' + accountID,account,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             showToast();
         })

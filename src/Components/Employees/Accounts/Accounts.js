@@ -1,7 +1,7 @@
 import { useState } from "react";
 import '../../style.css';
 import { Outlet, useNavigate } from "react-router-dom";
-import Welcome from "../Welcome/Welcome";
+
 
 function Accounts() {
     return (

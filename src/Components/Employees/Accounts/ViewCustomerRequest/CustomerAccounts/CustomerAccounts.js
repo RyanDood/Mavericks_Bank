@@ -20,7 +20,6 @@ function CustomerAccounts(props) {
     async function getCustomerAccounts() {
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerAccounts?customerID=' + props.account.customerID, httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setAccounts(response.data);
                 setError(false);
             })

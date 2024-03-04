@@ -52,7 +52,6 @@ function DashBoard() {
     async function getAllCustomerAccounts(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
         })
         .catch(function (error) {
@@ -62,7 +61,6 @@ function DashBoard() {
 
     async function allAvailedLoans(){
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
-        console.log(response.data);
             setAvailedLoans(response.data);
         })
         .catch(function (error) {
@@ -72,7 +70,6 @@ function DashBoard() {
 
     async function allBeneficiaries(){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
-            console.log(response.data);
             setBeneficiaries(response.data);
         })
         .catch(function (error) {
@@ -82,7 +79,6 @@ function DashBoard() {
 
     async function getCustomer(){
         await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader).then(function (response) {
-            console.log(response.data);
             setCustomer(response.data);
         })
         .catch(function (error) {
@@ -93,7 +89,6 @@ function DashBoard() {
     async function getCustomerReport(){
         await axios.get('http://localhost:5224/api/Transactions/CustomerRegulatoryReport?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setReport(response.data);
             setReportFetched(true);
         })

@@ -22,7 +22,6 @@ function CloseRequests(){
     async function allAccounts(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllAccountsStatus?status=Close%20Account%20Request%20Pending',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
         })
         .catch(function (error) {

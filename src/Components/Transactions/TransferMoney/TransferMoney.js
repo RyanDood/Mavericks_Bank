@@ -55,7 +55,6 @@ function TransferMoney(){
     async function getAllCustomerAccounts(customerID){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
             setAccountsError(false);
         })
@@ -68,7 +67,6 @@ function TransferMoney(){
 
     async function getAllCustomerBeneficiaries(customerID){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
-            console.log(response.data);
             setBeneficiaries(response.data);
         })
         .catch(function (error) {
@@ -79,7 +77,6 @@ function TransferMoney(){
     async function getAllBanks(){
         await axios.get('http://localhost:5224/api/Banks/GetAllBanks',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAllBanks(response.data);
         })
         .catch(function (error) {
@@ -102,7 +99,6 @@ function TransferMoney(){
     async function getAllBranches(changedBankID){
         await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=' + changedBankID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAllBranches(response.data);
         })
         .catch(function (error) {
@@ -125,7 +121,6 @@ function TransferMoney(){
                             if(beneficiaryAccountNumber.length > 9 && beneficiaryAccountNumber.length < 14){
                                 if(beneficiaryName.length > 2 && beneficiaryName.length < 100){
                                     await axios.post('http://localhost:5224/api/Transactions/TransferWithBeneficiary',newTransferWithBeneficiary,httpHeader).then(function (response) {
-                                        console.log(response.data);
                                         setError(false);
                                         showToast();
                                     })
@@ -150,7 +145,6 @@ function TransferMoney(){
                         }
                         else{
                             await axios.post('http://localhost:5224/api/Transactions/Transfer',newTransfer,httpHeader).then(function (response) {
-                                console.log(response.data);
                                 setError(false);
                                 showToast();
                             })

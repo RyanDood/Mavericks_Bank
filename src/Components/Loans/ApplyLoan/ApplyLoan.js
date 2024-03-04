@@ -48,7 +48,6 @@ function ApplyLoan(){
         else{
             await axios.get('http://localhost:5224/api/Loans/GetLoan?loanID=' + loanID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setloan(response.data);
             })
             .catch(function (error) {
@@ -66,7 +65,6 @@ function ApplyLoan(){
                 if(purpose.length > 3 &&purpose.length < 100){
                     await axios.post('http://localhost:5224/api/AppliedLoans/AddAppliedLoan', newLoan, httpHeader)
                     .then(function (response) {
-                        console.log(response.data);
                         setError(false);
                         showToast();
                     })

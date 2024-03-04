@@ -33,7 +33,6 @@ function ViewCustomerDetails(){
         else{
             await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setCustomer(response.data);
             })
             .catch(function (error) {

@@ -20,7 +20,6 @@ function CustomerAppliedLoans(props) {
     async function getCustomerAppliedLoans() {
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAppliedLoans?customerID=' + props.loan.customerID, httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setAvailedLoans(response.data);
                 setError(false);
             })

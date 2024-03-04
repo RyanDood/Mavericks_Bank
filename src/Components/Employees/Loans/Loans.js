@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import '../../style.css';
 import { Outlet, useNavigate } from "react-router-dom";
-import Welcome from "../Welcome/Welcome";
 import LoanApplication from './LoanApplication/LoanApplication';
 
 function Loans(){
@@ -23,7 +22,6 @@ function Loans(){
     async function getAllPendingAppliedLoans(){
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllAppliedLoansStatus?status=Pending',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setLoans(response.data);
             setError(false);
         })

@@ -34,7 +34,6 @@ function EmployeeProfile(){
     async function getEmployeeDetails(){
         await axios.get('http://localhost:5224/api/BankEmployees/GetBankEmployee?employeeID=' + employeeID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setProfile(response.data);
             setOldData(response.data);
         })
@@ -55,7 +54,6 @@ function EmployeeProfile(){
                 if (updateEmployee.name.length > 2 && updateEmployee.name.length < 100) {
                     await axios.put('http://localhost:5224/api/BankEmployees/UpdateBankEmployeeName', updateEmployee, httpHeader)
                     .then(function (response) {
-                        console.log(response.data);
                         showToast();
                     })
                     .catch(function (error) {

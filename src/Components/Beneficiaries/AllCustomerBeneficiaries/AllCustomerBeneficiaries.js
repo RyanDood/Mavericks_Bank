@@ -22,7 +22,6 @@ function AllCustomerBeneficiaries(){
 
     async function allBeneficiaries(){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
-            console.log(response.data);
             setBeneficiaries(response.data);
             setError(false);
         })

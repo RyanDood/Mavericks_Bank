@@ -34,7 +34,6 @@ function AdminProfile(){
     async function getAdminDetails(){
         await axios.get('http://localhost:5224/api/Admin/GetAdmin?adminID=' + adminID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setProfile(response.data);
             setOldData(response.data);
         })
@@ -55,7 +54,6 @@ function AdminProfile(){
                 if (updateAdmin.name.length > 2 && updateAdmin.name.length < 100) {
                     await axios.put('http://localhost:5224/api/Admin/UpdateAdminName', updateAdmin, httpHeader)
                     .then(function (response) {
-                        console.log(response.data);
                         showToast();
                     })
                     .catch(function (error) {

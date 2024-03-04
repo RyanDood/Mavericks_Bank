@@ -49,7 +49,6 @@ function Profile(){
     async function getCustomerDetails(customerID){
         await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             convertDate(response.data);
         })
         .catch(function (error) {
@@ -63,7 +62,6 @@ function Profile(){
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because months are zero-indexed
         const day = date.getDate().toString().padStart(2, '0');
         const formattedDate =  year + "-" + month + "-" + day;
-        console.log(formattedDate);
         data.dob = formattedDate;
         data.phoneNumber = data.phoneNumber.toString();
         setProfile(data);
@@ -85,7 +83,6 @@ function Profile(){
                             if (updateCustomer.address.length > 5  && updateCustomer.address.length < 100) {
                                 await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader)
                                 .then(function (response) {
-                                    console.log(response.data);
                                     showToast();
                                 })
                                 .catch(function (error) {
@@ -284,12 +281,12 @@ function Profile(){
                     </div>
                 </div>
             </div>
-            <div class="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                <div class="toast-body">
+            <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="d-flex">
+                <div className="toast-body">
                     Details Updated Successfully
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         </div>

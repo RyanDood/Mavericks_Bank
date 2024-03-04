@@ -34,7 +34,6 @@ function AllCustomerAccounts(){
     async function allAccounts(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
             setError(false);
         })

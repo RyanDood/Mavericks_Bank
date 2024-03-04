@@ -32,7 +32,6 @@ function Withdraw(){
     async function getAllCustomerAccounts(customerID){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
             setAccountsError(false);
         })
@@ -51,7 +50,6 @@ function Withdraw(){
             if(amount > 0){
                 if(description.length < 20){
                     await axios.post('http://localhost:5224/api/Transactions/Withdrawal',newWithdrawal,httpHeader).then(function (response) {
-                        console.log(response.data);
                         setError(false);
                         showToast();
                     })

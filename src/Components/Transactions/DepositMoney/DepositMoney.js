@@ -32,7 +32,6 @@ function DepositMoney(){
     async function getAllCustomerAccounts(customerID){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccountsError(false);
             setAccounts(response.data);
         })
@@ -51,7 +50,6 @@ function DepositMoney(){
             if(amount > 0){
                 if(description.length < 20){
                     await axios.post('http://localhost:5224/api/Transactions/Deposit',newDeposit,httpHeader).then(function (response) {
-                        console.log(response.data);
                         showToast();
                     })
                     .catch(function (error) {

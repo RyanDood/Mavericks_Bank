@@ -61,7 +61,6 @@ function ViewCustomerAccount(){
     async function getAllAccounts(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllAccounts',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAccounts(response.data);
         })
         .catch(function (error) {
@@ -72,7 +71,6 @@ function ViewCustomerAccount(){
     async function getAccount(){
         await axios.get('http://localhost:5224/api/Accounts/GetAccountByAccountNumber?accountNumber=' + accountNumber,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             setAccount(response.data);
         })

@@ -46,7 +46,6 @@ function ViewCustomerAccountDetails(){
         else{
             await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + accountID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setAccount(response.data);
             })
             .catch(function (error) {

@@ -40,7 +40,6 @@ function AccountTransaction(){
         )
         await axios.get('http://localhost:5224/api/Transactions/GetTransactionsBetweenTwoDates?accountID=' + accountID +'&fromDate=' + fromDate +'&toDate=' + toDate,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setGetTransactions(true);
             setError(false);
             setTransactions(response.data);
@@ -57,7 +56,6 @@ function AccountTransaction(){
     async function getAccountStatement(){
         await axios.get('http://localhost:5224/api/Transactions/GetAccountStatement?accountID=' + accountID +'&fromDate=' + fromDate +'&toDate=' + toDate,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setStatement(response.data);
         })
         .catch(function (error) {

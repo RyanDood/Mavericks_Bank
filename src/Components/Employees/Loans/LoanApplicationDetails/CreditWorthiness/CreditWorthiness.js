@@ -20,7 +20,6 @@ function CreditWorthiness(props) {
     async function getCustomerReport() {
         await axios.get('http://localhost:5224/api/Transactions/CustomerRegulatoryReport?customerID=' + props.loan.customerID, httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setReport(response.data);
                 setError(false);
             })

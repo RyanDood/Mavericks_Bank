@@ -55,7 +55,6 @@ function AllEmployees(){
     async function allEmployees(){
         await axios.get('http://localhost:5224/api/BankEmployees/GetAllBankEmployees',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setEmployees(response.data);
         })
         .catch(function (error) {
@@ -66,7 +65,6 @@ function AllEmployees(){
     async function getEmployee(){
         await axios.get('http://localhost:5224/api/BankEmployees/GetEmployeeByEmail?email=' + email,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setError(false);
             setEmployee(response.data);
         })

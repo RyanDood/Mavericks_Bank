@@ -21,7 +21,6 @@ function AvailedLoans(){
 
     async function allAvailedLoans(){
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
-        console.log(response.data);
             setAvailedLoans(response.data);
             setError(false);
         })

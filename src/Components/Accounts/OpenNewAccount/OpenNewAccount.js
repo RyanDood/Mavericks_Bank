@@ -67,7 +67,6 @@ function OpenNewAccount(){
     async function getCustomerDetails(){
         await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             convertDate(response.data);
         })
         .catch(function (error) {
@@ -81,7 +80,6 @@ function OpenNewAccount(){
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because months are zero-indexed
         const day = date.getDate().toString().padStart(2, '0');
         const formattedDate =  year + "-" + month + "-" + day;
-        console.log(formattedDate);
         data.dob = formattedDate;
         data.phoneNumber = data.phoneNumber.toString();
         setProfile(data);
@@ -89,7 +87,6 @@ function OpenNewAccount(){
 
     async function createAccount() {
         await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader).then(function (response) {
-            console.log(response.data);
             setError(false);
         })
         .catch(function (error) {
@@ -98,7 +95,6 @@ function OpenNewAccount(){
             setErrorMessage(error.response.data);
         })
         await axios.post('http://localhost:5224/api/Accounts/AddAccount',newAccount,httpHeader).then(function (response) {
-           console.log(response.data);
            setError(false);
            showToast();
         })
@@ -112,7 +108,6 @@ function OpenNewAccount(){
     async function getAllMavericksBranches(){
         await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=2',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setBranches(response.data);
         })
         .catch(function (error) {

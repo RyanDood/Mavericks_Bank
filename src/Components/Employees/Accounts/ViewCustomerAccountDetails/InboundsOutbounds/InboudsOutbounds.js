@@ -30,7 +30,6 @@ function InboudsOutbounds() {
         else{
             await axios.get('http://localhost:5224/api/Transactions/AccountFinancialPerformanceReport?accountID=' + accountID,httpHeader)
             .then(function (response) {
-                console.log(response.data);
                 setAccountReport(response.data);
                 setError(false);
             })

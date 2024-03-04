@@ -20,7 +20,7 @@ function CreateEmployee() {
 
     async function addEmployee(){
         if (email === "" || password === "" || confirmPassword === "" || name === "") {
-            console.log("Please fill in all fields");
+            alert("Please fill in all fields");
         } else {
             if (email.includes("@maverick.in") && email.length > 5 && email.length < 50) {
                 if (password.length >= 8 && password.length <= 15) {
@@ -28,7 +28,6 @@ function CreateEmployee() {
                         if (name.length > 2 && name.length < 100) {
                             await axios.post('http://localhost:5224/api/Validation/RegisterBankEmployees', newEmployee)
                             .then(function (response) {
-                                console.log(response.data);
                                 setError(false);
                                 showToast();
                             })
@@ -38,16 +37,16 @@ function CreateEmployee() {
                                 setErrorMessage(error.response.data);
                             });
                         } else {
-                            console.log("Name should be between 6 and 100 characters long");
+                            alert("Name should be between 6 and 100 characters long");
                         }
                     } else {
-                        console.log("Passwords do not match");
+                        alert("Passwords do not match");
                     }
                 } else {
-                    console.log("Password length should be between 8-15 characters");
+                    alert("Password length should be between 8-15 characters");
                 }
             } else {
-                console.log("Invalid email");
+                alert("Invalid email");
             }
         }
     }

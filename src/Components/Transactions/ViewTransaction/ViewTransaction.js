@@ -58,7 +58,6 @@ function ViewTransaction(){
       }
       else{
         await axios.get('http://localhost:5224/api/Transactions/GetTransaction?transactionID=' + transactionID,httpHeader).then(function (response) {
-          console.log(response.data);
               setTransaction(response.data);
           })
           .catch(function (error) {

@@ -55,7 +55,6 @@ function ViewCustomer(){
     async function getCustomerDetails(){
         await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             convertDate(response.data);
         })
         .catch(function (error) {
@@ -66,7 +65,6 @@ function ViewCustomer(){
     async function deactivateAccount(){
         await axios.put('http://localhost:5224/api/Validation/UpdateValidationStatus?email=' + profile.email,updateCustomer,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setSuccessMessage("Successfully Closed Account");
             showToast();
         })
@@ -81,7 +79,6 @@ function ViewCustomer(){
         const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 because months are zero-indexed
         const day = date.getDate().toString().padStart(2, '0');
         const formattedDate =  year + "-" + month + "-" + day;
-        console.log(formattedDate);
         data.dob = formattedDate;
         data.phoneNumber = data.phoneNumber.toString();
         data.aadharNumber = data.aadharNumber.toString();
@@ -106,7 +103,6 @@ function ViewCustomer(){
                                     if (updateCustomer.address.length > 5  && updateCustomer.address.length < 100) {
                                         await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader)
                                         .then(function (response) {
-                                            console.log(response.data);
                                             setSuccessMessage("Details Updated Successfully");
                                             showToast();
                                         })

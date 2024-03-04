@@ -34,7 +34,6 @@ function AddBeneficiary(){
     async function getAllBanks(){
         await axios.get('http://localhost:5224/api/Banks/GetAllBanks',httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAllBanks(response.data);
         })
         .catch(function (error) {
@@ -57,7 +56,6 @@ function AddBeneficiary(){
     async function getAllBranches(changedBankID){
         await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=' + changedBankID,httpHeader)
         .then(function (response) {
-            console.log(response.data);
             setAllBranches(response.data);
         })
         .catch(function (error) {
@@ -74,7 +72,6 @@ function AddBeneficiary(){
                 if(beneficiaryName.length > 2 && beneficiaryName.length < 100){
                     await axios.post('http://localhost:5224/api/Beneficiaries/AddBeneficiary', newBeneficiary, httpHeader)
                     .then(function (response) {
-                        console.log(response.data);
                         setError(false);
                         showToast();
                     })
