@@ -4,13 +4,9 @@ import '../../../../style.css';
 
 function CreditWorthiness(props) {
 
-    var [report, setReport] = useState({
-        "totalTransactions": 0,
-        "inboundTransactions": 0,
-        "outboundTransactions": 0,
-        "ratio": 0,
-        "creditWorthiness": "string"
-    });
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+    var [report, setReport] = useState({});
 
     useEffect(() => {
         getCustomerReport();
@@ -26,19 +22,29 @@ function CreditWorthiness(props) {
             .then(function (response) {
                 console.log(response.data);
                 setReport(response.data);
+                setError(false);
             })
             .catch(function (error) {
                 console.log(error);
+                setError(true);
+                setErrorMessage(error.response.data);
             })
     }
 
     return (
-        <div className="smallBox40 scrolling margin4">
-            <span className="clickRegisterText7">Total Transactions: {report.totalTransactions}</span>
-            <span className="clickRegisterText7">Inbound Transactions: {report.inboundTransactions}</span>
-            <span className="clickRegisterText7">Outbound Transactions: {report.outboundTransactions}</span>
-            <span className="clickRegisterText7">Ratio: {report.ratio}</span>
-            <span className="clickRegisterText7">CreditWorthiness: {report.creditWorthiness}</span>
+        <div>
+            {error ? 
+                <div className="smallBox64">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
+                <div className='smallBox40 scrolling margin4'>
+                    <span className="clickRegisterText7">Total Transactions: {report.totalTransactions}</span>
+                    <span className="clickRegisterText7">Inbound Transactions: {report.inboundTransactions}</span>
+                    <span className="clickRegisterText7">Outbound Transactions: {report.outboundTransactions}</span>
+                    <span className="clickRegisterText7">Ratio: {report.ratio}</span>
+                    <span className="clickRegisterText7">CreditWorthiness: {report.creditWorthiness}</span>
+                </div>}
         </div>
     );
 }

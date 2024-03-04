@@ -10,6 +10,7 @@ function DashBoard() {
     var [accounts,setAccounts] = useState([]);
     var [accountID,setAccountID] = useState("");
     var [report,setReport] = useState({});
+    var [reportFetched,setReportFetched] = useState(false);
     var [fromDate,setFromDate] = useState("");
     var [toDate,setToDate] = useState("");
     var [availedLoans,setAvailedLoans] = useState([]);
@@ -94,9 +95,11 @@ function DashBoard() {
         .then(function (response) {
             console.log(response.data);
             setReport(response.data);
+            setReportFetched(true);
         })
         .catch(function (error) {
             console.log(error);
+            setReportFetched(false);
         })
     }
 
@@ -167,6 +170,7 @@ function DashBoard() {
                         </div>
                     </div>
                 </div>
+                {reportFetched ? 
                 <div className="flexRow6">
                     <div className="flexRow5">
                         <div className="smallBox32 width50">
@@ -189,7 +193,30 @@ function DashBoard() {
                             <span className="clickRegisterText3">{report.ratio}</span>
                         </div>
                     </div>
-                </div>
+                </div> : 
+                <div className="flexRow6">
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Credit Status</span>
+                            <span className="clickRegisterText3">--</span>
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Inbounds</span>
+                            <span className="clickRegisterText3">--</span>
+                        </div>
+                    </div>
+                    <div className="flexRow5">
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Outbounds</span>
+                            <span className="clickRegisterText3">--</span>
+                        </div>
+                        <div className="smallBox32 width50">
+                            <span className="clickRegisterText">Credit Score</span>
+                            <span className="clickRegisterText3">--</span>
+                        </div>
+                    </div>
+                </div>}
+                
                 <hr className="hrS"></hr>
                 <span className="clickRegisterText10">Generate Account Statement</span>
                 <div className='phoneMargin2'>

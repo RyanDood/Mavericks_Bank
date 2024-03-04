@@ -4,47 +4,9 @@ import '../../../../style.css';
 
 function CustomerAccounts(props) {
 
-    var [accounts,setAccounts] = useState(
-        [
-            {
-              "accountID": 0,
-              "accountNumber": 0,
-              "balance": 0,
-              "accountType": "string",
-              "status": "string",
-              "branchID": 0,
-              "branches": {
-                "branchID": 0,
-                "ifscNumber": "string",
-                "branchName": "string",
-                "bankID": 0,
-                "banks": {
-                  "bankID": 0,
-                  "bankName": "string"
-                }
-              },
-              "customerID": 0,
-              "customers": {
-                "customerID": 0,
-                "name": "string",
-                "dob": "2024-02-28T16:06:12.549Z",
-                "age": 0,
-                "phoneNumber": 0,
-                "address": "string",
-                "aadharNumber": 0,
-                "panNumber": "string",
-                "gender": "string",
-                "email": "string",
-                "validation": {
-                  "email": "string",
-                  "password": "string",
-                  "userType": "string",
-                  "key": "string"
-                }
-              }
-            }
-          ]
-    );
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+    var [accounts,setAccounts] = useState([]);
 
     useEffect(() => {
         getCustomerAccounts();
@@ -60,24 +22,34 @@ function CustomerAccounts(props) {
             .then(function (response) {
                 console.log(response.data);
                 setAccounts(response.data);
+                setError(false);
             })
             .catch(function (error) {
                 console.log(error);
+                setError(true);
+                setErrorMessage(error.response.data);
             })
     }
 
     return (
         <div className="scrolling phoneBox">
-            {accounts.map(account => 
-                <div key={account.accountID} className="whiteOutlineBox6">
-                    <div className="whiteOutlineBoxMargin">
-                        <span className="clickRegisterText">Account No: {account.accountNumber}</span>
-                        <span className="clickRegisterText">Account type: {account.accountType}</span>
-                        <span className="clickRegisterText">Branch Name: {account.branches.branchName}</span>
-                        <span className="clickRegisterText13">Status: {account.status}</span>
-                    </div>
-                </div>
-            )}
+            {error ? 
+                <div className="smallBox64">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
+                <div>
+                    {accounts.map(account => 
+                        <div key={account.accountID} className="whiteOutlineBox6">
+                            <div className="whiteOutlineBoxMargin">
+                                <span className="clickRegisterText">Account No: {account.accountNumber}</span>
+                                <span className="clickRegisterText">Account type: {account.accountType}</span>
+                                <span className="clickRegisterText">Branch Name: {account.branches.branchName}</span>
+                                <span className="clickRegisterText13">Status: {account.status}</span>
+                            </div>
+                        </div>
+                    )}
+                </div>}
         </div>
     );
 }

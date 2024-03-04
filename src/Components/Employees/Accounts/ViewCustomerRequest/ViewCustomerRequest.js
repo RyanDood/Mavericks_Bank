@@ -59,6 +59,7 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Close%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -69,6 +70,7 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -79,6 +81,7 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Disapproved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -91,6 +94,10 @@ function ViewCustomerRequest(){
 
     function setCustomerAccounts(){
         setClicked([false,true,false]);
+    }
+
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
     }
 
     return(
@@ -211,6 +218,14 @@ function ViewCustomerRequest(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={disApproveOpenAccount}>Disapprove</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Successfull
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
         </div>

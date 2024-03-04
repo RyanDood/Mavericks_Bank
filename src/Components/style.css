@@ -60,7 +60,6 @@
     height: 550px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .heigthBox{
@@ -317,13 +316,6 @@
     margin-bottom: 30px;
 }
 
-.errorImage2 {
-    width: 30px;
-    height: 30px;
-    background: url(error.svg);
-    overflow: hidden;
-    margin-right: 15px;
-}
 
 .rightArrow {
     width: 22px;
@@ -580,7 +572,7 @@ hr{
 .topcorner{
     position: absolute;
     top: 40px;
-    right: 40px;
+    right: 5px;
 }
 
 .topcorner2{
@@ -1321,6 +1313,33 @@ hr{
         margin-top:150px
     }
 
+    .smallBox64{
+        width: 560px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top:100px
+    }
+
+    .smallBox65{
+        width: 560px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:100px
+    }
+
+    .smallBox66{
+        width: 560px;
+        height: 360px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:100px
+    }
+
     .whiteOutlineBox5{
         width: 593px;
         height: 100px;
@@ -1374,6 +1393,15 @@ hr{
 
     .mobileMenu{
         display: none;
+    }
+
+    
+    .errorImage2 {
+        width: 30px;
+        height: 30px;
+        background: url(error.svg);
+        overflow: hidden;
+        margin-right: 15px;
     }
 }
 
@@ -1718,6 +1746,29 @@ hr{
         margin-top:150px
     }
 
+    .smallBox64{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-top:100px
+    }
+
+    .smallBox65{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:100px
+    }
+
+    .smallBox66{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top:100px
+    }
+
     .whiteOutlineBox5{
         height: 100px;
         background: rgb(73,73,73);
@@ -1764,5 +1815,13 @@ hr{
         background-color: rgb(67,65,65);
         border: 1px solid rgb(120 120 120);
         color: white;
+    }
+
+    .errorImage2 {
+        width: 25px;
+        height: 25px;
+        background: url(error.svg);
+        overflow: hidden;
+        margin-right: 15px;
     }
 }

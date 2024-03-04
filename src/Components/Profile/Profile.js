@@ -8,7 +8,7 @@ function Profile(){
     var [oldData,setOldData] = useState({})
     var [error,setError]= useState(false);
     var [errorMessage,setErrorMessage]= useState("");
-
+    
     var [profile,setProfile] = useState(
         {
             "name": "",
@@ -86,6 +86,7 @@ function Profile(){
                                 await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader)
                                 .then(function (response) {
                                     console.log(response.data);
+                                    showToast();
                                 })
                                 .catch(function (error) {
                                     console.log(error);
@@ -205,6 +206,10 @@ function Profile(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-sm-9">
             <div className="smallBox18">
@@ -277,6 +282,14 @@ function Profile(){
                             <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={updateCustomerDetails}>Update</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                <div class="toast-body">
+                    Details Updated Successfully
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         </div>

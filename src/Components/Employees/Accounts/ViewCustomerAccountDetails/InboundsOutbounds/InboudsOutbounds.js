@@ -7,27 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 function InboudsOutbounds() {
 
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     var accountID = useSelector((state) => state.accountID);
     var navigate = useNavigate();
 
-    var [accountReport,setAccountReport] = useState(
-        {
-            "accountID": 0,
-            "accountNumber": 0,
-            "balance": 0,
-            "accountType": "",
-            "branches": {
-              "ifscNumber": "",
-              "branchName": "",
-              "banks": {
-                "bankName": ""
-              }
-            },
-            "customers": {
-              "name": "Ryan",
-            }
-          }
-    );
+    var [accountReport,setAccountReport] = useState({});
 
     useEffect(() => {
         getAccountReport();
@@ -47,20 +32,30 @@ function InboudsOutbounds() {
             .then(function (response) {
                 console.log(response.data);
                 setAccountReport(response.data);
+                setError(false);
             })
             .catch(function (error) {
                 console.log(error);
+                setError(true);
+                setErrorMessage(error.response.data);
             })
         }
     }
 
     return (
-        <div className="smallBox40 margin4 widthBox">
-                <span className="clickRegisterText7">Total Transactions: {accountReport.totalTransactions}</span>
-                <span className="clickRegisterText7">Inbound Transactions: {accountReport.inboundTransactions}</span>
-                <span className="clickRegisterText7">Outbound Transactions: {accountReport.outboundTransactions}</span>
-                <span className="clickRegisterText7">Ratio: {accountReport.ratio}</span>
-                <span className="clickRegisterText7">CreditWorthiness: {accountReport.creditWorthiness}</span>
+        <div>
+            {error ? 
+                <div className="smallBox64">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
+                <div className="smallBox40 margin4 widthBox">
+                    <span className="clickRegisterText7">Total Transactions: {accountReport.totalTransactions}</span>
+                    <span className="clickRegisterText7">Inbound Transactions: {accountReport.inboundTransactions}</span>
+                    <span className="clickRegisterText7">Outbound Transactions: {accountReport.outboundTransactions}</span>
+                    <span className="clickRegisterText7">Ratio: {accountReport.ratio}</span>
+                    <span className="clickRegisterText7">CreditWorthiness: {accountReport.creditWorthiness}</span>
+                </div>}
             </div>
     );
 }

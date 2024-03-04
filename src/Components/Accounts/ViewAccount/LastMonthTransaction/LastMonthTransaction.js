@@ -7,14 +7,10 @@ import Transaction from '../../../Transactions/Transaction/Transaction';
 
 function LastMonthTransaction() {
 
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
     var accountID = useSelector((state) => state.accountID);
-    var [transactions,setTransactions] = useState(
-        [{
-            "transactionID": 0,
-            "amount": 0,
-            "transactionType": "",
-        }]
-    );
+    var [transactions,setTransactions] = useState([]);
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
@@ -30,17 +26,28 @@ function LastMonthTransaction() {
         .then(function (response) {
             console.log(response.data);
             setTransactions(response.data);
+            setError(false);
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
     return (
         <div className="scrolling phoneBox2">
-            {transactions.map(transaction => 
-                <Transaction key={transaction.transactionID} transaction = {transaction}/> 
-            )}
+            {error ? 
+                <div className="smallBox64">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
+                <div>
+                    {transactions.map(transaction => 
+                        <Transaction key={transaction.transactionID} transaction = {transaction}/> 
+                    )}
+                </div>
+            }
         </div> 
     );
 } 

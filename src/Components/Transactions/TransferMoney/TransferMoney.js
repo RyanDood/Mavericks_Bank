@@ -20,6 +20,7 @@ function TransferMoney(){
     var [beneficiaryName,setBeneficiaryName] = useState("");
     var [error,setError]= useState(false);
     var [errorMessage,setErrorMessage]= useState("");
+    var [accountsError,setAccountsError]= useState(false);
 
     const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
@@ -56,9 +57,12 @@ function TransferMoney(){
         .then(function (response) {
             console.log(response.data);
             setAccounts(response.data);
+            setAccountsError(false);
         })
         .catch(function (error) {
             console.log(error);
+            setAccountsError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
@@ -123,6 +127,7 @@ function TransferMoney(){
                                     await axios.post('http://localhost:5224/api/Transactions/TransferWithBeneficiary',newTransferWithBeneficiary,httpHeader).then(function (response) {
                                         console.log(response.data);
                                         setError(false);
+                                        showToast();
                                     })
                                     .catch(function (error) {
                                         console.log(error);
@@ -147,6 +152,7 @@ function TransferMoney(){
                             await axios.post('http://localhost:5224/api/Transactions/Transfer',newTransfer,httpHeader).then(function (response) {
                                 console.log(response.data);
                                 setError(false);
+                                showToast();
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -361,6 +367,10 @@ function TransferMoney(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox43">
@@ -378,80 +388,89 @@ function TransferMoney(){
                             <Link className="nav-link textDecoWhite" to="/menu/withdrawMoney">Withdraw</Link>
                         </li>
                     </ul>
-                    <div className="smallBox19"> 
-                        <div className='phoneMargin2'>
-                            <span className="clickRegisterText">Amount</span>
-                            <input className="form-control enterDiv2" type="number" onChange={amountValidation}></input>
-                        </div>
-                        <div className='phoneMargin2'>
-                            <span className="clickRegisterText">Description</span>
-                            <input className="form-control enterDiv2" type="text" onChange={descriptionValidation}></input>
-                        </div>
+                    {accountsError ? 
+                    <div className="smallBox48">
+                        <div className="errorImage2 change-my-color2"></div>
+                        <div className="clickRegisterText">{errorMessage}</div>
                     </div>
-                    {addBeneficiary ? 
-                        <div className='smallBox63'>
-                            <div className='margin3'>
-                                <span className="clickRegisterText">From</span>
-                                <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
-                                    <option value="">Select</option>
-                                    {accounts.map(account => 
-                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
-                                    )}
-                                </select>
+                    :
+                    <div>
+                        <div className="smallBox19"> 
+                            <div className='phoneMargin2'>
+                                <span className="clickRegisterText">Amount</span>
+                                <input className="form-control enterDiv2" type="number" onChange={amountValidation}></input>
                             </div>
+                            <div className='phoneMargin2'>
+                                <span className="clickRegisterText">Description</span>
+                                <input className="form-control enterDiv2" type="text" onChange={descriptionValidation}></input>
+                            </div>
+                        </div>
+                        {addBeneficiary ? 
+                            <div className='smallBox63'>
+                                <div className='margin3'>
+                                    <span className="clickRegisterText">From</span>
+                                    <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
+                                        <option value="">Select</option>
+                                        {accounts.map(account => 
+                                            <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                        )}
+                                    </select>
+                                </div>
+                                <div className="smallBox19">
+                                    <div className='phoneMargin2'>
+                                        <span className="clickRegisterText">Account Holder Name</span>
+                                        <input className="form-control enterDiv2" type="text" onChange={beneficiaryNameValidation}></input>
+                                    </div>
+                                    <div className='phoneMargin2'>
+                                        <span className="clickRegisterText">Holder Account Number</span>
+                                        <input className="form-control enterDiv2" type="number" onChange={beneficiaryAccountNumberValidation}></input>
+                                    </div>
+                                </div>
+                            </div> : 
                             <div className="smallBox19">
                                 <div className='phoneMargin2'>
-                                    <span className="clickRegisterText">Account Holder Name</span>
-                                    <input className="form-control enterDiv2" type="text" onChange={beneficiaryNameValidation}></input>
+                                    <span className="clickRegisterText">From</span>
+                                    <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
+                                        <option value="">Select</option>
+                                        {accounts.map(account => 
+                                            <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                        )}
+                                    </select>
                                 </div>
                                 <div className='phoneMargin2'>
-                                    <span className="clickRegisterText">Holder Account Number</span>
-                                    <input className="form-control enterDiv2" type="number" onChange={beneficiaryAccountNumberValidation}></input>
+                                    <span className="clickRegisterText">To</span>
+                                    <select className="form-control enterDiv2" value = {beneficiaryID} onChange={destinationAccountValidation}>
+                                        <option value="">Select</option>
+                                        {beneficiaries.map(beneficiary => 
+                                            <option key={beneficiary.beneficiaryID} value={beneficiary.beneficiaryID}>{beneficiary.name} - {beneficiary.accountNumber}</option>
+                                        )}
+                                    </select>
                                 </div>
                             </div>
-                        </div> : 
-                        <div className="smallBox19">
+                            }
+                        {addBeneficiary ? <div className="smallBox19">
                             <div className='phoneMargin2'>
-                                <span className="clickRegisterText">From</span>
-                                <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
+                                <span className="clickRegisterText">Bank Name</span>
+                                <select className="form-control enterDiv2" value = {bankID} onChange={bankValidation}>
                                     <option value="">Select</option>
-                                    {accounts.map(account => 
-                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                    {allBanks.map(bank => 
+                                        <option key={bank.bankID} value={bank.bankID}>{bank.bankName}</option>
                                     )}
                                 </select>
                             </div>
                             <div className='phoneMargin2'>
-                                <span className="clickRegisterText">To</span>
-                                <select className="form-control enterDiv2" value = {beneficiaryID} onChange={destinationAccountValidation}>
+                                <span className="clickRegisterText">Branch Name with IFSC</span>
+                                <select className="form-control enterDiv2" value = {branchID} onChange={branchValidation}>
                                     <option value="">Select</option>
-                                    {beneficiaries.map(beneficiary => 
-                                        <option key={beneficiary.beneficiaryID} value={beneficiary.beneficiaryID}>{beneficiary.name} - {beneficiary.accountNumber}</option>
+                                    {allBranches.map(branch => 
+                                        <option key={branch.branchID} value={branch.branchID}>{branch.ifscNumber} -- {branch.branchName}</option>
                                     )}
                                 </select>
                             </div>
-                        </div>
-                        }
-                    {addBeneficiary ? <div className="smallBox19">
-                        <div className='phoneMargin2'>
-                            <span className="clickRegisterText">Bank Name</span>
-                            <select className="form-control enterDiv2" value = {bankID} onChange={bankValidation}>
-                                <option value="">Select</option>
-                                {allBanks.map(bank => 
-                                    <option key={bank.bankID} value={bank.bankID}>{bank.bankName}</option>
-                                )}
-                            </select>
-                        </div>
-                        <div className='phoneMargin2'>
-                            <span className="clickRegisterText">Branch Name with IFSC</span>
-                            <select className="form-control enterDiv2" value = {branchID} onChange={branchValidation}>
-                                <option value="">Select</option>
-                                {allBranches.map(branch => 
-                                    <option key={branch.branchID} value={branch.branchID}>{branch.ifscNumber} -- {branch.branchName}</option>
-                                )}
-                            </select>
-                        </div>
-                    </div> : null}
+                        </div> : null}
+                    </div>}
                     {error ? <div className='flexRow errorText'>{errorMessage}</div> : null}
+                    {accountsError ? null : 
                     <div className='smallBox46'>
                         <a id="transfer" className="btn btn-outline-success smallBox44 phoneMargin2 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                             <span>Transfer</span>
@@ -463,7 +482,7 @@ function TransferMoney(){
                         <a className="btn btn-outline-secondary smallBox45  phoneMargin2" onClick={clickedAddBeneficiary}>
                             <span>Add Beneficiary</span>
                         </a>}
-                    </div>
+                    </div>}
                 </div>
                 <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">
                     <div className="modal-dialog">
@@ -480,6 +499,14 @@ function TransferMoney(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={transferMoney}>Transfer</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Transfer Successful
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
             </div>

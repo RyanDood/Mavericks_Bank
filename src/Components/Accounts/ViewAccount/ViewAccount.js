@@ -8,6 +8,9 @@ function ViewAccount(){
 
     var [clicked,setClicked] = useState([false,false,false]);
     var accountID = useSelector((state) => state.accountID);
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+
     var navigate = useNavigate();
     
     var [account,setAccount] = useState(
@@ -59,9 +62,13 @@ function ViewAccount(){
         await axios.put('http://localhost:5224/api/Accounts/CloseAccount?accountID=' + accountID,account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setError(false);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
@@ -78,6 +85,10 @@ function ViewAccount(){
     function navigateToFilterTransactions(){
         setClicked([false,false,true]);
         navigate("/menu/viewAccount/filterTransaction");
+    }
+
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
     }
 
     return (
@@ -97,6 +108,7 @@ function ViewAccount(){
                     <span className="clickRegisterText7">Balance Remaining: {account.balance}</span>
                     <span className="clickRegisterText7">Account No: {account.accountNumber} - {account.accountType} Account</span>
                     <span className="clickRegisterText7">IFSC: {account.branches.ifscNumber}, {account.branches.branchName} - {account.branches.banks.bankName}</span>
+                    {error ? <div className='flexRow errorText'>{errorMessage}</div> : null}
                     <hr className='hrS' ></hr>
                     <ul className="smallBox22 nav">
                         <li className="nav-item highlight smallBox23">
@@ -129,6 +141,14 @@ function ViewAccount(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={closeAccount}>Close</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Account Closed Successfully, Please wait while we process your request and close your account
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
             </div>

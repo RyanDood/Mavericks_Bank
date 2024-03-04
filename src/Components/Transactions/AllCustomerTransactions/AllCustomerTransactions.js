@@ -8,6 +8,7 @@ function AllCustomerTransactions(){
 
     var [transactions,setTransactions] = useState([]);
     var [error,setError] = useState(false);
+    var [errorMessage,setErrorMessage] = useState("");
 
     const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
@@ -26,9 +27,8 @@ function AllCustomerTransactions(){
         })
         .catch(function (error) {
             console.log(error);
-            if(error.response.data === "No Transaction History Found for Customer ID " + customerID){
-                setError(true);
-            }
+            setError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
@@ -52,7 +52,7 @@ function AllCustomerTransactions(){
                     {error ? 
                         <div className="smallBox48">
                             <div className="errorImage2 change-my-color2"></div>
-                            <div className="clickRegisterText">No Transaction History Found</div>
+                            <div className="clickRegisterText">{errorMessage}</div>
                         </div> : 
                         <div className="scrolling">
                             {transactions.map(transaction =>

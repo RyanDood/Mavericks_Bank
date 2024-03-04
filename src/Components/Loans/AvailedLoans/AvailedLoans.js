@@ -4,20 +4,10 @@ import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
 import { Link } from 'react-router-dom';
 
 function AvailedLoans(){
-    var [availedLoans,setAvailedLoans] = useState(
-        [{
-            "loanApplicationID": 0,
-            "amount": 0,
-            "appliedDate": "",
-            "loans": {
-                "loanType": "",
-                "interest": "",
-                "tenure": "",
-            },
-            "purpose": "",
-            "status": "",
-        }]
-    );
+    var [availedLoans,setAvailedLoans] = useState([]);
+    
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
@@ -33,9 +23,12 @@ function AvailedLoans(){
         await axios.get('http://localhost:5224/api/AppliedLoans/GetAllCustomerAvailedLoans?customerID=' + customerID,httpHeader).then(function (response) {
         console.log(response.data);
             setAvailedLoans(response.data);
+            setError(false);
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
          })
     }
 
@@ -50,6 +43,11 @@ function AvailedLoans(){
                         <Link className="nav-link textDecoGreen smallBox23" to="/menu/availedLoans">Availed Loans</Link >
                     </li>
                 </ul>
+                {error ? 
+                <div className="smallBox48">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> :
                 <div className="scrolling">
                     {availedLoans.map((availedLoan) => 
                         <div key = {availedLoan.loanApplicationID} className="whiteOutlineBox4">
@@ -66,7 +64,7 @@ function AvailedLoans(){
                             </div>
                         </div>
                     )}
-                </div>
+                </div>}
             </div>
         </div>
     );

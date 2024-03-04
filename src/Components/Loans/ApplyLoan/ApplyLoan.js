@@ -68,6 +68,7 @@ function ApplyLoan(){
                     .then(function (response) {
                         console.log(response.data);
                         setError(false);
+                        showToast();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -131,6 +132,10 @@ function ApplyLoan(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox28">
@@ -173,6 +178,14 @@ function ApplyLoan(){
                     </div>
                     </div>
                 </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Loan Application Successful, Please wait for approval
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+            </div>
         </div>
     );
 }

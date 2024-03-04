@@ -100,6 +100,7 @@ function OpenNewAccount(){
         await axios.post('http://localhost:5224/api/Accounts/AddAccount',newAccount,httpHeader).then(function (response) {
            console.log(response.data);
            setError(false);
+           showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -226,6 +227,10 @@ function OpenNewAccount(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
             <div className="smallBox59">
@@ -326,6 +331,14 @@ function OpenNewAccount(){
                             <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={createAccount}>Create</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="d-flex">
+                <div className="toast-body">
+                    Account Created Successfully, Please wait while we process your request and approve your account
+                </div>
+                <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
             </div>
         </div>

@@ -4,20 +4,9 @@ import '../../../../style.css';
 
 function CustomerAppliedLoans(props) {
 
-    var [availedLoans,setAvailedLoans] = useState(
-        [{
-            "loanApplicationID": 0,
-            "amount": 0,
-            "appliedDate": "",
-            "loans": {
-                "loanType": "",
-                "interest": "",
-                "tenure": "",
-            },
-            "purpose": "",
-            "status": "",
-        }]
-    );
+    var [availedLoans,setAvailedLoans] = useState([]);
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
 
     useEffect(() => {
         getCustomerAppliedLoans();
@@ -33,14 +22,24 @@ function CustomerAppliedLoans(props) {
             .then(function (response) {
                 console.log(response.data);
                 setAvailedLoans(response.data);
+                setError(false);
             })
             .catch(function (error) {
                 console.log(error);
+                setError(true);
+                setErrorMessage(error.response.data);
             })
     }
 
     return (
         <div className="scrolling phoneBox">
+            <div>
+            {error ? 
+                <div className="smallBox64">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
+                <div>
                     {availedLoans.map((availedLoan) => 
                         <div key = {availedLoan.loanApplicationID} className="whiteOutlineBox4">
                             <div className="whiteOutlineBoxMargin">
@@ -56,7 +55,9 @@ function CustomerAppliedLoans(props) {
                             </div>
                         </div>
                     )}
-                </div>
+                </div>}
+            </div>   
+        </div>
     );
 }
 

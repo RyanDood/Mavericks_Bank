@@ -76,6 +76,7 @@ function AddBeneficiary(){
                     .then(function (response) {
                         console.log(response.data);
                         setError(false);
+                        showToast();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -173,6 +174,10 @@ function AddBeneficiary(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox41">
@@ -230,6 +235,14 @@ function AddBeneficiary(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={addBeneficiary}>Add</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Beneficiary Added Successfully
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
             </div>

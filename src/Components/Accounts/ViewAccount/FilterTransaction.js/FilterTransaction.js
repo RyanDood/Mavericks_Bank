@@ -99,7 +99,10 @@ function FilterTransaction(){
                     <span>Filter Again</span>
                 </span>
                 {error ? 
-                <div className='flexRow margin6 errorText'>{errorMessage}</div> : 
+                <div className="smallBox65">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
                 <div className="scrolling">
                     {transactions.map(transaction => 
                         <Transaction key={transaction.transactionID} transaction = {transaction}/>

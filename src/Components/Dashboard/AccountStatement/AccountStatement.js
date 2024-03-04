@@ -60,8 +60,9 @@ function AccountStatement() {
                             <Link to = "/menu/dashboard">
                                 <div className="leftArrow change-my-color margin3"></div>
                             </Link>
-                            <div className="smallBox48">
-                                <div className="errorText">{errorMessage}</div>
+                            <div className="smallBox66">
+                                <div className="errorImage2 change-my-color2"></div>
+                                <div className="clickRegisterText">{errorMessage}</div>
                             </div>
                         </div>
                          : 

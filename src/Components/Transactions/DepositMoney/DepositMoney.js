@@ -11,6 +11,7 @@ function DepositMoney(){
     var [description,setDescription] = useState("");
     var [error,setError]= useState(false);
     var [errorMessage,setErrorMessage]= useState("");
+    var [accountsError,setAccountsError]= useState(false);
 
     const token = sessionStorage.getItem('token');
     const httpHeader = { 
@@ -32,10 +33,13 @@ function DepositMoney(){
         await axios.get('http://localhost:5224/api/Accounts/GetAllCustomerApprovedAccounts?customerID=' + customerID,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setAccountsError(false);
             setAccounts(response.data);
         })
         .catch(function (error) {
             console.log(error);
+            setAccountsError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
@@ -48,6 +52,7 @@ function DepositMoney(){
                 if(description.length < 20){
                     await axios.post('http://localhost:5224/api/Transactions/Deposit',newDeposit,httpHeader).then(function (response) {
                         console.log(response.data);
+                        showToast();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -118,6 +123,10 @@ function DepositMoney(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
                 <div className="smallBox29">
@@ -135,31 +144,40 @@ function DepositMoney(){
                             <Link className="nav-link textDecoWhite" to="/menu/withdrawMoney">Withdraw</Link>
                         </li>
                     </ul>
-                    <div className="smallBox30"> 
-                            <div className='phoneMargin2'>
-                                <span className="clickRegisterText">Amount</span>
-                                <input className="form-control enterDiv2" type="number" onChange={amountValidation}></input>
+                    {accountsError ? 
+                    <div className="smallBox48">
+                        <div className="errorImage2 change-my-color2"></div>
+                        <div className="clickRegisterText">{errorMessage}</div>
+                    </div> :
+                    <div>
+                        <div className="smallBox30"> 
+                                <div className='phoneMargin2'>
+                                    <span className="clickRegisterText">Amount</span>
+                                    <input className="form-control enterDiv2" type="number" onChange={amountValidation}></input>
+                                </div>
+                                <div>
+                                    <span className="clickRegisterText">Description</span>
+                                    <input className="form-control enterDiv2" type="text" onChange={descriptionValidation}></input>
+                                </div>
                             </div>
-                            <div>
-                                <span className="clickRegisterText">Description</span>
-                                <input className="form-control enterDiv2" type="text" onChange={descriptionValidation}></input>
+                            <div className="smallBox47"> 
+                                <div>
+                                    <span className="clickRegisterText">To (Account Number)</span>
+                                    <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
+                                        <option value="">Select</option>
+                                        {accounts.map(account => 
+                                            <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
+                                        )}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div className="smallBox47"> 
-                            <div>
-                                <span className="clickRegisterText">To (Account Number)</span>
-                                <select className="form-control enterDiv2" value = {accountID} onChange={sourceAccountValidation}>
-                                    <option value="">Select</option>
-                                    {accounts.map(account => 
-                                        <option key={account.accountID} value={account.accountID}>{account.accountType} - {account.accountNumber}</option>
-                                    )}
-                                </select>
-                            </div>
-                        </div>
-                        {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                    </div>}
+                    {error ? <div className='flexRow margin6 errorText'>{errorMessage}</div> : null}
+                    {accountsError ? null : 
                     <a id="deposit" className="btn btn-outline-success smallBox31 disabled" href="" data-bs-toggle="modal" data-bs-target="#modal1">
                         <span>Deposit</span>
-                    </a>
+                    </a>}
+                    
                 </div>
                 <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">
                     <div className="modal-dialog">
@@ -176,6 +194,14 @@ function DepositMoney(){
                             <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={depositMoney}>Deposit</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Deposit Successful
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
         </div>

@@ -6,19 +6,9 @@ import Beneficiary from '../Beneficiary/Beneficiary';
 
 function AllCustomerBeneficiaries(){
 
-    var [beneficiaries,setBeneficiaries] = useState(
-        [{
-            "beneficiaryID": 0,
-            "accountNumber": "",
-            "name": "",
-            "branches": {
-                "ifscNumber": "",
-                "banks": {
-                    "bankName": ""
-                }
-            }
-        }]
-    );
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+    var [beneficiaries,setBeneficiaries] = useState([]);
 
     const customerID = sessionStorage.getItem('id');
     const token = sessionStorage.getItem('token');
@@ -34,9 +24,12 @@ function AllCustomerBeneficiaries(){
         await axios.get('http://localhost:5224/api/Beneficiaries/GetAllCustomerBeneficiaries?customerID=' + customerID,httpHeader).then(function (response) {
             console.log(response.data);
             setBeneficiaries(response.data);
+            setError(false);
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
         })  
     }
 
@@ -51,11 +44,16 @@ function AllCustomerBeneficiaries(){
                             <Link className="nav-link textDecoWhite smallBox23" to="/menu/addBeneficiary">Add Beneficiary</Link>
                         </li>
                     </ul>
+                    {error ? 
+                    <div className="smallBox48">
+                        <div className="errorImage2 change-my-color2"></div>
+                        <div className="clickRegisterText">{errorMessage}</div>
+                    </div> :
                     <div className="scrolling">
                         {beneficiaries.map(beneficiary =>
                         <Beneficiary key = {beneficiary.beneficiaryID} beneficiary = {beneficiary}/>
                         )}
-                    </div>
+                    </div>}
                 </div>
         </div>
     )

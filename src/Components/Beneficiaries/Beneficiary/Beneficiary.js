@@ -26,6 +26,7 @@ function Beneficiary(props){
         await axios.put('http://localhost:5224/api/Beneficiaries/UpdateDeleteBeneficiary?beneficiaryID=' + beneficiaryID,beneficiary,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -36,6 +37,10 @@ function Beneficiary(props){
         dispatch(
             updateBeneficiaryID(props.beneficiary.beneficiaryID)
         )
+    }
+
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
     }
 
     return (

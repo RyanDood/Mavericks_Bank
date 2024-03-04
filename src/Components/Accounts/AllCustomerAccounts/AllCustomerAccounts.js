@@ -8,14 +8,11 @@ import { updateDate } from '../../../dateSlice';
 
 function AllCustomerAccounts(){
 
-    var [accounts,setAccounts] = useState(
-        [{
-            "accountID": 0,
-            "accountNumber": "",
-            "accountType": "",
-            "balance": "",
-        }]
-    );
+    var [accounts,setAccounts] = useState([]);
+
+    var [error,setError]= useState(false);
+    var [errorMessage,setErrorMessage]= useState("");
+
     var dispatch = useDispatch();
 
     const customerID = sessionStorage.getItem('id');
@@ -39,9 +36,12 @@ function AllCustomerAccounts(){
         .then(function (response) {
             console.log(response.data);
             setAccounts(response.data);
+            setError(false);
         })
         .catch(function (error) {
             console.log(error);
+            setError(true);
+            setErrorMessage(error.response.data);
         })
     }
 
@@ -56,11 +56,16 @@ function AllCustomerAccounts(){
                         <Link className="nav-link textDecoWhite smallBox23" to="/menu/openAccount">Open New Account</Link>
                     </li>
                 </ul>
+                {error ? 
+                <div className="smallBox48">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
                 <div className="scrolling">
-                    {accounts.map(account => 
-                        <Account key = {account.accountID} account={account}/>
-                    )}
-                </div>
+                {accounts.map(account => 
+                    <Account key = {account.accountID} account={account}/>
+                )}
+                </div>}
             </div>
             <div className="modal fade" id="modal1" tabIndex="-1" aria-labelledby="modalEg1" aria-hidden="true">
                 <div className="modal-dialog">

@@ -16,13 +16,7 @@ function AccountTransaction(){
     var date = useSelector((state) => state.date);
     var [fromDate,setFromDate] = useState(date.fromDate);
     var [toDate,setToDate] = useState(date.toDate);
-    var [transactions,setTransactions] = useState(
-        [{
-            "transactionID": 0,
-            "amount": 0,
-            "transactionType": "",
-        }]
-    );
+    var [transactions,setTransactions] = useState([]);
     var [getTransactions,setGetTransactions] = useState(false);
     var [statement,setStatement] = useState("")
 
@@ -58,7 +52,6 @@ function AccountTransaction(){
             setError(true);
             setErrorMessage(error.response.data);
         })
-
     }
 
     async function getAccountStatement(){
@@ -70,6 +63,28 @@ function AccountTransaction(){
         .catch(function (error) {
             console.log(error);
         })
+    }
+
+    function fromDateValidation(eventargs){
+        var fromDate = eventargs.target.value;
+        setFromDate(fromDate);
+        if(fromDate !== "" && toDate !== ""){
+            document.getElementById("generateButton").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("generateButton").classList.add("disabled");
+        }
+    }
+
+    function toDateValidation(eventargs){
+        var toDate = eventargs.target.value;
+        setToDate(toDate);
+        if(fromDate !== "" && toDate !== ""){
+            document.getElementById("generateButton").classList.remove("disabled");
+        }
+        else{
+            document.getElementById("generateButton").classList.add("disabled");
+        }
     }
 
     function getFilter(){
@@ -88,12 +103,15 @@ function AccountTransaction(){
         <div className="heigthBox">
             {getTransactions === true ?
             <div className="scrolling phoneBox">
+                <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
+                    <span>Filter Transaction</span>
+                </span>
                 {error ? 
-                <div className='flexRow margin6 errorText'>{errorMessage}</div> : 
+                <div className="smallBox65">
+                    <div className="errorImage2 change-my-color2"></div>
+                    <div className="clickRegisterText">{errorMessage}</div>
+                </div> : 
                 <div>
-                    <span className="btn btn-outline-success pointer margin5" onClick={getFilter}>
-                        <span>Filter Transaction</span>
-                    </span>
                     <div className="flexRow2">
                         <div className="smallBox32">
                             <span className="clickRegisterText">Balance</span>
@@ -119,15 +137,15 @@ function AccountTransaction(){
                 <div className="smallBox19">
                     <div className="margin1">
                         <span className="clickRegisterText">From</span>
-                        <input className="form-control enterDiv2" type="date" onChange={(eventargs) => setFromDate(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv2" type="date" onChange={fromDateValidation}></input>
                     </div>
                     <div className="margin1">
                         <span className="clickRegisterText">To</span>
-                        <input className="form-control enterDiv2" type="date" onChange={(eventargs) => setToDate(eventargs.target.value)}></input>
+                        <input className="form-control enterDiv2" type="date" onChange={toDateValidation}></input>
                     </div>
                 </div>
                 <div className="smallBox25">
-                    <span className="btn btn-outline-success pointer" onClick={getTransactionsBetweenTwoDates}>
+                    <span id="generateButton" className="btn btn-outline-success pointer disabled" onClick={getTransactionsBetweenTwoDates}>
                         <span>Get Transactions</span>
                     </span>
                 </div>
