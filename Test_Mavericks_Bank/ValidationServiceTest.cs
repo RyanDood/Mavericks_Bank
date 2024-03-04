@@ -84,12 +84,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationCustomersDTO registerValidationCustomersDTO = new RegisterValidationCustomersDTO 
             { 
@@ -151,12 +152,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationCustomersDTO registerValidationCustomersDTO = new RegisterValidationCustomersDTO
             {
@@ -185,12 +187,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationCustomersDTO registerValidationCustomersDTO = new RegisterValidationCustomersDTO
             {
@@ -220,12 +223,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationBankEmployees registerValidationBankEmployees = new RegisterValidationBankEmployees
             {
@@ -250,12 +254,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationBankEmployees registerValidationBankEmployees = new RegisterValidationBankEmployees
             {
@@ -277,12 +282,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationAdminDTO registerValidationAdminDTO = new RegisterValidationAdminDTO
             {
@@ -307,12 +313,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             RegisterValidationAdminDTO registerValidationAdminDTO = new RegisterValidationAdminDTO
             {
@@ -334,12 +341,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan2@gmail.com", Password = "ryan123", UserType = "", Token = "" };
 
@@ -356,12 +364,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan@gmail.com", Password = "ryan1234", UserType = "", Token = "" };
 
@@ -378,12 +387,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan@gmail.com", Password = "ryan123", UserType = "", Token = "" };
 
@@ -403,12 +413,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan2@gmail.com", Password = "ryan123", UserType = "", Token = "" };
 
@@ -425,12 +436,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan@gmail.com", Password = "ryan123", UserType = "", Token = "" };
 
@@ -447,12 +459,13 @@ namespace Test_Mavericks_Bank
             var mockEmployeeRepositoryLogger = new Mock<ILogger<BankEmployeesRepository>>();
             var mockAdminRepositoryLogger = new Mock<ILogger<AdminRepository>>();
             var mockValidationServiceLogger = new Mock<ILogger<ValidationService>>();
+            var mockTokenService = new Mock<ITokenService>();
 
             IRepository<string, Validation> validationRepository = new ValidationRepository(mavericksBankContext, mockValidationRepositoryLogger.Object);
             IRepository<int, Customers> customersRepository = new CustomersRepository(mavericksBankContext, mockCustomerRepositoryLogger.Object);
             IRepository<int, BankEmployees> bankEmployeesRepository = new BankEmployeesRepository(mavericksBankContext, mockEmployeeRepositoryLogger.Object);
             IRepository<int, Admin> adminRepository = new AdminRepository(mavericksBankContext, mockAdminRepositoryLogger.Object);
-            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object);
+            IValidationAdminService validationService = new ValidationService(validationRepository, customersRepository, bankEmployeesRepository, adminRepository, mockValidationServiceLogger.Object, mockTokenService.Object);
 
             LoginValidationDTO validationDTO = new LoginValidationDTO { Email = "ryan@gmail.com", Password = "ryan1234", UserType = "", Token = "" };
 
