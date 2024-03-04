@@ -36,6 +36,7 @@ function CreateCustomer() {
         .then(function (response) {
             console.log(response.data);
             setError(false);
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -303,6 +304,10 @@ function CreateCustomer() {
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-md-9">
             <div className="smallBox40 widthBox">
@@ -369,6 +374,14 @@ function CreateCustomer() {
                     </a>
                 </div>
             </div>
+            <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        Successfully Created Customer
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
         </div>
     );
 }

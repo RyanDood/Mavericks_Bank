@@ -9,6 +9,7 @@ function ViewCustomerRequest(){
 
     var [clicked,setClicked] = useState([true,false]);
     var accountID = useSelector((state) => state.accountID);
+    var [successMessage,setSuccessMessage]= useState("");
     var navigate = useNavigate();
 
     var [account,setAccount] = useState(
@@ -59,6 +60,7 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Close%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setSuccessMessage("Close Account Request Approved Successfully");
             showToast();
         })
         .catch(function (error) {
@@ -70,6 +72,12 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Approved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            if(account.status === "Open Account Request Pending"){
+                setSuccessMessage("Open Account Request Approved Successfully");
+            }
+            else{
+                setSuccessMessage("Close Account Request Disapproved Successfully");
+            }
             showToast();
         })
         .catch(function (error) {
@@ -81,6 +89,7 @@ function ViewCustomerRequest(){
         await axios.put('http://localhost:5224/api/Accounts/UpdateAccountStatus?accountID=' + accountID + '&status=Open%20Account%20Request%20Disapproved',account,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setSuccessMessage("Open Account Request Disapproved Successfully");
             showToast();
         })
         .catch(function (error) {
@@ -223,7 +232,7 @@ function ViewCustomerRequest(){
                 <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
                     <div className="d-flex">
                     <div className="toast-body">
-                        Successfull
+                        {successMessage}
                     </div>
                     <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>

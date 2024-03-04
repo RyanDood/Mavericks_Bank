@@ -8,7 +8,8 @@ function ViewCustomer(){
 
     var navigate = useNavigate();
     var [error,setError]= useState(false);
-    var [errorMessage,setErrorMessage]= useState("");    
+    var [errorMessage,setErrorMessage]= useState("");
+    var [successMessage,setSuccessMessage]= useState("");   
     var [oldData,setOldData] = useState({})
     var [profile,setProfile] = useState(
         {
@@ -66,6 +67,8 @@ function ViewCustomer(){
         await axios.put('http://localhost:5224/api/Validation/UpdateValidationStatus?email=' + profile.email,updateCustomer,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setSuccessMessage("Successfully Closed Account");
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -104,6 +107,8 @@ function ViewCustomer(){
                                         await axios.put('http://localhost:5224/api/Customers/UpdateCustomerDetails', updateCustomer, httpHeader)
                                         .then(function (response) {
                                             console.log(response.data);
+                                            setSuccessMessage("Details Updated Successfully");
+                                            showToast();
                                         })
                                         .catch(function (error) {
                                             console.log(error);
@@ -279,6 +284,10 @@ function ViewCustomer(){
         }
     }
 
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
+    }
+
     return (
         <div className="smallBox17 col-sm-9">
             <div className="smallBox18">
@@ -376,6 +385,14 @@ function ViewCustomer(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={deactivateAccount}>Close</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        {successMessage}
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
         </div>

@@ -11,6 +11,7 @@ function LoanApplicationDetails(){
 
     var [clicked,setClicked] = useState([true,false,false]);
     var loanID = useSelector((state) => state.loanID);
+    var [successMessage,setSuccessMessage]= useState("");
     var navigate = useNavigate();
 
     var [loan,setLoan] = useState(
@@ -79,6 +80,8 @@ function LoanApplicationDetails(){
         await axios.put('http://localhost:5224/api/AppliedLoans/UpdateAppliedLoanStatus?loanApplicationID=' + loanID + '&status=Approved',loan,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setSuccessMessage("Loan Application Approved");
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -89,6 +92,8 @@ function LoanApplicationDetails(){
         await axios.put('http://localhost:5224/api/AppliedLoans/UpdateAppliedLoanStatus?loanApplicationID=' + loanID + '&status=Disapproved',loan,httpHeader)
         .then(function (response) {
             console.log(response.data);
+            setSuccessMessage("Loan Application Disapproved");
+            showToast();
         })
         .catch(function (error) {
             console.log(error);
@@ -105,6 +110,10 @@ function LoanApplicationDetails(){
 
     function setCustomerAppliedLoans(){
         setClicked([false,false,true]);
+    }
+
+    function showToast(){
+        document.querySelector('.toast').classList.add('show');
     }
 
     return(
@@ -177,6 +186,14 @@ function LoanApplicationDetails(){
                         <button type="button" className="btn btn-outline-success" id="save" data-bs-dismiss="modal" onClick={disApproveLoan}>Disapprove</button>
                         </div>
                     </div>
+                    </div>
+                </div>
+                <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div className="d-flex">
+                    <div className="toast-body">
+                        {successMessage}
+                    </div>
+                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                 </div>
         </div>
