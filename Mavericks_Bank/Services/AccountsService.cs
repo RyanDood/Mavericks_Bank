@@ -5,6 +5,8 @@ using Mavericks_Bank.Models;
 using Mavericks_Bank.Models.DTOs;
 using Mavericks_Bank.Repositories;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace Mavericks_Bank.Services
 {
@@ -24,7 +26,7 @@ namespace Mavericks_Bank.Services
         public async Task<Accounts> AddAccount(AddNewAccountDTO addNewAccountDTO)
         {
             var allAccounts = await _accountsRepository.GetAll();
-            var foundedAccount = allAccounts?.FirstOrDefault(account => account.AccountType == addNewAccountDTO.AccountType && account.CustomerID == addNewAccountDTO.CustomerID);
+            var foundedAccount = allAccounts?.FirstOrDefault(account => account.AccountType == addNewAccountDTO.AccountType && account.CustomerID == addNewAccountDTO.CustomerID && account.Status != "Close Account Request Approved" && account.Status != "Open Account Request Disapproved");
             if (foundedAccount != null)
             {
                 throw new AccountAlreadyExistsException($"Account Type {addNewAccountDTO.AccountType} already exists");
