@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
+import '../../style.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateEmail } from '../../../emailSlice';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import React from 'react';
-import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
+import '../style.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 function Menu(){

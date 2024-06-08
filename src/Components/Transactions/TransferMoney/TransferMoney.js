@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import 'C:/Ryan/.NET + React/mavericks_bank/src/Components/style.css';
+import '../../style.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 function TransferMoney(){
