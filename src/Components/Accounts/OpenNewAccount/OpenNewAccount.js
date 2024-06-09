@@ -106,7 +106,7 @@ function OpenNewAccount(){
     }
 
     async function getAllMavericksBranches(){
-        await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=2',httpHeader)
+        await axios.get('http://localhost:5224/api/Branches/GetAllSpecificBranches?bankID=3',httpHeader)
         .then(function (response) {
             setBranches(response.data);
         })

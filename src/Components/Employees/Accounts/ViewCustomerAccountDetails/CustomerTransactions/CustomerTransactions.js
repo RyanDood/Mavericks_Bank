@@ -31,9 +31,7 @@ function CustomerTransactions(){
         })
         .catch(function (error) {
             console.log(error);
-            if(error.response.data === "No Transaction History Found for Customer ID " + customerID){
-                setError(true);
-            }
+            setError(true);
         })
     }
 
