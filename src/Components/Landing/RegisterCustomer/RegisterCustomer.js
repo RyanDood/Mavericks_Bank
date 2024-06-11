@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import '../../style.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function RegisterCustomer(){
 
@@ -18,6 +19,7 @@ function RegisterCustomer(){
     var [gender,setGender]= useState("Male");
     var [error,setError]= useState(false);
     var [errorMessage,setErrorMessage]= useState("");
+    var navigate = useNavigate();
 
     var newCustomer = {
         "email": email,
@@ -36,12 +38,19 @@ function RegisterCustomer(){
         await axios.post('http://localhost:5224/api/Validation/RegisterCustomers',newCustomer).then(function (response) {
             setError(false);
             showToast();
+            navigateToLogin();
         })
         .catch(function (error) {
             console.log(error);
             setError(true);
             setErrorMessage(error.response.data);
         })
+    }
+
+    function navigateToLogin(){
+        setTimeout(() => {
+            navigate("/");
+        }, 2000);
     }
 
     function checkEmailValidation(eventargs){
@@ -359,7 +368,7 @@ function RegisterCustomer(){
             <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
                 <div className="d-flex">
                 <div className="toast-body">
-                    Registration Successful, Please Login
+                    Registration Successful, Navigating to Login
                 </div>
                 <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>

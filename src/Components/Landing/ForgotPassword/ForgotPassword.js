@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import '../../style.css';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function ForgotPassword(){
 
@@ -10,6 +11,7 @@ function ForgotPassword(){
     var [confirmPassword,setConfirmPassword]= useState("");
     var [error,setError]= useState(false);
     var [errorMessage,setErrorMessage]= useState("");
+    var navigate = useNavigate();
 
     var newPassword = {
         "email": email,
@@ -18,10 +20,17 @@ function ForgotPassword(){
         "token": ""
     }
 
+    function navigateToLogin(){
+        setTimeout(() => {
+            navigate("/");
+        }, 2000);
+    }
+
     async function changeExistingPassword(){
         await axios.post('http://localhost:5224/api/Validation/ForgotPassword',newPassword).then(function (response) {
             setError(false);
             showToast();
+            navigateToLogin();
         })
         .catch(function (error) {
             console.log(error);
@@ -181,7 +190,7 @@ function ForgotPassword(){
             <div className="toast align-items-center text-white border-0 greenBackground topcorner" role="alert" aria-live="assertive" aria-atomic="true">
                 <div className="d-flex">
                 <div className="toast-body">
-                    Password Changed Successfully, Please Login
+                    Password Changed Successfully, Navigating to Login
                 </div>
                 <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
