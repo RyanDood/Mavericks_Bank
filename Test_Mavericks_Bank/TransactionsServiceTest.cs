@@ -986,7 +986,7 @@ namespace Test_Mavericks_Bank
             var allAccountTransactions = await transactionsService.GetAccountInboundAndOutbooundTransactions(accountID);
 
             //assert
-            Assert.IsNotNull(allAccountTransactions);
+            Assert.That(allAccountTransactions, Is.Not.EqualTo(null));
         }
 
         [Test, Order(29)]
@@ -1076,7 +1076,8 @@ namespace Test_Mavericks_Bank
             var allCustomerTransactions = await transactionsService.GetCustomerInboundAndOutbooundTransactions(customerID);
 
             //assert
-            Assert.IsNotNull(allCustomerTransactions);
+            Assert.That(allCustomerTransactions, Is.Not.EqualTo(null));
+            //Assert.IsNotNull(allCustomerTransactions);
         }
 
         [Test, Order(32)]
@@ -1286,7 +1287,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(39)]
-        [TestCase(2, "2024-02-01", "2024-03-25")]
+        [TestCase(2, "2024-05-01", "2024-07-25")]
         public async Task GetTransactionsBetweenTwoDatesTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
@@ -1376,7 +1377,7 @@ namespace Test_Mavericks_Bank
         }
 
         [Test, Order(42)]
-        [TestCase(2, "2024-02-01", "2024-03-25")]
+        [TestCase(2, "2024-05-01", "2024-07-25")]
         public async Task GetAccountStatementTest(int accountID, DateTime fromDate, DateTime toDate)
         {
             //arrange
@@ -1404,7 +1405,8 @@ namespace Test_Mavericks_Bank
             var accountStatement = await transactionsService.GetAccountStatement(accountID, fromDate, toDate);
 
             //assert
-            Assert.IsNotNull(accountStatement);
+            Assert.That(accountStatement, Is.Not.EqualTo(null));
+            //Assert.IsNotNull(accountStatement);
         }
 
         [Test, Order(43)]

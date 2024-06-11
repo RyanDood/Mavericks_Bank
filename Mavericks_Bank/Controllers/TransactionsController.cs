@@ -116,6 +116,11 @@ namespace Mavericks_Bank.Controllers
             {
                 return await _transactionsService.GetCustomerInboundAndOutbooundTransactions(customerID);
             }
+            catch (NoAccountsFoundException e)
+            {
+                _loggerTransactionsController.LogInformation(e.Message);
+                return NotFound(e.Message);
+            }
             catch (NoCustomersFoundException e)
             {
                 _loggerTransactionsController.LogInformation(e.Message);
