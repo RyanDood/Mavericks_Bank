@@ -8,11 +8,15 @@ import jsPDF from 'jspdf';
 
 function AccountStatement() {
 
+    var [customer,setCustomer] = useState({});
+    var[account,setAccount] = useState({});
     var [accountStatement, setAccountStatement] = useState({});
     var [transactions, setTransactions] = useState([]);
     var [error, setError] = useState(false);
     var [errorMessage, setErrorMessage] = useState("");
     var navigate = useNavigate();
+
+    var customerID = sessionStorage.getItem('id');
 
     var statementData = useSelector((state) => state.statement);
 
@@ -51,7 +55,9 @@ function AccountStatement() {
             await axios.get('http://localhost:5224/api/Transactions/GetTransactionsBetweenTwoDates?accountID=' + statementData.accountID + '&fromDate=' + statementData.fromDate + '&toDate=' + statementData.toDate, httpHeader).then(function (response) {
                 setError(false);
                 setTransactions(response.data);
-                generateReport()
+                getCustomer();
+                getAccount();
+                generateReport();
             })
                 .catch(function (error) {
                     console.log(error);
@@ -59,6 +65,25 @@ function AccountStatement() {
                     setErrorMessage(error.response.data);
                 })
         }
+    }
+
+
+    async function getCustomer() {
+        await axios.get('http://localhost:5224/api/Customers/GetCustomer?customerID=' + customerID, httpHeader).then(function (response) {
+            setCustomer(response.data);
+        })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    async function getAccount() {
+        await axios.get('http://localhost:5224/api/Accounts/GetAccount?accountID=' + statementData.accountID, httpHeader).then(function (response) {
+            setAccount(response.data);
+        })
+            .catch(function (error) {
+                console.log(error);
+            })
     }
 
     async function generateReport() {
@@ -83,24 +108,24 @@ function AccountStatement() {
         doc.text('Account Statement', 14, 40);
 
         doc.setFontSize(18);
-        doc.text('Ryan Paul Jess C', 14, 60);
+        doc.text(`${customer.name}`, 14, 60);
         doc.setFontSize(12);
-        doc.text('Customer ID: 3', 14, 70);
-        doc.text('Address: Chennai, TamilNadu', 14, 80);
+        doc.text(`Customer ID: ${customer.customerID}`, 14, 70);
+        doc.text(`Address: ${customer.address}`, 14, 80);
 
-        doc.setFontSize(14);
-        doc.text('Savings Account', 14, 130);
+        doc.setFontSize(18);
+        doc.text(`${account.accountType} Account`, 14, 130);
         doc.setFontSize(12);
         doc.text('Currency: Indian', 14, 140);
-        doc.text('Account Number: 12385738292', 14, 150);
-        doc.text('IFSC Number: FEJ78383FE', 14, 160);
-        doc.text('Branch: Siruseri, Chennai', 14, 170);
+        doc.text(`Account Number: ${account.accountNumber}`, 14, 150);
+        doc.text(`IFSC Number: ${account.branches.ifscNumber}`, 14, 160);
+        doc.text(`Branch: ${account.branches.branchName}`, 14, 170);
 
         doc.setFontSize(14);
         doc.setTextColor(76, 175, 80);
-        doc.text('Balance: 85000', 14, 190);
-        doc.text('Deposits: 3000', 14, 200);
-        doc.text('Withdrawals: 1000', 14, 210);
+        doc.text(`Balance: ${accountStatement.balance}`, 14, 190);
+        doc.text(`Deposits: ${accountStatement.totalDeposit}`, 14, 200);
+        doc.text(`Withdrawals: ${accountStatement.totalWithdrawal} `, 14, 210);
 
         doc.setFontSize(14);
         doc.setTextColor(0, 0, 0);
@@ -111,7 +136,7 @@ function AccountStatement() {
         img.src = 'https://dm0qx8t0i9gc9.cloudfront.net/watermarks/image/rDtN98Qoishumwih/barcode_GJUh5KF__SB_PM.jpg'; // Replace with the actual URL of the barcode image
         img.onload = () => {
             doc.addImage(img, 'PNG', 11, 90, 70, 20); // Adjust coordinates and size as needed
-            doc.save('account-statement.pdf');
+            doc.save(`${customer.name} - Account Statement.pdf`);
         };
     }
 
