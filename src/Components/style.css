@@ -94,6 +94,14 @@
     margin-bottom: 25px;
 }
 
+.clickRegisterText14{
+    color: rgb(255, 255, 255);
+    font-family: Nunito;
+    font-weight: 300;
+    font-size: 14px;
+    margin-top:10px;
+}
+
 .smallBox22{
     display: flex;
     flex-direction: row;
@@ -331,6 +339,13 @@
     overflow: hidden;
 }
 
+.smallBox67{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 .search {
     width: 22px;
     height: 22px;
@@ -461,6 +476,10 @@ hr{
 
 .buttonWidth{
     width: 265px;
+}
+
+.buttonWidth2{
+    width: 120px;
 }
 
 .clickRegisterText3{
